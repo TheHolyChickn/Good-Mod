@@ -3,6 +3,7 @@ package com.github.theholychickn.theholychicknaddons;
 import com.github.theholychickn.theholychicknaddons.owo.Awoo;
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import com.github.theholychickn.theholychicknaddons.owo.UwU;
+import com.github.theholychickn.theholychicknaddons.owo.bwaa.Cute;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.OwO;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.WoofWoof;
 import net.minecraft.client.Minecraft;
@@ -30,6 +31,7 @@ public class GoodMod {
         MinecraftForge.EVENT_BUS.register(this);
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
+        ClientCommandHandler.instance.registerCommand(new Cute());
     }
 
     // Bonsai witchcraft
