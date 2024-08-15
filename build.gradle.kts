@@ -78,6 +78,8 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
+    // Add the Gson library dependency
+    implementation("com.google.code.gson:gson:2.8.9")
     // If you don't want mixins, remove these lines
     shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         isTransitive = false

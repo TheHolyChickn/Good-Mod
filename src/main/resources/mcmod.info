@@ -1,8 +1,8 @@
 [
   {
     "modid": "${modid}",
-    "name": "TheHolyChickn Addons",
-    "description": "nice pb",
+    "name": "good mod",
+    "description": "a good mod",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/TheHolyChickn/TheHolyChicknAddons/",
@@ -10,8 +10,8 @@
     "authorList": [
       "The Holy Chicken"
     ],
-    "credits": "odtheking",
-    "logoFile": "",
+    "credits": "Thank you to odtheking for helping with random stuff. A lot of code taken from this wonderful tutorial and template: https://moddev.nea.moe/",
+    "logoFile": "good_mod.png",
     "screenshots": [],
     "dependencies": []
   }
