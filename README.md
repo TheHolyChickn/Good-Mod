@@ -1,43 +1,53 @@
-# Architectury Loom based template for 1.8.9 forge mods
+<h1><font color=#00FFFF size=30>good mod</font></h1>
 
-**For other templates, do check out the [other branches of this repository](https://github.com/romangraef/Forge1.8.9Template/branches/all)**
+a good mod
 
-## Usage
+Contributors:
+- [TheHolyChickn (main developer)](https://github.com/TheHolyChickn/)
+- [odtheking (helped with random stuff)](https://github.com/odtheking)
+- [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
+- [this tutorial and template odtheking told me to ~~steal~~ look at](https://moddev.nea.moe/)
+- kikias22 (artist)
 
-Check out https://moddev.nea.moe/ for a full tutorial on legacy modding.
+<h2><font color=#00FF99>Features</font></h2>
+good mod offers two features I've wanted for a long time, but are not present in <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a>.
 
-Alternatively, read here for a basic overview on how to use this repository.
+1. **Dungeon Drops Tracker**<p>
+<a href="https://skyblockextras.com/">SBE</a> actually has this option, but it's extremely outdated and randomly resets itself sometimes. This solution has both a GUI and a chat command element. </p>
 
-To get started, [Use this template](https://github.com/new?template_name=Forge1.8.9Template&template_owner=nea89o).
+2. **Hoppity Reminder**<p>
+I have lost way too many eggs due to being in a dungeon run and just forgetting about Hoppity. This solution creates an impossible to miss Hoppity alert, and also has the option to automatically send <tt>!dt Hoppity</tt> in chat.
 
-> [!WARNING]
-> Do not Fork or Clone or Download ZIP this template. If you "use" this template a custom mod id will be generated. You can do that manually using the `make-my-own` script, if you are on linux. If not, just click the use this template button. If you want to use kotlin or make a 1.12 mod check the "Include all branches" and change the default branch in https://github.com/yourname/yourreponame/branches
+<h2><font color=#00FF99>Installation</font></h2>
 
-This project uses [DevAuth](https://github.com/DJtheRedstoner/DevAuth) per default, so you can log in using your real
-minecraft account. If you don't need that, you can remove it from the buildscript.
+good mod is a [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) mod, so if you don't already have Forge, [download the latest 1.8.9 release](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) here, and follow the installer's instructions. If you've never downloaded forge before, notice that the download button redirects you to an ad, and you have to wait 5 seconds (see top right corner) before you can proceed to download. **ONLY** click the button in the top right corner, or you could get a virus. After you install forge, find the <tt>1.8.9-forge1.8.9-11.15.1.2318-1.8.9</tt> version in your Minecraft launcher (you may have to go over to Installations and create a new one), and run it. After it loads, close your game.
+<h3>Normal Install</h3>
 
-To run the mod you will need two JDKs, one Java 17 jdk and one Java 1.8 jdk. You can download those
-from [here](https://adoptium.net/temurin/releases) (or use your own downloads).
+Download the <b><font color=#FF0000>.jar</font></b> file in the [latest release](https://google.com). Locate your <tt>.minecraft</tt> folder. On windows, you can find this by opening File Explorer, and searching for <tt>%appdata%</tt>. On Linux, your <tt>.minecraft</tt> is probably located at <tt>~/.minecraft</tt>. On MacOS, I have no idea. Once inside your <tt>.minecraft</tt> folder, find and open your <tt>mods</tt> folder. Now, open another File Explorer window and navigate to your <tt>Downloads</tt> folder. Locate the **good mod .jar file**, and drag it into your <tt>mods</tt> folder.</p>
 
-When you import your project into IntelliJ, you need to set the gradle jvm to the Java 17 JDK in the gradle tab, and the
-Project SDK to the Java 1.8 JDK. Then click on the sync button in IntelliJ, and it should create a run task
-called `Minecraft Client`. If it doesn't then try relaunching your IntelliJ. **Warning for Mac users**: You might have to remove the `-XStartOnFirstThread` vm argument from your run configuration. In the future, that should be handled by the plugin, but for now you'll probably have to do that manually.
+Alternatively if you're a fan of using the terminal, just copy one of these commands for your respective system:
 
-To export your project, run the `gradle build` task, and give other people the
-file `build/libs/<modid>-<version>.jar`. Ignore the jars in the `build/badjars` folder. Those are intermediary jars that
-are used by the build system but *do not work* in a normal forge installation.
+Windows:
+```shell
+mv .\Downloads\goodmod-*.jar .\AppData\Roaming\.minecraft\mods
+```
+Linux:
+```bash
+mv Downloads/goodmod-*.jar .minecraft/mods
+```
 
-If you don't want mixins (which allow for modifying vanilla code), then you can remove the references to mixins from
-the `build.gradle.kts` at the lines specified with comments and the `com.example.mixin` package.
 
-If you don't want access transformers (which allow for making methods public/non-final) you can delete the
-`accesstransformer.cfg` file. If you make a change to the `accesstransformers.cfg` you might need to rebuild your
-project using `./gradlew build --refresh-dependencies`.
 
-### For those who have not an attention span
+<h2><font color=#00FF99>Usage</font></h2>
 
-[![Youtube Tutorial](https://i.ytimg.com/vi/nWzHlomdCgc/maxresdefault.jpg)](https://www.youtube.com/watch?v=nWzHlomdCgc)
+<p>
+good mod is a mod for Hypixel SkyBlock, which provides two features that I was tired of waiting for <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a> to have, so I made them myself. The configuration menu is accessible by running <code>/nicepb</code>. Incase of commands conflicting with other mods, any good mod command with default <code>{command_name}</code> can also be run via the alias <code>/goodmod:{command_name}</code>. For example, if another mod has <code>/nicepb</code> already set, you can open the configuration menu with <code>/goodmod:nicepb</code>.
+</p>
+<p>
+Every command is configurable. This means if you don't like the command for the config menu being <code>/nicepb</code>, you can change it directly in the config menu. You cannot change the alias <code>/goodmod:{command_name}</code>, you can only change the command name itself. If at any time you forget the command names you've set, run <code>/goodmod:commands</code> to return a list of commands you can call. You can also manually edit the commands in the configuration file.
+</p>
 
-## Licensing
+<h2>Licensing</h2>
 
 This template is licensed under the Unlicense (license copy present in this repository), or alternatively under [Creative Commons 1.0 Universal (CC0 1.0)](https://creativecommons.org/publicdomain/zero/1.0/), and all contributions and PR to this template are expected to follow this. This means your mod, based on this template can be licensed whatever way you want, and does not need to reference back to this template in any way.
+[Awoo class](./src/main/java/com/github/theholychickn/theholychicknaddons/owo/Awoo.java)
