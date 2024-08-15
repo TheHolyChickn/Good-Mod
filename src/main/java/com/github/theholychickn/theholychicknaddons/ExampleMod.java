@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +20,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-@Mod(modid = "goodmod", useMetadata=true)
+@Mod(modid = "goodmod", useMetadata=true, clientSideOnly = true)
 public class ExampleMod {
 
     @Mod.EventHandler
@@ -31,7 +32,23 @@ public class ExampleMod {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new Awoo());
         MinecraftForge.EVENT_BUS.register(new UwU());
+        MinecraftForge.EVENT_BUS.register(this);
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
+    }
+
+    // Bonsai witchcraft
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) return;
+        if (display != null) {
+            Minecraft.getMinecraft().displayGuiScreen(display);
+            display = null;
+        }
+    }
+
+    static GuiScreen display = null;
+    static public void setDisplay(GuiScreen newDisplay) {
+        display = newDisplay;
     }
 }

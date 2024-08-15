@@ -41,6 +41,6 @@ public class OwO extends CommandBase {
 
     @Override
     public List<String> getCommandAliases() {
-        return Arrays.asList("awoo");
+        return Arrays.asList("goodmod:owo");
     }
 }

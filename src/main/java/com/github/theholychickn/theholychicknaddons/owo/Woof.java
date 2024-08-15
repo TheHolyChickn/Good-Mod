@@ -28,22 +28,16 @@ public class Woof extends GuiScreen {
                 Meower.saveMeow();
                 awa.displayString = getButtonLabel();
             }
-            System.out.println("UWU Toggled");
         }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        System.out.println("Drawing screen");
         drawDefaultBackground();
-        System.out.println("Background Drawn!");
-        drawCenteredString(this.fontRendererObj, "good mod Config", this.width / 2, this.height / 2 - 60, 0x00FFFF);
-        System.out.println("Text Drawn!");
+        drawCenteredString(this.fontRendererObj, "good mod Config", this.width / 2, this.height / 2 - 100, 0x00FFFF);
         for (GuiButton button : this.buttonList) {
             button.drawButton(this.mc, mouseX, mouseY);
-            System.out.println("Button Drawn!");
         }
-        System.out.println("Screen drawn!");
     }
 
     @Override
@@ -59,11 +53,6 @@ public class Woof extends GuiScreen {
     }
 
     private String getButtonLabel() {
-        return "UwU Display: " + (Meower.meow.showUwU ? "On" : "Off");
+        return "Stuff Display: " + (Meower.meow.showUwU ? "On" : "Off");
     }
-
-    //public static void open() {
-     //   System.out.println("Calling Woof.open()");
-      //  Minecraft.getMinecraft().displayGuiScreen(new Woof());
-    //}
 }
