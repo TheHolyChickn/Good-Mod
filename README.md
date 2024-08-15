@@ -37,19 +37,32 @@ mv Downloads/goodmod-*.jar .minecraft/mods
 ```
 
 <h3>Compile from Source</h3>
+To avoid scaring people by talking about the terminal, I have moved the guide on compiling from source to the bottom of this page.
+
+<h2><font color=#00FF99>Usage</font></h2>
+
+<p>
+good mod is a mod for Hypixel SkyBlock, which provides two features that I was tired of waiting for <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a> to have, so I made them myself. The configuration menu is accessible by running <code>/nicepb</code>. Incase of commands conflicting with other mods, any good mod command with default <code>{command_name}</code> can also be run via the alias <code>/goodmod:{command_name}</code>. For example, if another mod has <code>/nicepb</code> already set, you can open the configuration menu with <code>/goodmod:nicepb</code>.
+</p>
+<p>
+Every command is configurable. This means if you don't like the command for the config menu being <code>/nicepb</code>, you can change it directly in the config menu. You cannot change the alias <code>/goodmod:{command_name}</code>, you can only change the command name itself. If at any time you forget the command names you've set, run <code>/goodmod:commands</code> to return a list of commands you can call. You can also manually edit the commands in the configuration file.
+</p>
+
+<h2>Compiling from Source</h2>
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
 
-<p><b>Windows:</b></p>
+<p><b><font color=#008FFF>Windows:</font></b></p>
 
 The first step is to make sure we have the correct dependencies. You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). For Git, you can open Powershell and run
 ```
 winget install --id Git.Git -e --source winget
 ```
 
-**Linux**:
+<p><b><font color=#E0A900>Linux:</font></b></p>
+
 You will still need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). However, installing them is much easier.
 
-Debian
+Debian/Ubuntu
 ```bash
 sudo apt update
 sudo apt install git openjdk-8-jdk openjdk-17-jdk gradle
@@ -73,14 +86,7 @@ You will be able to find the mod at <tt>./build/libs/goodmod-VERSION.jar</tt>. F
 mv build/libs/goodmod-*.jar ~/.minecraft/mods
 ```
 
-<h2><font color=#00FF99>Usage</font></h2>
-
-<p>
-good mod is a mod for Hypixel SkyBlock, which provides two features that I was tired of waiting for <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a> to have, so I made them myself. The configuration menu is accessible by running <code>/nicepb</code>. Incase of commands conflicting with other mods, any good mod command with default <code>{command_name}</code> can also be run via the alias <code>/goodmod:{command_name}</code>. For example, if another mod has <code>/nicepb</code> already set, you can open the configuration menu with <code>/goodmod:nicepb</code>.
-</p>
-<p>
-Every command is configurable. This means if you don't like the command for the config menu being <code>/nicepb</code>, you can change it directly in the config menu. You cannot change the alias <code>/goodmod:{command_name}</code>, you can only change the command name itself. If at any time you forget the command names you've set, run <code>/goodmod:commands</code> to return a list of commands you can call. You can also manually edit the commands in the configuration file.
-</p>
+<p><b><font color=#FF5555>MacOS:</font></b> lol idk</p>
 
 <h2>Licensing</h2>
 
