@@ -27,7 +27,7 @@ public class GoodMod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new Awoo());
-        MinecraftForge.EVENT_BUS.register(new UwU());
+        //MinecraftForge.EVENT_BUS.register(new UwU());
         MinecraftForge.EVENT_BUS.register(this);
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());

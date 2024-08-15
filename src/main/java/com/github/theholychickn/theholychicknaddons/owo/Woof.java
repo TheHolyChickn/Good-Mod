@@ -17,18 +17,18 @@ public class Woof extends GuiScreen {
     public void initGui() {
         super.initGui();
         this.buttonList.add(new GuiButton(0, (this.width / 2) - 100, (this.height / 2) - 24, getButtonLabel()));
-        System.out.println("Button Pressed");
     }
 
     @Override
     protected void actionPerformed(GuiButton awa) throws IOException {
-        if (awa.enabled) {
+        /*if (awa.enabled) {
             if (awa.id == 0) {
                 Meower.meow.showUwU = !Meower.meow.showUwU;
                 Meower.saveMeow();
                 awa.displayString = getButtonLabel();
             }
-        }
+        }*/
+        nya.open();
     }
 
     @Override
