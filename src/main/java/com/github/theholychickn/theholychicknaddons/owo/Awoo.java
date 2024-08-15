@@ -39,7 +39,7 @@ public class Awoo {
         awooo.put("§r§6Wither Boots§r", "§r§6Wither Boots§r: ");
         awooo.put("§r§6Auto Recombobulator§r", "§r§6Auto Recombs§r: ");
         awooo.put("§r§5Wither Blood§r", "§r§5Wither Bloods§r: ");
-        awooo.put("Test", "§r§5Tests§r: ");
+        awooo.put("Fuck Ironman players", "§r§5Tests§r: ");
     }
 
     // Initiates the config file or loads AwA.owowo

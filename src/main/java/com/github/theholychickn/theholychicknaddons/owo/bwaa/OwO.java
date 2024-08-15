@@ -1,6 +1,7 @@
 package com.github.theholychickn.theholychicknaddons.owo.bwaa;
 
 import com.github.theholychickn.theholychicknaddons.owo.Awoo;
+import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -16,7 +17,7 @@ public class OwO extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "owo";
+        return Meower.meow.owoCommand;
     }
 
     @Override

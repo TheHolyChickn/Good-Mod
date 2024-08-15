@@ -34,6 +34,7 @@ public class Woof extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
+        //drawCenteredString(this.fontRendererObj, "§4§kOWO OWO§r good mod Config §4§kOWO OWO§r", this.width / 2, this.height / 2 - 100, 0x00FFFF);
         drawCenteredString(this.fontRendererObj, "good mod Config", this.width / 2, this.height / 2 - 100, 0x00FFFF);
         for (GuiButton button : this.buttonList) {
             button.drawButton(this.mc, mouseX, mouseY);

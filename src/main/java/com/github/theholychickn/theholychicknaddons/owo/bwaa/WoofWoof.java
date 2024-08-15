@@ -1,16 +1,10 @@
 package com.github.theholychickn.theholychicknaddons.owo.bwaa;
 
-import com.github.theholychickn.theholychicknaddons.ExampleMod;
+import com.github.theholychickn.theholychicknaddons.GoodMod;
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import com.github.theholychickn.theholychicknaddons.owo.Woof;
-import com.github.theholychickn.theholychicknaddons.owo.test_gui;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
@@ -20,7 +14,7 @@ public class WoofWoof extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "nicepb";
+        return Meower.meow.nicepbCommand;
     }
 
     @Override
@@ -30,10 +24,8 @@ public class WoofWoof extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        LogManager.getLogger("OwO").info("" +
-                "");
-        sender.addChatMessage(new ChatComponentText("Opening goodmod GUI"));
-        ExampleMod.setDisplay(new Woof());
+        LogManager.getLogger("OwO").info("");
+        GoodMod.setDisplay(new Woof());
     }
 
     @Override
