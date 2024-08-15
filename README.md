@@ -27,7 +27,7 @@ Download the <b><font color=#FF0000>.jar</font></b> file in the [latest release]
 
 Alternatively if you're a fan of using the terminal, just copy one of these commands for your respective system:
 
-Windows:
+Windows Powershell:
 ```shell
 mv .\Downloads\goodmod-*.jar .\AppData\Roaming\.minecraft\mods
 ```
@@ -36,7 +36,42 @@ Linux:
 mv Downloads/goodmod-*.jar .minecraft/mods
 ```
 
+<h3>Compile from Source</h3>
+<p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
 
+<p><b>Windows:</b></p>
+
+The first step is to make sure we have the correct dependencies. You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). For Git, you can open Powershell and run
+```
+winget install --id Git.Git -e --source winget
+```
+
+**Linux**:
+You will still need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). However, installing them is much easier.
+
+Debian
+```bash
+sudo apt update
+sudo apt install git openjdk-8-jdk openjdk-17-jdk gradle
+```
+Arch
+```bash
+sudo pacman -Syu
+sudo pacman -S git jdk8-openjdk jdk17-openjdk gradle
+```
+After this, clone the git repository to a folder of your choice:
+```bash
+git clone https://github.com/TheHolyChickn/goodmod
+cd goodmod
+```
+Now, you just need to build the mod.
+```bash
+./gradlew build
+```
+You will be able to find the mod at <tt>./build/libs/goodmod-VERSION.jar</tt>. For convenience, you can
+```bash
+mv build/libs/goodmod-*.jar ~/.minecraft/mods
+```
 
 <h2><font color=#00FF99>Usage</font></h2>
 
