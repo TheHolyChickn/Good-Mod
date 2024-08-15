@@ -21,13 +21,6 @@ public class Woof extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton awa) throws IOException {
-        /*if (awa.enabled) {
-            if (awa.id == 0) {
-                Meower.meow.showUwU = !Meower.meow.showUwU;
-                Meower.saveMeow();
-                awa.displayString = getButtonLabel();
-            }
-        }*/
         nya.open();
     }
 
