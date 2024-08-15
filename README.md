@@ -4,6 +4,7 @@ a good mod
 
 Contributors:
 - [TheHolyChickn (main developer)](https://github.com/TheHolyChickn/)
+- [bonsai (made the STUPID GUI WORK)](https://github.com/freebonsai)
 - [odtheking (helped with random stuff)](https://github.com/odtheking)
 - [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
 - [this tutorial and template odtheking told me to ~~steal~~ look at](https://moddev.nea.moe/)
