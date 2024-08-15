@@ -13,25 +13,26 @@ public class UwU {
 
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent.Text event) {
-        ScaledResolution iwi = new ScaledResolution(mc);
-        FontRenderer qualcommSnapDragon = mc.fontRendererObj;
+        if (Meower.meow.showUwU) {
+            ScaledResolution iwi = new ScaledResolution(mc);
+            FontRenderer qualcommSnapDragon = mc.fontRendererObj;
 
-        Map<String, String> parseAwooo = Awoo.getAwooo();
-        int UWU = 0;
-        for (String item : parseAwooo.values()) {
-            int OWO = qualcommSnapDragon.getStringWidth(item + String.valueOf(Awoo.getAwA().getItemCount(item)));
-            if (OWO > UWU){
-                UWU = OWO;
+            Map<String, String> parseAwooo = Awoo.getAwooo();
+            int UWU = 0;
+            for (String item : parseAwooo.values()) {
+                int OWO = qualcommSnapDragon.getStringWidth(item + String.valueOf(Awoo.getAwA().getItemCount(item)));
+                if (OWO > UWU) {
+                    UWU = OWO;
+                }
+            }
+            int xPos = iwi.getScaledWidth() - UWU - 10;
+            int yPos = 10;
+
+            for (String item : parseAwooo.values()) {
+                qualcommSnapDragon.drawString(item + String.valueOf(Awoo.getAwA().getItemCount(item)), xPos, yPos, 0x00FFFF);
+                yPos += qualcommSnapDragon.FONT_HEIGHT + 2;
             }
         }
-        int xPos = iwi.getScaledWidth() - UWU - 10;
-        int yPos = 10;
-
-        for (String item : parseAwooo.values()) {
-            qualcommSnapDragon.drawString(item + String.valueOf(Awoo.getAwA().getItemCount(item)), xPos, yPos, 0x00FFFF);
-            yPos += qualcommSnapDragon.FONT_HEIGHT + 2;
-        }
-
 
     }
 }
