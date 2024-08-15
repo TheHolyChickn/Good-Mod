@@ -3,7 +3,7 @@ package com.github.theholychickn.theholychicknaddons.owo;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 // The Awoo class parses chat messages that fit a key of the hashmap awooo, and save to an AwA
@@ -13,16 +13,16 @@ public class Awoo {
     public static final AwA awa = new AwA();
 
     // list of drops to track, key is chat message and value is message returned in /owo
-    private static final Map<String, String> awooo = new HashMap<>();
+    private static final Map<String, String> awooo = new LinkedHashMap<>();
     // dumping items to watch
     static {
-        awooo.put("§r§5Necron's Handle§r", "Necron's Handles: ");
-        awooo.put("Dark Claymore", "Dark Claymores: ");
-        awooo.put("First Master Star", "First Stars: ");
-        awooo.put("Second Master Star", "Second Stars: ");
-        awooo.put("Third Master Star", "Third Stars: ");
-        awooo.put("Fourth Master Star", "Fourth Stars: ");
-        awooo.put("Fifth Master Star", "Fifth Stars: ");
+        awooo.put("§r§5Necron's Handle§r", "§r§5Necron's Handles§r: ");
+        awooo.put("§r§6Dark Claymore§r", "§r§6Dark Claymores§r: ");
+        awooo.put("§r§5First Master Star§r", "§r§5First Stars§r: ");
+        awooo.put("§r§5Second Master Star§r", "§r§5Second Stars§r: ");
+        awooo.put("§r§5Third Master Star§r", "§r§5Third Stars§r: ");
+        awooo.put("§r§5Fourth Master Star§r", "§r§5Fourth Stars§r: ");
+        awooo.put("§r§5Fifth Master Star§r", "§r§5Fifth Stars§r: ");
     }
 
     // Initiates the config file or loads AwA.owowo

@@ -8,13 +8,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AwA {
     private static final File CONFIG_FILE = new File("config/drops.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private Map<String, Integer> owowo = new HashMap<>();
+    private Map<String, Integer> owowo = new LinkedHashMap<>();
 
     public void loadConfig() {
         try{
