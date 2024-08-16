@@ -1,11 +1,15 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
 import com.github.theholychickn.theholychicknaddons.GoodMod;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 // The Awoo class parses chat messages that fit a key of the hashmap awooo, and save to an AwA
 public class Awoo {
@@ -43,6 +47,7 @@ public class Awoo {
         awooo.put("Fuck Ironman players", "§r§5Tests§r: ");
     }
 
+
     // Initiates the config file or loads AwA.owowo
     public static void init() {
         awa.loadConfig();
@@ -56,6 +61,7 @@ public class Awoo {
         // idfk
         for (Map.Entry<String, String> entry : awooo.entrySet()) {
             if (uwa.contains(entry.getKey())) {
+            //if (Pattern.matches(uwa, ">\\s*" + entry.getKey())) {
                 GoodMod.Kitten.info("Detected drop: {}", entry.getKey());
                 awa.addItem(entry.getValue());
                 break;
