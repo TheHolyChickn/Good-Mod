@@ -1,9 +1,6 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
 import com.github.theholychickn.theholychicknaddons.GoodMod;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -37,14 +34,22 @@ public class Awoo {
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 3§r$", "§r§aT3 Skulls§r: ");
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 2§r$", "§r§aT2 Skulls§r: ");
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 1§r$", "§r§aT1 Skulls§r: ");
-        awooo.put("^(§r\\s*)§r§6Recombobulator§r$", "§r§6Recombs§r: ");
+        awooo.put("^(§r\\s*)§r§6§lRARE REWARD! §r§6Recombobulator§r$", "§r§6Recombs§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Helmet§r$", "§r§6Wither Helmets§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Chestplate§r$", "§r§6Wither Chestplates§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Leggings§r$", "§r§6Wither Leggings§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Boots§r$", "§r§6Wither Boots§r: ");
         awooo.put("^(§r\\s*)§r§6Auto Recombobulator§r$", "§r§6Auto Recombs§r: ");
         awooo.put("^(§r\\s*)§r§5Wither Blood§r$", "§r§5Wither Bloods§r: ");
+        awooo.put("^(§r\\s*)§r§5Precursor Gear§r$", "§r§5Precursor Gears§r: ");
         awooo.put("Fuck Ironman players", "§r§5Tests§r: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor I§r$", "M1 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor II§r$", "M2 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor III§r$", "M3 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor IV§r$", "M4 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor V§r$", "M5 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor VI§r$", "M6 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor VII§r$", "M7 Runs Tracked: ");
     }
 
 
@@ -53,6 +58,11 @@ public class Awoo {
         awa.loadConfig();
         GoodMod.Kitten.info("Config initialized");
     }
+    public static void reloadAwA() {
+        awa.loadConfig();
+        GoodMod.Kitten.info("AwA reload complete");
+    }
+
     // Reads chat messages
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {

@@ -4,6 +4,7 @@ import com.github.theholychickn.theholychicknaddons.owo.Awoo;
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import com.github.theholychickn.theholychicknaddons.owo.UwU;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.Cute;
+import com.github.theholychickn.theholychicknaddons.owo.bwaa.Furry;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.OwO;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.WoofWoof;
 import net.minecraft.client.Minecraft;
@@ -32,11 +33,14 @@ public class GoodMod {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        // Event subscriptions
         MinecraftForge.EVENT_BUS.register(new Awoo());
         MinecraftForge.EVENT_BUS.register(this);
+        // Commands
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
         ClientCommandHandler.instance.registerCommand(new Cute());
+        ClientCommandHandler.instance.registerCommand(new Furry());
     }
 
     // Bonsai witchcraft
