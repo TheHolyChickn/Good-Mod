@@ -49,7 +49,7 @@ public class nya extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            this.mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen(new Woof());
         }
     }
 

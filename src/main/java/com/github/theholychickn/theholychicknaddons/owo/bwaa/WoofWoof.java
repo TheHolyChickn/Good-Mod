@@ -19,12 +19,12 @@ public class WoofWoof extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "";
+        return ":3";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        LogManager.getLogger("OwO").info("");
+        LogManager.getLogger("OwO").info(":3");
         GoodMod.setDisplay(new Woof());
     }
 

@@ -1,5 +1,6 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
+import com.github.theholychickn.theholychicknaddons.GoodMod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class AwA {
     private static final File CONFIG_FILE = new File("config/drops.json");
@@ -18,16 +20,23 @@ public class AwA {
     private Map<String, Integer> owowo = new LinkedHashMap<>();
 
     public void loadConfig() {
+        GoodMod.Kitten.info("Beginning AwA loadConfig task");
         try{
             if (CONFIG_FILE.exists()) {
                 FileReader reader = new FileReader(CONFIG_FILE);
                 AwA config = GSON.fromJson(reader, AwA.class);
-                this.owowo = config.owowo;
                 reader.close();
+                if (config != null) {
+                    this.owowo = config.owowo;
+                    GoodMod.Kitten.info("Config loaded: " + this.owowo);
+                }
+                else { GoodMod.Kitten.warn("Loaded config is null."); }
             } else {
+                GoodMod.Kitten.info("Config file does not exist, creating new one.");
                 saveConfig();
             }
         } catch (IOException e) {
+            GoodMod.Kitten.error("Failed to load config file", e);
             e.printStackTrace();
         }
     }
@@ -36,7 +45,6 @@ public class AwA {
         try {
             FileWriter writer = new FileWriter(CONFIG_FILE);
             GSON.toJson(this, writer);
-            writer.flush();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,6 +53,7 @@ public class AwA {
 
     public void addItem(String item) {
         owowo.put(item, owowo.getOrDefault(item, 0) + 1);
+        saveConfig();
     }
 
     public int getItemCount(String item) {

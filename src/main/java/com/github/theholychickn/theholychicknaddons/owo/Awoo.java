@@ -1,5 +1,6 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
+import com.github.theholychickn.theholychicknaddons.GoodMod;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 public class Awoo {
 
     // manages the item drop cache
-    public static final AwA awa = new AwA();
+    public static AwA awa = new AwA();
 
     // list of drops to track, key is chat message and value is message returned in /owo
     private static final Map<String, String> awooo = new LinkedHashMap<>();
@@ -32,7 +33,7 @@ public class Awoo {
         awooo.put("§r§aMaster Skull - Tier 3§r", "§r§aT3 Skulls§r: ");
         awooo.put("§r§aMaster Skull - Tier 2§r", "§r§aT2 Skulls§r: ");
         awooo.put("§r§aMaster Skull - Tier 1§r", "§r§aT1 Skulls§r: ");
-        awooo.put("§r§6Recombobulator§r", "Recombs§r: ");
+        awooo.put("§r§6Recombobulator§r", "§r§6Recombs§r: ");
         awooo.put("§r§6Wither Helmet§r", "§r§6Wither Helmets§r: ");
         awooo.put("§r§6Wither Chestplate§r", "§r§6Wither Chestplates§r: ");
         awooo.put("§r§6Wither Leggings§r", "§r§6Wither Leggings§r: ");
@@ -43,8 +44,9 @@ public class Awoo {
     }
 
     // Initiates the config file or loads AwA.owowo
-    public void init() {
+    public static void init() {
         awa.loadConfig();
+        GoodMod.Kitten.info("Config initialized with items " + awa.getItemCount("§r§5Tests§r: "));
     }
     // Reads chat messages
     @SubscribeEvent
@@ -54,8 +56,8 @@ public class Awoo {
         // idfk
         for (Map.Entry<String, String> entry : awooo.entrySet()) {
             if (uwa.contains(entry.getKey())) {
+                GoodMod.Kitten.info("Detected drop: {}", entry.getKey());
                 awa.addItem(entry.getValue());
-                awa.saveConfig();
                 break;
             }
         }

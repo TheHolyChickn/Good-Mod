@@ -1,4 +1,5 @@
 package com.github.theholychickn.theholychicknaddons.owo;
+import com.github.theholychickn.theholychicknaddons.GoodMod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,7 +26,7 @@ public class Meower {
             meow = new Meow();
             saveMeow();
         }
-        System.out.println("Meower loaded");
+        GoodMod.Kitten.info("Meower loaded");
     }
 
     public static void saveMeow() {

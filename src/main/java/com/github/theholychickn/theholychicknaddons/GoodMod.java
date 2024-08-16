@@ -15,19 +15,24 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = "goodmod", useMetadata=true, clientSideOnly = true)
 public class GoodMod {
 
+    // Logger
+    public static final Logger Kitten = LogManager.getLogger("good mod");
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Meower.loadMeow();
+        Awoo.init();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new Awoo());
-        //MinecraftForge.EVENT_BUS.register(new UwU());
         MinecraftForge.EVENT_BUS.register(this);
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
