@@ -34,7 +34,7 @@ public class Awoo {
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 3§r$", "§r§aT3 Skulls§r: ");
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 2§r$", "§r§aT2 Skulls§r: ");
         awooo.put("^(§r\\s*)§r§aMaster Skull - Tier 1§r$", "§r§aT1 Skulls§r: ");
-        awooo.put("^(§r\\s*)§r§6§lRARE REWARD! §r§6Recombobulator§r$", "§r§6Recombs§r: ");
+        awooo.put("^(§r\\s*)§r§6§lRARE REWARD! §r§6Recombobulator 3000§r$", "§r§6Recombs§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Helmet§r$", "§r§6Wither Helmets§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Chestplate§r$", "§r§6Wither Chestplates§r: ");
         awooo.put("^(§r\\s*)§r§6Wither Leggings§r$", "§r§6Wither Leggings§r: ");
@@ -43,13 +43,13 @@ public class Awoo {
         awooo.put("^(§r\\s*)§r§5Wither Blood§r$", "§r§5Wither Bloods§r: ");
         awooo.put("^(§r\\s*)§r§5Precursor Gear§r$", "§r§5Precursor Gears§r: ");
         awooo.put("Fuck Ironman players", "§r§5Tests§r: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor I§r$", "M1 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor II§r$", "M2 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor III§r$", "M3 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor IV§r$", "M4 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor V§r$", "M5 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor VI§r$", "M6 Runs Tracked: ");
-        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- &r&eFloor VII§r$", "M7 Runs Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor I§r$", "§r§cM1 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor II§r$", "§r§cM2 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor III§r$", "§r§cM3 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor IV§r$", "§r§cM4 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor V§r$", "§r§cM5 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor VI§r$", "§r§cM6 §r§eRuns Tracked: ");
+        awooo.put("^(§r§f\\s*)§r§cMaster Mode The Catacombs §r§8- §r§eFloor VII§r$", "§r§cM7 §r§eRuns Tracked: ");
     }
 
 
