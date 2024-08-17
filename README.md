@@ -17,7 +17,7 @@ Contributors:
 good mod offers two features I've wanted for a long time, but are not present in <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a>.
 
 1. **Dungeon Drops Tracker**<p>
-<a href="https://skyblockextras.com/">SBE</a> actually has this option, but it's extremely outdated and randomly resets itself sometimes. This solution has both a GUI and a chat command element. </p>
+<a href="https://skyblockextras.com/">SBE</a> actually has this option, but it's extremely outdated and randomly resets itself sometimes. This solution has both a GUI and a chat command element. At some point I will make a good Croesus scanner too because honestly it's not hard.</p>
 
 2. **Hoppity Reminder** (THIS FEATURE IS NOT YET AVAILABLE)<p>
 I have lost way too many eggs due to being in a dungeon run and just forgetting about Hoppity. This solution creates an impossible to miss Hoppity alert, and also has the option to automatically send <tt>!dt Hoppity</tt> in chat.
