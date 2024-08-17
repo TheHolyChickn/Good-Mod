@@ -1,4 +1,4 @@
-<h1><font color=#00FFFF size=30>good mod</font></h1>
+<h1>good mod</h1>
 
 a good mod
 
@@ -7,9 +7,11 @@ Contributors:
 - [bonsai (made the STUPID GUI WORK)](https://github.com/freebonsai)
 - [odtheking (helped with random stuff)](https://github.com/odtheking)
 - [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
-- [this tutorial and template odtheking told me to ~~steal~~ look at](https://moddev.nea.moe/)
+- [this tutorial and template odtheking told me to ~~steal~~ look at (u guys rlly thought i could set this all up on my own with no past experience??? lolllll)](https://moddev.nea.moe/)
 - [ChatGPT (all of the code)](https://chatgpt.com/)
 - kikias22 (artist)
+- [Intellij Idea (nvim still better)](https://www.jetbrains.com/idea/)
+- [Linux (it just makes doing things easier)](https://en.wikipedia.org/wiki/Linux)
 
 <h2><font color=#00FF99>Features</font></h2>
 good mod offers two features I've wanted for a long time, but are not present in <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a>.
@@ -20,12 +22,16 @@ good mod offers two features I've wanted for a long time, but are not present in
 2. **Hoppity Reminder** (THIS FEATURE IS NOT YET AVAILABLE)<p>
 I have lost way too many eggs due to being in a dungeon run and just forgetting about Hoppity. This solution creates an impossible to miss Hoppity alert, and also has the option to automatically send <tt>!dt Hoppity</tt> in chat.
 
+In the future, I may implement anti-ironman dark auction alerts, so you can outbid any time an ironman player is winning in the dark auction.
+
 <h2><font color=#00FF99>Installation</font></h2>
 
-good mod is a [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) mod, so if you don't already have Forge, [download the latest 1.8.9 release](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) here, and follow the installer's instructions. If you've never downloaded forge before, notice that the download button redirects you to an ad, and you have to wait 5 seconds (see top right corner) before you can proceed to download. **ONLY** click the button in the top right corner, or you could get a virus. After you install forge, find the <tt>1.8.9-forge1.8.9-11.15.1.2318-1.8.9</tt> version in your Minecraft launcher (you may have to go over to Installations and create a new one), and run it. After it loads, close your game.
+good mod is a [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) mod, so if you don't already have Forge, [download the latest 1.8.9 release](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html) here, and follow the installer's instructions. If you've never downloaded forge before, notice that the download button redirects you to an ad, and you have to wait 5 seconds (see top right corner) before you can proceed to download. **ONLY** click the button in the top right corner, or you could get a virus. After you install forge, find the <tt>1.8.9-forge1.8.9-11.15.1.2318-1.8.9</tt> version in your Minecraft launcher (you may have to go over to Installations and create a new one), and run it. After it loads, close your game. I still have to set up Minecraft on my laptop's Windows partition, so I may record a video of installing forge and post it here later.
 <h3>Normal Install</h3>
 
 Download the <b><font color=#FF0000>.jar</font></b> file in the [latest release](https://google.com). Locate your <tt>.minecraft</tt> folder. On windows, you can find this by opening File Explorer, and searching for <tt>%appdata%</tt>. On Linux, your <tt>.minecraft</tt> is probably located at <tt>~/.minecraft</tt>. On MacOS, I have no idea. Once inside your <tt>.minecraft</tt> folder, find and open your <tt>mods</tt> folder. Now, open another File Explorer window and navigate to your <tt>Downloads</tt> folder. Locate the **good mod .jar file**, and drag it into your <tt>mods</tt> folder.</p>
+
+<h3>Wannabe Hacker Install</h3>
 
 Alternatively if you're a fan of using the terminal, just copy one of these commands for your respective system:
 
@@ -54,7 +60,7 @@ Every command is configurable. This means if you don't like the command for the 
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
 
 <h3>Windows:</h3>
-<p>I've included some commentary on what everything is/what it does, since many people (like I used to be) are scared of the terminal and think they're going to break their operating system somehow. And I have no idea how else to build a mod. But </p>
+<p>I've included some commentary on what everything is/what it does, since many people (like I used to be) are scared of the terminal and think they're going to break their operating system somehow. And I have no idea how else to build a mod. But I'm sure there's a way to do it inside of Intellij or whatever u use idk</p>
 
 The first step is to make sure we have the correct dependencies. You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). For Git, you can open Powershell and run
 ```
@@ -64,7 +70,9 @@ winget install --id Git.Git -e --source winget
 
 <h3>Linux:</h3>
 
-You will still need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). However, installing them is much easier. I will not be explaining anything, because if you're on Linux I trust you to know most of this stuff already.
+ I will not be explaining anything, because if you're on Linux I trust you to know most of this stuff already.
+
+You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.).
 
 Debian/Ubuntu
 ```bash
