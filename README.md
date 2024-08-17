@@ -8,6 +8,7 @@ Contributors:
 - [odtheking (helped with random stuff)](https://github.com/odtheking)
 - [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
 - [this tutorial and template odtheking told me to ~~steal~~ look at](https://moddev.nea.moe/)
+- [ChatGPT (all of the code)](https://chatgpt.com/)
 - kikias22 (artist)
 
 <h2><font color=#00FF99>Features</font></h2>
@@ -16,7 +17,7 @@ good mod offers two features I've wanted for a long time, but are not present in
 1. **Dungeon Drops Tracker**<p>
 <a href="https://skyblockextras.com/">SBE</a> actually has this option, but it's extremely outdated and randomly resets itself sometimes. This solution has both a GUI and a chat command element. </p>
 
-2. **Hoppity Reminder**<p>
+2. **Hoppity Reminder** (THIS FEATURE IS NOT YET AVAILABLE)<p>
 I have lost way too many eggs due to being in a dungeon run and just forgetting about Hoppity. This solution creates an impossible to miss Hoppity alert, and also has the option to automatically send <tt>!dt Hoppity</tt> in chat.
 
 <h2><font color=#00FF99>Installation</font></h2>
@@ -36,9 +37,9 @@ Linux:
 ```bash
 mv Downloads/goodmod-*.jar .minecraft/mods
 ```
+MacOS: lol idk
 
-<h3>Compile from Source</h3>
-To avoid scaring people by talking about the terminal, I have moved the guide on compiling from source to the bottom of this page.
+If you would like to compile from source, I have included instructions at the bottom of this page.
 
 <h2><font color=#00FF99>Usage</font></h2>
 
@@ -52,25 +53,25 @@ Every command is configurable. This means if you don't like the command for the 
 <h2>Compiling from Source</h2>
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
 
-<p><b><font color=#008FFF>Windows:</font></b></p>
+<h3>Windows:</h3>
+<p>I've included some commentary on what everything is/what it does, since many people (like I used to be) are scared of the terminal and think they're going to break their operating system somehow. And I have no idea how else to build a mod. But </p>
 
 The first step is to make sure we have the correct dependencies. You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). For Git, you can open Powershell and run
 ```
 winget install --id Git.Git -e --source winget
 ```
+<tt>winget</tt> is (from what I understand) a "package manager" for PowerShell. You can think of it as a sort of "app store"; it downloads "packages", which are like apps, but oftentimes they provide additional functionality to a terminal like PowerShell. Here, we're downloading "Git", which allows us to work with various "git repositories", like github pages. 
 
-<p><b><font color=#E0A900>Linux:</font></b></p>
+<h3>Linux:</h3>
 
-You will still need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). However, installing them is much easier.
+You will still need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). However, installing them is much easier. I will not be explaining anything, because if you're on Linux I trust you to know most of this stuff already.
 
 Debian/Ubuntu
 ```bash
-sudo apt update
 sudo apt install git openjdk-8-jdk openjdk-17-jdk gradle
 ```
 Arch
 ```bash
-sudo pacman -Syu
 sudo pacman -S git jdk8-openjdk jdk17-openjdk gradle
 ```
 After this, clone the git repository to a folder of your choice:
@@ -87,7 +88,7 @@ You will be able to find the mod at <tt>./build/libs/goodmod-VERSION.jar</tt>. F
 mv build/libs/goodmod-*.jar ~/.minecraft/mods
 ```
 
-<p><b><font color=#FF5555>MacOS:</font></b> lol idk</p>
+<h3>MacOS:</h3> lol idk</p>
 
 <h2>Licensing</h2>
 
