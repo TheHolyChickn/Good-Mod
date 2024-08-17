@@ -1,6 +1,7 @@
 package com.github.theholychickn.theholychicknaddons;
 
 import com.github.theholychickn.theholychicknaddons.owo.Awoo;
+import com.github.theholychickn.theholychicknaddons.owo.Fuwwy;
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import com.github.theholychickn.theholychicknaddons.owo.UwU;
 import com.github.theholychickn.theholychicknaddons.owo.bwaa.Cute;
@@ -36,6 +37,7 @@ public class GoodMod {
         // Event subscriptions
         MinecraftForge.EVENT_BUS.register(new Awoo());
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new Fuwwy());
         // Commands
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
