@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 public class Fuwwy {
 
     private static final Pattern owoPattern = Pattern.compile("(Wood|Gold|Diamond|Emerald|Obsidian|Bedrock) Chest");
-    private static final Pattern angy = Pattern.compile("1xtile.thinStainedGlass@\\d+$");
     private boolean is_owoing = false;
     private ContainerChest the_owo = null;
     private int many_owos = 0;
@@ -66,13 +65,9 @@ public class Fuwwy {
 
             // run code here
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§eInstance of DUNGEON_CHEST fully loaded. Scanning protocol terminated. Dungeon chest loaded: " + the_owo.getLowerChestInventory().getName() + "§r"));
-            for (int maws = 9; 18 > maws; maws++) {
-                ItemStack owoed = the_owo.getLowerChestInventory().getStackInSlot(maws);
-                if (!angy.matcher(owoed.toString()).matches()) {
-                    GoodMod.Kitten.info("[good mod] Registered slot " + maws + " (" + owoed.toString() + ") as dungeon loot");
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§4§lRegistered slot " + maws + " (" + owoed.toString() + ") as dungeon loot§r"));
-                }
-            }
+
+            Femboy.owo(the_owo);
+
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§2Items logged!"));
 
             the_owo = null;
