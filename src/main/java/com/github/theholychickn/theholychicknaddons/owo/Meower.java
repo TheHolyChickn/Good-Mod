@@ -1,5 +1,5 @@
 package com.github.theholychickn.theholychicknaddons.owo;
-import com.github.theholychickn.theholychicknaddons.GoodMod;
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,7 +26,7 @@ public class Meower {
             meow = new Meow();
             saveMeow();
         }
-        GoodMod.Kitten.info("Meower loaded");
+        Yapping.log("Meower loaded");
     }
 
     public static void saveMeow() {

@@ -7,7 +7,7 @@ import net.minecraft.util.ChatComponentText;
 public class Yapping {
 
     public static void log(String meow) {
-        GoodMod.Kitten.info("[good mod ]" + meow);
+        GoodMod.Kitten.info("[good mod] " + meow);
     }
 
     public static void chat(String meow) {

@@ -1,5 +1,6 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import com.github.theholychickn.theholychicknaddons.GoodMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.ContainerChest;
@@ -22,8 +23,8 @@ public class Femboy {
             ItemStack owoed = the_owo.getLowerChestInventory().getStackInSlot(i);
             if (!angy.matcher(owoed.toString()).matches()) {
                 many_owos.add(owoed);
-                GoodMod.Kitten.info("[good mod] Registered slot " + i + " (" + owoed.toString() + ") as dungeon loot");
-                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§4§lRegistered slot " + i + " (" + owoed.toString() + ") as dungeon loot§r"));
+                Yapping.log("Registered slot " + i + " (" + owoed.toString() + ") as dungeon loot");
+                Yapping.chat("§r§4§lRegistered slot " + i + " (" + owoed.toString() + ") as dungeon loot");
             }
         }
     }

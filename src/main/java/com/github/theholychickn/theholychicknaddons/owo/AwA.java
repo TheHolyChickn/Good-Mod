@@ -1,6 +1,7 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
 import com.github.theholychickn.theholychicknaddons.GoodMod;
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -20,7 +21,7 @@ public class AwA {
     private Map<String, Integer> owowo = new LinkedHashMap<>();
 
     public void loadConfig() {
-        GoodMod.Kitten.info("Beginning AwA loadConfig task");
+        Yapping.log("Beginning AwA loadConfig task");
         try{
             if (CONFIG_FILE.exists()) {
                 FileReader reader = new FileReader(CONFIG_FILE);
@@ -28,11 +29,11 @@ public class AwA {
                 reader.close();
                 if (config != null) {
                     this.owowo = config.owowo;
-                    GoodMod.Kitten.info("Config loaded: " + this.owowo);
+                    Yapping.log("Config loaded: " + this.owowo);
                 }
                 else { GoodMod.Kitten.warn("Loaded config is null."); }
             } else {
-                GoodMod.Kitten.info("Config file does not exist, creating new one.");
+                Yapping.log("Config file does not exist, creating new one.");
                 saveConfig();
             }
         } catch (IOException e) {

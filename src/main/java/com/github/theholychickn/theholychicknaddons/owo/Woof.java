@@ -1,6 +1,7 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -68,8 +69,7 @@ public class Woof extends GuiScreen {
                 Meower.saveMeow();
                 Meower.loadMeow();
                 this.mc.displayGuiScreen(null);
-                IChatComponent log = new ChatComponentText("Setting commandOwo to " + this.mwahh.getText());
-                this.mc.thePlayer.addChatMessage(log);
+            Yapping.chat("Setting commandOwo to " + this.mwahh.getText());
         }
         else if (keyCode == Keyboard.KEY_ESCAPE) {
             this.mc.displayGuiScreen(null);

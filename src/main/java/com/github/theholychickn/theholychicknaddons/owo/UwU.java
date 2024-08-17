@@ -1,5 +1,6 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;

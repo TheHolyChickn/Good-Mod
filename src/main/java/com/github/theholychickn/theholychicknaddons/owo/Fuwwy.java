@@ -1,6 +1,7 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
 import com.github.theholychickn.theholychicknaddons.GoodMod;
+import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -31,7 +32,7 @@ public class Fuwwy {
 
         if (!owoPattern.matcher(owoName).matches()) return;
 
-        GoodMod.Kitten.info("[good mod]" + owoName + " detected");
+        Yapping.log(owoName + " detected");
 
         the_owo = owoContainer;
         is_owoing = true;
@@ -42,12 +43,12 @@ public class Fuwwy {
     public void searchOWOs(TickEvent.ClientTickEvent awooo) {
         // Only execute during the END phase to avoid running twice per tick
         if (awooo.phase != TickEvent.Phase.END || !is_owoing || the_owo == null) return;
-        GoodMod.Kitten.info("[good mod] [searchOWOs] Scanning protocol active - awaiting fully loaded dungeon chest");
+        Yapping.log("[searchOWOs] Scanning protocol active - awaiting fully loaded dungeon chest");
 
         GuiScreen currScrene = Minecraft.getMinecraft().currentScreen;
         if (!(currScrene instanceof GuiChest)) {
             stopOwoing();
-            GoodMod.Kitten.info("[good mod] [searchOWOs] Chest closed, terminating scanning protocol");
+            Yapping.log("[searchOWOs] Chest closed, terminating scanning protocol");
             return;
         }
         else {
@@ -59,16 +60,16 @@ public class Fuwwy {
         ItemStack bottomRight = the_owo.getLowerChestInventory().getStackInSlot(bottomRightSlotIndex);
 
         if (bottomRight != null) {
-            GoodMod.Kitten.info("[good mod] [searchOWOs] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated");
+            Yapping.log("[searchOWOs] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated");
             is_owoing = false;
             many_owos = 0;
 
             // run code here
-            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§eInstance of DUNGEON_CHEST fully loaded. Scanning protocol terminated. Dungeon chest loaded: " + the_owo.getLowerChestInventory().getName() + "§r"));
+            Yapping.chat("§r§eInstance of DUNGEON_CHEST fully loaded. Scanning protocol terminated. Dungeon chest loaded: " + the_owo.getLowerChestInventory().getName());
 
             Femboy.owo(the_owo);
 
-            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§2Items logged!"));
+            Yapping.chat("§r§2Items logged!");
 
             the_owo = null;
             return;
@@ -77,7 +78,7 @@ public class Fuwwy {
         many_owos++;
         if (many_owos > 200) {
             stopOwoing();
-            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§r§3good mod §r§f» §r§4§lDungeon chest not loaded [timed out]. §r§bIs the server lagging?§r"));
+            Yapping.chat("§r§4§lDungeon chest not loaded [timed out]. §r§bIs the server lagging?§r");
         }
     }
 
