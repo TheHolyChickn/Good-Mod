@@ -56,10 +56,10 @@ class ConfigGUI : GuiScreen() {
             this.width / 2 + 150,
             this.height / 2 - 70, 0x00FFFF
         )
-        getItemsNameField!!.drawTextBox()
+        getItemsNameField?.drawTextBox()
 
         drawCenteredString(this.fontRendererObj, "set /owo alias", this.width / 2 + 150, this.height / 2 - 45, 0x00FFFF)
-        openGuiNameField!!.drawTextBox()
+        openGuiNameField?.drawTextBox()
 
         // Draws buttons
         for (button in this.buttonList) {
@@ -69,16 +69,16 @@ class ConfigGUI : GuiScreen() {
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         if (keyCode == Keyboard.KEY_RETURN) {
-            if (getItemsNameField!!.isFocused) {
+            if (getItemsNameField?.isFocused == true) {
                 GoodMod.getItemsCommandName = getItemsNameField!!.text
-                GuiConfig.saveGuiConfig()
-                GuiConfig.loadGuiConfig()
+                GuiConfig.saveConfig()
+                GuiConfig.loadConfig()
                 mc.displayGuiScreen(null)
                 modMessage("Set /owo to " + getItemsNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
-            } else if (openGuiNameField!!.isFocused) {
+            } else if (openGuiNameField?.isFocused == true) {
                 GoodMod.openGUICommandName = openGuiNameField!!.text
-                GuiConfig.saveGuiConfig()
-                GuiConfig.loadGuiConfig()
+                GuiConfig.saveConfig()
+                GuiConfig.loadConfig()
                 mc.displayGuiScreen(null)
                 modMessage("Set /nicepb to " + openGuiNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
             }
@@ -88,7 +88,7 @@ class ConfigGUI : GuiScreen() {
     @Throws(IOException::class)
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         super.mouseClicked(mouseX, mouseY, mouseButton)
-        getItemsNameField!!.mouseClicked(mouseX, mouseY, mouseButton)
+        getItemsNameField?.mouseClicked(mouseX, mouseY, mouseButton)
     }
 
     override fun doesGuiPauseGame(): Boolean {

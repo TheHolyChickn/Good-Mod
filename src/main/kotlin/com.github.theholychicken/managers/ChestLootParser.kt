@@ -1,43 +1,45 @@
 package com.github.theholychicken.managers
 
+import net.minecraft.init.Blocks
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagString
 
 object ChestLootParser {
-    private val GLASS_REGEX: Regex = Regex("1xtile.thinStainedGlass@\\d+$")
-    private val WITHER_ESSENCE_REGEX: Regex = Regex("§dWither Essence §8x\\d+")
-    private val UNDEAD_ESSENCE_REGEX: Regex = Regex("§dUndead Essence §8x\\d+")
-    private val QUANTITY_REGEX: Regex = Regex("(\\d+)$")
-    private val collectedItems = ArrayList<String>()
-    private val essenceCounts: MutableMap<String, Int> = HashMap()
+    private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
+    private val WITHER_ESSENCE_REGEX = Regex("§dWither Essence §8x\\d+")
+    private val UNDEAD_ESSENCE_REGEX = Regex("§dUndead Essence §8x\\d+")
+    private val QUANTITY_REGEX = Regex("(\\d+)$")
+    private val collectedItems = mutableListOf<String>()
+    private val essenceCounts = mutableMapOf<String, Int>()
 
     // Process instance of DUNGEON_CHEST
     fun parseChestLoot(chest: ContainerChest) {
-        // Ensure no items from past chests are saved
         collectedItems.clear()
         essenceCounts.clear()
 
-        // Log items in collectedItems
-        for (i in 9..17) {
-            val stack = chest.lowerChestInventory.getStackInSlot(i)
-            if (GLASS_REGEX.matches(stack.toString())) continue
+        for (index in 9..17) {
+            val stack = chest.lowerChestInventory.getStackInSlot(index)
+                .takeIf { it.item != Blocks.stained_glass_pane } ?: continue
+
             val tagCompound = stack.tagCompound ?: continue
             val displayName = tagCompound.getCompoundTag("display").getString("Name")
 
             when {
                 isEnchantedBook(tagCompound) -> {
-                    val loreTagList = tagCompound.getCompoundTag("display").getTagList("Lore", NBTTagString().id.toInt())
-                    collectedItems.add(loreTagList.getStringTagAt(0))
+                    tagCompound.getCompoundTag("display")
+                        .getTagList("Lore", NBTTagString().id.toInt())
+                        .getStringTagAt(0)
+                        .let { collectedItems.add(it) }
                 }
                 WITHER_ESSENCE_REGEX.matches(displayName) -> {
-                    QUANTITY_REGEX.find(displayName)?.let {
-                        essenceCounts["Wither Essence"] = it.groupValues[1].toInt()
+                    QUANTITY_REGEX.find(displayName)?.groupValues?.get(1)?.toIntOrNull()?.let {
+                        essenceCounts["Wither Essence"] = it
                     }
                 }
                 UNDEAD_ESSENCE_REGEX.matches(displayName) -> {
-                    QUANTITY_REGEX.find(displayName)?.let {
-                        essenceCounts["Undead Essence"] = it.groupValues[1].toInt()
+                    QUANTITY_REGEX.find(displayName)?.groupValues?.get(1)?.toIntOrNull()?.let {
+                        essenceCounts["Undead Essence"] = it
                     }
                 }
                 else -> collectedItems.add(displayName)
@@ -46,21 +48,15 @@ object ChestLootParser {
     }
 
     // Checks if NBT data defines an enchanted book
-    private fun isEnchantedBook(tagCompound: NBTTagCompound): Boolean {
-        return tagCompound.getCompoundTag("ExtraAttributes").getString("id") == "ENCHANTED_BOOK"
-    }
+    private fun isEnchantedBook(tagCompound: NBTTagCompound) =
+        tagCompound.getCompoundTag("ExtraAttributes").getString("id") == "ENCHANTED_BOOK"
 
     fun dumpCollectedItems() {
-        // Save collected items
-        for (itemName in collectedItems) {
-            for ((key, value) in ItemDropParser.itemDropPatterns) {
-                if (key == itemName) {
-                    ItemDropParser.dropsConfig.addItem(value)
-                    break
-                }
-            }
+        collectedItems.forEach { itemName ->
+            ItemDropParser.itemDropPatterns[itemName]?.let { ItemDropParser.dropsConfig.addItem(it) }
         }
-        for ((essenceType, count) in essenceCounts) {
+
+        essenceCounts.forEach { (essenceType, count) ->
             when (essenceType) {
                 "Wither Essence" -> ItemDropParser.dropsConfig.addMany("§dWither Essence§r: §8", count)
                 "Undead Essence" -> ItemDropParser.dropsConfig.addMany("§dUndead Essence§r: §8", count)

@@ -17,7 +17,7 @@ class ItemDropHUD : GuiScreen() {
         mc.fontRendererObj.drawString("------- FLOOR 7 -------", xPos, yPos, 0x00FF99)
         yPos += mc.fontRendererObj.FONT_HEIGHT + 2
 
-        for ((index, item) in items.values.withIndex()) {
+        items.values.forEachIndexed { index, item ->
             when (index) {
                 17 -> {
                     mc.fontRendererObj.drawString("------- FLOOR 6 -------", xPos, yPos, 0x00FF99)
@@ -89,22 +89,18 @@ class ItemDropHUD : GuiScreen() {
                     mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 else -> {
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig .getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
             }
             yPos += mc.fontRendererObj.FONT_HEIGHT + 2
             val itemWidth = mc.fontRendererObj.getStringWidth(item + ItemDropParser.dropsConfig.getItemCount(item))
-            if (itemWidth > columnWidth) {
-                columnWidth = itemWidth
-            }
+            if (itemWidth > columnWidth) columnWidth = itemWidth
         }
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
-        if (keyCode == Keyboard.KEY_ESCAPE) {
-            mc.displayGuiScreen(ConfigGUI())
-        }
+        if (keyCode == Keyboard.KEY_ESCAPE) mc.displayGuiScreen(ConfigGUI())
     }
 
     @Throws(IOException::class)

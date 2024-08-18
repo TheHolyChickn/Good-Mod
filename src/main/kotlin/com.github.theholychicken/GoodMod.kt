@@ -22,7 +22,7 @@ class GoodMod {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent?) {
-        GuiConfig.loadGuiConfig()
+        GuiConfig.loadConfig()
         ItemDropParser
     }
 

@@ -27,6 +27,9 @@ loom {
     log4jConfigs.from(file("log4j2.xml"))
     launchConfigs {
         "client" {
+            // If you don't want mixins, remove these lines
+            property("mixin.debug", "true")
+            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
         }
     }
     runConfigs {
@@ -40,6 +43,13 @@ loom {
     }
     forge {
         pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
+        // If you don't want mixins, remove this lines
+        mixinConfig("mixins.$modid.json")
+    }
+    // If you don't want mixins, remove these lines
+    @Suppress("UnstableApiUsage")
+    mixin {
+        defaultRefmapName.set("mixins.$modid.refmap.json")
     }
 }
 
@@ -57,7 +67,6 @@ sourceSets.main {
 
 repositories {
     mavenCentral()
-    maven("https://repo.spongepowered.org/maven/")
     maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
@@ -71,9 +80,6 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     shadowImpl(kotlin("stdlib-jdk8"))
-
-    shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") { isTransitive = false }
-    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
 
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
 }
@@ -101,7 +107,6 @@ tasks.processResources {
     filesMatching(listOf("mcmod.info", "mixins.$modid.json")) {
         expand(inputs.properties)
     }
-
 }
 
 

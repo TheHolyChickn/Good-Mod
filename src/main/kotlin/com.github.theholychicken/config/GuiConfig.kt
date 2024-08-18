@@ -1,42 +1,46 @@
 package com.github.theholychicken.config
 
-import com.github.theholychicken.GoodMod
-import com.google.gson.Gson
+import com.github.theholychicken.GoodMod.Companion.mc
 import com.google.gson.GsonBuilder
-import java.io.*
+import com.google.gson.reflect.TypeToken
+import java.io.File
 
 object GuiConfig {
-    private val GSON_INSTANCE: Gson = GsonBuilder().setPrettyPrinting().create()
-    private val CONFIG_FILE = File("com.github.theholychicken/config/goodmod.json")
+    private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private var goodModInstance: GoodMod? = null
+    var commandNames = mutableMapOf<String, String>()
 
-    fun loadGuiConfig() {
-        if (CONFIG_FILE.exists()) {
-            try {
-                FileReader(CONFIG_FILE).use { reader ->
-                    goodModInstance = GSON_INSTANCE.fromJson(
-                        reader,
-                        GoodMod::class.java
-                    )
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        } else {
-            goodModInstance = GoodMod()
-            saveGuiConfig()
+    private val configFile = File(mc.mcDataDir, "config/goodmod/goodmod.json").apply {
+        try {
+            createNewFile()
+        } catch (e: Exception) {
+            println("Error initializing personal bests config")
         }
-        GoodMod.logger.info("Gui Config loaded")
     }
 
-    fun saveGuiConfig() {
+    fun loadConfig() {
         try {
-            FileWriter(CONFIG_FILE).use { writer ->
-                GSON_INSTANCE.toJson(goodModInstance, writer)
+            with(configFile.bufferedReader().use { it.readText() }) {
+                if (this == "") return
+
+                commandNames = gson.fromJson(
+                    this,
+                    object : TypeToken<MutableMap<String, String>>() {}.type
+                )
+                println("Successfully loaded pb config $commandNames")
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
+        }  catch (e: Exception) {
+            println(e.message)
+        }
+    }
+
+    fun saveConfig() {
+        try {
+            configFile.bufferedWriter().use {
+                it.write(gson.toJson(commandNames))
+            }
+        } catch (_: Exception) {
+
         }
     }
 }

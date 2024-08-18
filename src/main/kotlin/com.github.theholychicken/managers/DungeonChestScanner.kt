@@ -1,19 +1,17 @@
 package com.github.theholychicken.managers
 
 import com.github.theholychicken.GoodMod
+import com.github.theholychicken.GoodMod.Companion.mc
 import com.github.theholychicken.managers.ChestLootParser.dumpCollectedItems
 import com.github.theholychicken.utils.modMessage
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
-import net.minecraft.inventory.Slot
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 import org.lwjgl.input.Mouse
-import java.util.regex.Pattern
 
 object DungeonChestScanner {
     private var isScanning: Boolean = false
@@ -53,25 +51,27 @@ object DungeonChestScanner {
         if (event.phase != TickEvent.Phase.END || !isScanning || chestContainer == null) return
         GoodMod.logger.info("[onClientTick] Scanning protocol active - awaiting fully loaded dungeon chest")
 
-        val currentScreen = Minecraft.getMinecraft().currentScreen
+        val currentScreen = mc.currentScreen
         if (currentScreen !is GuiChest) {
             stopScanning()
             GoodMod.logger.info("[onClientTick] Chest closed, terminating scanning protocol")
             isChestGuiOpen = false
             return
-        } else chestContainer = currentScreen.inventorySlots as ContainerChest
+        } else chestContainer = currentScreen.inventorySlots as? ContainerChest ?: return
 
 
-        val inventorySize = chestContainer!!.lowerChestInventory.sizeInventory
+        val inventorySize = chestContainer?.lowerChestInventory?.sizeInventory ?: return
         val bottomRightSlotIndex = inventorySize - 1
-        val bottomRightStack = chestContainer!!.lowerChestInventory.getStackInSlot(bottomRightSlotIndex)
+        val bottomRightStack = chestContainer?.lowerChestInventory?.getStackInSlot(bottomRightSlotIndex)
 
         if (bottomRightStack != null) {
             GoodMod.logger.info("[onClientTick] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated")
             isScanning = false
             scanAttempts = 0
 
-            chestLootParser.parseChestLoot(chestContainer!!)
+            chestContainer?.let {
+                chestLootParser.parseChestLoot(it)
+            }
 
             chestContainer = null
             return
