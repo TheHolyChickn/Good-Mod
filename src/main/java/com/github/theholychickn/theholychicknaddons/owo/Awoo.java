@@ -18,32 +18,33 @@ public class Awoo {
     private static final Map<String, String> awooo = new LinkedHashMap<>();
     // dumping items to watch
     static {
-        awooo.put("§5Necron's Handle§r$", "§r§5Necron's Handles§r: ");
-        awooo.put("§5Implosion§r$", "§r§5Implosions§r: ");
-        awooo.put("§5Shadow Warp§r$", "§r§5Shadow Warps§r: ");
-        awooo.put("§5Wither Shield§r$", "§r§5Wither Shields§r: ");
-        awooo.put("§6Dark Claymore§r$", "§r§6Dark Claymores§r: ");
-        awooo.put("§6Giant's Sword§r$", "§r§6Giant's Swords§r: ");
-        awooo.put("§5First Master Star§r$", "§r§5First Stars§r: ");
-        awooo.put("§5Second Master Star§r$", "§r§5Second Stars§r: ");
-        awooo.put("§5Third Master Star§r$", "§r§5Third Stars§r: ");
-        awooo.put("§5Fourth Master Star§r$", "§r§5Fourth Stars§r: ");
-        awooo.put("§5Fifth Master Star§r$", "§r§5Fifth Stars§r: ");
-        awooo.put("§9Master Skull - Tier 5§r$", "§r§9T5 Skulls§r: ");
-        awooo.put("§aMaster Skull - Tier 4§r$", "§r§aT4 Skulls§r: ");
-        awooo.put("§aMaster Skull - Tier 3§r$", "§r§aT3 Skulls§r: ");
-        awooo.put("§aMaster Skull - Tier 2§r$", "§r§aT2 Skulls§r: ");
-        awooo.put("§aMaster Skull - Tier 1§r$", "§r§aT1 Skulls§r: ");
-        awooo.put("§6Recombobulator 3000§r$", "§r§6Recombs§r: ");
-        awooo.put("§6Wither Helmet§r$", "§r§6Wither Helmets§r: ");
-        awooo.put("§6Wither Chestplate§r$", "§r§6Wither Chestplates§r: ");
-        awooo.put("§6Wither Leggings§r$", "§r§6Wither Leggings§r: ");
-        awooo.put("§6Wither Boots§r$", "§r§6Wither Boots§r: ");
-        awooo.put("§6Auto Recombobulator§r$", "§r§6Auto Recombs§r: ");
-        awooo.put("§5Wither Blood§r$", "§r§5Wither Bloods§r: ");
-        awooo.put("§5Precursor Gear§r$", "§r§5Precursor Gears§r: ");
-        //awooo.put("Wither Essence", "Wither Essence: ");
-        //awooo.put("Undead Essence", "Undead Essence");
+        awooo.put("§5Necron's Handle", "§r§5Necron's Handles§r: ");
+        awooo.put("§5Implosion", "§r§5Implosions§r: ");
+        awooo.put("§5Shadow Warp", "§r§5Shadow Warps§r: ");
+        awooo.put("§5Wither Shield", "§r§5Wither Shields§r: ");
+        awooo.put("§6Dark Claymore", "§r§6Dark Claymores§r: ");
+        awooo.put("§6Giant's Sword", "§r§6Giant's Swords§r: ");
+        awooo.put("§5First Master Star", "§r§5First Stars§r: ");
+        awooo.put("§5Second Master Star", "§r§5Second Stars§r: ");
+        awooo.put("§5Third Master Star", "§r§5Third Stars§r: ");
+        awooo.put("§5Fourth Master Star", "§r§5Fourth Stars§r: ");
+        awooo.put("§5Fifth Master Star", "§r§5Fifth Stars§r: ");
+        awooo.put("§9Master Skull - Tier 5", "§r§9T5 Skulls§r: ");
+        awooo.put("§aMaster Skull - Tier 4", "§r§aT4 Skulls§r: ");
+        awooo.put("§aMaster Skull - Tier 3", "§r§aT3 Skulls§r: ");
+        awooo.put("§aMaster Skull - Tier 2", "§r§aT2 Skulls§r: ");
+        awooo.put("§aMaster Skull - Tier 1", "§r§aT1 Skulls§r: ");
+        awooo.put("§6Recombobulator 3000", "§r§6Recombs§r: ");
+        awooo.put("§6Wither Helmet", "§r§6Wither Helmets§r: ");
+        awooo.put("§6Wither Chestplate", "§r§6Wither Chestplates§r: ");
+        awooo.put("§6Wither Leggings", "§r§6Wither Leggings§r: ");
+        awooo.put("§6Wither Boots", "§r§6Wither Boots§r: ");
+        awooo.put("§6Auto Recombobulator", "§r§6Auto Recombs§r: ");
+        awooo.put("§5Wither Blood", "§r§5Wither Bloods§r: ");
+        awooo.put("§5Precursor Gear", "§r§5Precursor Gears§r: ");
+        awooo.put("§5Fuming Potato Book", "§r§5Fumings§5: ");
+        awooo.put("Wither Essence", "§dWither Essence§r: §8");
+        awooo.put("Undead Essence", "§dUndead Essence§r: §8");
     }
 
 
