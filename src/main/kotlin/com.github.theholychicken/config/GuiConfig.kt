@@ -12,20 +12,11 @@ object GuiConfig {
 
     // .apply{} defines config file initiation protocol
     private val configFile = File(mc.mcDataDir, "config/goodmod/goodmod.json").apply {
-        if (!exists()) {
-            try {
-                // Create file
-                parentFile.mkdirs()
-                createNewFile()
-
-                // Load with defaults
-                commandNames["goodmod"] = "goodmod"
-                commandNames["getItems"] = "getItems"
-                commandNames["reloadLoot"] = "goodmod:dev_commands:furry"
-                saveConfig()
-            } catch (e: Exception) {
-                println("Error initializing personal bests config")
-            }
+        try {
+            parentFile.mkdirs()
+            createNewFile()
+        } catch (e: Exception) {
+            println("Error initializing personal bests config")
         }
     }
 
@@ -49,10 +40,18 @@ object GuiConfig {
         try {
             configFile.bufferedWriter().use {
                 it.write(gson.toJson(commandNames))
+                println("Successfully saved config")
             }
-        } catch (_: Exception) {
-
+        } catch (e: Exception) {
+            println(e.message)
         }
+    }
+
+    fun initConfig() {
+        commandNames["goodmod"] = "goodmod"
+        commandNames["getItems"] = "getItems"
+        commandNames["reloadLoot"] = "goodmod:dev_commands:furry"
+        saveConfig()
     }
 
 }
