@@ -50,16 +50,56 @@ If you would like to compile from source, I have included instructions at the bo
 <h2><font color=#00FF99>Usage</font></h2>
 
 <p>
-good mod is a mod for Hypixel SkyBlock, which provides two features that I was tired of waiting for <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a> to have, so I made them myself. The configuration menu is accessible by running <code>/nicepb</code>. Incase of commands conflicting with other mods, any good mod command with default <code>{command_name}</code> can also be run via the alias <code>/goodmod:{command_name}</code>. For example, if another mod has <code>/nicepb</code> already set, you can open the configuration menu with <code>/goodmod:nicepb</code>.
+good mod is a mod for Hypixel SkyBlock, which provides two features that I was tired of waiting for <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a> to have, so I made them myself. The good mod configuration menu is accessible by running <code>/nicepb</code>. Incase of commands conflicting with other mods, any good mod command with default <code>{command_name}</code> can also be run via the alias <code>/goodmod:{command_name}</code>. For example, if another mod has <code>/nicepb</code> already set, you can open the configuration menu with <code>/goodmod:nicepb</code>.
 </p>
 <p>
 Every command is configurable. This means if you don't like the command for the config menu being <code>/nicepb</code>, you can change it directly in the config menu. You cannot change the alias <code>/goodmod:{command_name}</code>, you can only change the command name itself. If at any time you forget the command names you've set, run <code>/goodmod:commands</code> to return a list of commands you can call. You can also manually edit the commands in the configuration file.
 </p>
-<p>
+
 In the config menu, you will see three things: two input bars, and a bar called "stuff display".
-</p>
 
 ![alt text](https://github.com/TheHolyChickn/Good-Mod/blob/readme-assets/2024-08-18_01.53.30.png?raw=true)
+
+The top input bar is where you can change the command alias for the <tt>/nicepb</tt> command. The bottom input bar is where you change the alias for the <tt>/owo</tt> command, who's functionality I will explain in a second. There are no other commands.
+
+Clicking the "stuff display" button will display all of your dungeon drops in a "neat" display (i will improve it in the future dw).
+
+![alt text](https://github.com/TheHolyChickn/Good-Mod/blob/readme-assets/2024-08-18_01.55.18.png)
+
+If you want a chat readout of this, use the <tt>/owo</tt> command.
+
+<h2>Known Bugs</h2>
+<p>If you see a bug, report it, and I'll add it here until I fix it!</p>
+
+- The "stuff display" GUI: This display will likely break or have items cropped out if you do not play in fullscreen, or if you play in a resolution below 1080p. Additionally, you might find the display too small on some large monitors. Automatic scaling will be implemented in the future.
+- in the configuration menu, the blinking cursor will never go away on the top bar. While this does not affect functionality, it's very weird to have both cursors blinking. I have no idea how to fix this but I'll probably figure it out
+
+<h2>Future Plans</h2>
+
+I plan to do the following:
+
+- Fix bugs
+- Clean up the stuff display and make it look nicer
+- Implement toggleable options for the stuff display: either the current display, or display drops on each floor (like split up the recombs you drop per floor)
+  - this will require making a new configuration file, so I will move both the drops.json and goodmod.json to their own folder in the config file when I do this, and will make sure to copy the drops.json file contents over if they exist. On the version I release this functionality, the copying mechanism will be run every startup, but in the following version this will be deprecated, and you will need to run a command ingame to copy it over.
+- Clean up the config files by shoving them into their own subdirectory of the config directory
+- finish the readme
+- implement an option to export dungeon drops to a nicely formatted image file you can share with your friends to flex
+- customizability of what items are sent on /owo
+- a toggleable gui element which tracks a list of items you can customize
+- tracking kismets per floor
+- Croesus chest highlights/profit calc based on lowest bin. I know this exist but all the mods suck, and mine will also tell you whether to use a dungeon key/reroll or not
+  - this feature will allow you to choose to use the Public API, which after I set it up, will update Bin/Bazaar prices of all dungeon items once per minute, or you can opt to use your own Developer API Key, which will default to updating once per 10 seconds, but you can customize the delay if you choose this option
+
+<h2>Contributing</h2>
+
+See the section on compiling from source for detailed instructions on how to compile the mod yourself.
+
+If you want to contribute, feel free to make a pull request with your changes. However, I would like to warn you that my file structure and every single class/variable name has been intentionally screwed. So good luck actually contributing, because you might not have the easiest time figuring out what the "stopOWOing" function does, or the "Fuwwy" class, etc.
+
+If anyone out there is insane enough to fix all of the variable names and file structure, I will keep the changes and credit you in the top section. Consider this a challenge, I guess.
+
+Also even the parts of my code that weren't intentionally screwed up are probably still bad, because I'm not a developer, I'm a random math & physics nerd who plays skyblock and I unironically used ChatGPT a lot to help me get started or for debugging. So improvements to the code would definitely be appreciated because I honestly don't know how.
 
 <h2>Compiling from Source</h2>
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
