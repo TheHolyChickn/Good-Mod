@@ -41,7 +41,8 @@ public class GoodMod {
         ClientCommandHandler.instance.registerCommand(new OwO());
         ClientCommandHandler.instance.registerCommand(new WoofWoof());
         ClientCommandHandler.instance.registerCommand(new Cute());
-        ClientCommandHandler.instance.registerCommand(new Furry());
+        // Uncomment to access developer command - reloads AwA config when run
+        //ClientCommandHandler.instance.registerCommand(new Furry());
     }
 
     // Bonsai witchcraft

@@ -18,6 +18,7 @@ import java.io.IOException;
 public class Woof extends GuiScreen {
 
     private GuiTextField mwahh;
+    private GuiTextField meowh;
 
     @Override
     public void initGui() {
@@ -31,6 +32,11 @@ public class Woof extends GuiScreen {
         this.mwahh.setFocused(true);
         this.mwahh.setEnableBackgroundDrawing(true);
         this.mwahh.setText(Meower.meow.owoCommand);
+        this.meowh = new GuiTextField(2, this.fontRendererObj, (this.width / 2) - 100, (this.height / 2) - 76, 200, 20);
+        this.meowh.setMaxStringLength(100);
+        this.meowh.setFocused(true);
+        this.meowh.setEnableBackgroundDrawing(true);
+        this.meowh.setText(Meower.meow.nicepbCommand);
 
     }
 
@@ -38,6 +44,7 @@ public class Woof extends GuiScreen {
     public void updateScreen() {
         super.updateScreen();
         this.mwahh.updateCursorCounter();
+        this.meowh.updateCursorCounter();
     }
 
     @Override
@@ -52,7 +59,11 @@ public class Woof extends GuiScreen {
         drawCenteredString(this.fontRendererObj, "good mod config", this.width / 2, this.height / 2 - 100, 0x00FFFF);
 
         // Draws owoCommand input field
+        drawCenteredString(this.fontRendererObj, "set /nicepb alias", this.width / 2 + 150, this.height / 2 - 70, 0x00FFFF);
         this.mwahh.drawTextBox();
+
+        drawCenteredString(this.fontRendererObj, "set /owo alias", this.width / 2 + 150, this.height / 2 - 45, 0x00FFFF);
+        this.meowh.drawTextBox();
 
         // Draws buttons
         for (GuiButton button : this.buttonList) {
@@ -64,12 +75,23 @@ public class Woof extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) {
         if (this.mwahh.textboxKeyTyped(typedChar, keyCode)) {
         }
+        else if (this.meowh.textboxKeyTyped(typedChar, keyCode)) {
+        }
         else if (keyCode == Keyboard.KEY_RETURN) {
+            if (this.mwahh.isFocused()) {
                 Meower.meow.owoCommand = this.mwahh.getText();
                 Meower.saveMeow();
                 Meower.loadMeow();
                 this.mc.displayGuiScreen(null);
-            Yapping.chat("Setting commandOwo to " + this.mwahh.getText());
+                Yapping.chat("Set /owo to " + this.mwahh.getText() + "! §r§2§lRestart game for changes to take effect.");
+            }
+            else if (this.meowh.isFocused()) {
+                Meower.meow.nicepbCommand = this.meowh.getText();
+                Meower.saveMeow();
+                Meower.loadMeow();
+                this.mc.displayGuiScreen(null);
+                Yapping.chat("Set /nicepb to " + this.meowh.getText() + "! §r§2§lRestart game for changes to take effect.");
+            }
         }
         else if (keyCode == Keyboard.KEY_ESCAPE) {
             this.mc.displayGuiScreen(null);
@@ -88,6 +110,6 @@ public class Woof extends GuiScreen {
     }
 
     private String getButtonLabel() {
-        return "uwu display";
+        return "stuff display";
     }
 }
