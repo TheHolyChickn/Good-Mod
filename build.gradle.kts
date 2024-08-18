@@ -41,11 +41,6 @@ loom {
     forge {
         pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
     }
-    // If you don't want mixins, remove these lines
-    @Suppress("UnstableApiUsage")
-    mixin {
-        defaultRefmapName.set("mixins.$modid.refmap.json")
-    }
 }
 
 tasks.compileJava {
@@ -94,10 +89,6 @@ tasks.withType(org.gradle.jvm.tasks.Jar::class) {
     manifest.attributes.run {
         this["FMLCorePluginContainsFMLMod"] = "true"
         this["ForceLoadAsMod"] = "true"
-
-        // If you don't want mixins, remove these lines
-        this["TweakClass"] = "org.spongepowered.asm.launch.MixinTweaker"
-        this["MixinConfigs"] = "mixins.$modid.json"
     }
 }
 
