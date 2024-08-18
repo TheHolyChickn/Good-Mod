@@ -57,8 +57,9 @@ Every command is configurable. This means if you don't like the command for the 
 </p>
 <p>
 In the config menu, you will see three things: two input bars, and a bar called "stuff display".
-
 </p>
+
+![alt text](https://github.com/TheHolyChickn/Good-Mod/blob/readme-assets/2024-08-18_01.53.30.png?raw=true)
 
 <h2>Compiling from Source</h2>
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
