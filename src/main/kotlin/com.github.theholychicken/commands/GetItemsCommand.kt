@@ -19,7 +19,7 @@ class GetItemsCommand : CommandBase() {
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
         GoodMod.logger.info("Printing items to chat.")
         ItemDropParser.itemDropPatterns.forEach { (item, _) ->
-            modMessage("$item - ${ItemDropParser.dropsConfig.getItemCount(item)}", false)
+            modMessage("$item §r- §b${ItemDropParser.dropsConfig.getItemCount(item)}", false)
         }
     }
 
