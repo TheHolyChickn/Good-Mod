@@ -50,8 +50,6 @@ public class Fuwwy {
             chest_gui = true;
         }
 
-        Yapping.log(owoName + " detected");
-
         the_owo = owoContainer;
         is_owoing = true;
         many_owos = 0;
@@ -84,12 +82,9 @@ public class Fuwwy {
             Yapping.log("[searchOWOs] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated");
             is_owoing = false;
             many_owos = 0;
-            Yapping.chat("§r§eInstance of DUNGEON_CHEST fully loaded. Scanning protocol terminated. Dungeon chest loaded: " + the_owo.getLowerChestInventory().getName());
 
             // Store items
             femboy.owo(the_owo);
-
-            Yapping.chat("§r§2Items logged!");
 
             // End protocol (chest gui will remain open)
             the_owo = null;
@@ -125,10 +120,9 @@ public class Fuwwy {
             //
         }
         if (clickedSlot != null && Mouse.getEventButtonState() && clickedSlot.slotNumber == 31) {
-            Yapping.chat("§r§c§lDungeon chest claimed! §r§bParsing data now");
             Femboy.dumpOWO();
-            Yapping.chat("§r§aData parsed!");
             chest_gui = false;
+            Yapping.log("Dungeon loot saved");
         }
     }
 

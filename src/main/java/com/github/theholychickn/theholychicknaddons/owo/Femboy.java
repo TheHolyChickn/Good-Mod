@@ -33,7 +33,6 @@ public class Femboy {
             ItemStack owoed = the_owo.getLowerChestInventory().getStackInSlot(i);
             if (!angy.matcher(owoed.toString()).matches()) {
                 // is a dungeon drop
-                Yapping.log("Registered slot " + i + " (" + owoed.toString() + ") as dungeon loot");
 
                 // Retrieve NBT Data
                 NBTTagCompound tagCompound = owoed.getTagCompound();
@@ -45,14 +44,12 @@ public class Femboy {
                     byte STRING_NBT_TAG = new NBTTagString().getId();
                     String bookName = tagCompound.getCompoundTag("display").getTagList("Lore", STRING_NBT_TAG).getStringTagAt(0);
                     many_owos.add(bookName);
-                    Yapping.chat("Registered instance of ENCHANTED_BOOK: " + bookName);
                 }
                 else if(wither_ess.matcher(displayName).matches()) {
                     // Check if item is instance of WITHER_ESSENCE
                     Matcher matcher = ess_count.matcher(displayName);
                     if (matcher.find()) {
                         essence_owos.put("Wither Essence", Integer.valueOf(matcher.group(1)));
-                        Yapping.chat("Registered instance of WITHER_ESSENCE, count: " + matcher.group(1));
                     }
                 }
                 else if(undead_ess.matcher(displayName).matches()) {
@@ -60,13 +57,11 @@ public class Femboy {
                     Matcher matcher = ess_count.matcher(displayName);
                     if (matcher.find()) {
                         essence_owos.put("Undead Essence", Integer.valueOf(matcher.group(1)));
-                        Yapping.chat("Registered instance of UNDEAD_ESSENCE, count: " + matcher.group(1));
                     }
                 }
                 else {
                     // Item is instance of DUNGEON_ITEM
                     many_owos.add(displayName);
-                    Yapping.chat("Registered instance of DUNGEON_ITEM: " + displayName);
                 }
             }
         }
@@ -86,7 +81,6 @@ public class Femboy {
         for (String itemName : many_owos) {
             for (Map.Entry<String, String> thingy : Awoo.getAwooo().entrySet()) {
                 if (thingy.getKey().equals(itemName)) {
-                    Yapping.chat("Detected drop matches Awoo LinkedHashMap: " + thingy.getKey());
                     Awoo.getAwA().addItem(thingy.getValue());
                     break;
                 }
@@ -94,11 +88,9 @@ public class Femboy {
         }
         for (Map.Entry<String, Integer> thingy : essence_owos.entrySet()) {
             if (thingy.getKey().equals("Wither Essence")) {
-                Yapping.chat("Parsing Wither Essence");
                 Awoo.getAwA().addMany("§dWither Essence§r: §8", thingy.getValue());
             }
             else if (thingy.getKey().equals("Undead Essence")) {
-                Yapping.chat("Parsing Undead Essence");
                 Awoo.getAwA().addMany("§dUndead Essence§r: §8", thingy.getValue());
             }
         }
