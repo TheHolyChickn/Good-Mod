@@ -19,7 +19,7 @@ class ReloadCommand : CommandBase() {
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
         GoodMod.logger.info("Reloading dungeon drops")
         ItemDropParser.reloadConfig()
-        modMessage("Dungeon drops successfully reloaded", false)
+        modMessage("§3Dungeon drops successfully reloaded")
     }
 
     override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {

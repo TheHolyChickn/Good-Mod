@@ -12,9 +12,9 @@ class HelpCommand : CommandBase() {
     @Throws(CommandException::class)
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
         GoodMod.logger.info("Printing command aliases to chat.")
-        modMessage("Current command aliases:", false)
-        modMessage("nicepb: " + GoodMod.openGUICommandName, false)
-        modMessage("owo: " + GoodMod.getItemsCommandName, false)
+        modMessage("§2Current command aliases:", false)
+        modMessage("§3Open Configuration Menu: /" + GoodMod.openGUICommandName, false)
+        modMessage("§3List Dungeon Drops: /" + GoodMod.getItemsCommandName, false)
     }
 
     override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
