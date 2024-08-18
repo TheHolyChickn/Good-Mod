@@ -2,7 +2,6 @@ package com.github.theholychicken.gui
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.managers.ItemDropParser
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import org.lwjgl.input.Keyboard
 import java.io.IOException

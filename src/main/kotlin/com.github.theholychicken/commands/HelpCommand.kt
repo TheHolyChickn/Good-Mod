@@ -2,9 +2,7 @@ package com.github.theholychicken.commands
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.utils.modMessage
-import net.minecraft.command.CommandBase
-import net.minecraft.command.CommandException
-import net.minecraft.command.ICommandSender
+import net.minecraft.command.*
 
 class HelpCommand : CommandBase() {
     override fun getCommandName(): String { return "goodmod:commands" }

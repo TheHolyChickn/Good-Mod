@@ -2,8 +2,8 @@ package com.github.theholychicken
 
 import com.github.theholychicken.commands.*
 import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.managers.ItemDropParser
 import com.github.theholychicken.managers.DungeonChestScanner
+import com.github.theholychicken.managers.ItemDropParser
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.ClientCommandHandler

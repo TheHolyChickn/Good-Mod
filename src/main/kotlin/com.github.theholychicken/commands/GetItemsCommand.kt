@@ -4,8 +4,6 @@ import com.github.theholychicken.GoodMod
 import com.github.theholychicken.managers.ItemDropParser
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.command.*
-import net.minecraft.util.ChatComponentText
-import net.minecraft.util.IChatComponent
 
 
 class GetItemsCommand : CommandBase() {
