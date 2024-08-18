@@ -26,12 +26,12 @@ class ConfigGUI : GuiScreen() {
         getItemsNameField?.maxStringLength = 100
         getItemsNameField?.isFocused = true
         getItemsNameField?.enableBackgroundDrawing = true
-        getItemsNameField?.text = GoodMod.getItemsCommandName
+        getItemsNameField?.text = GuiConfig.commandNames["getItems"]
         this.openGuiNameField = GuiTextField(2, this.fontRendererObj, (this.width / 2) - 100, (this.height / 2) - 76, 200, 20)
         openGuiNameField?.maxStringLength = 100
         openGuiNameField?.isFocused = true
         openGuiNameField?.enableBackgroundDrawing = true
-        openGuiNameField?.text = GoodMod.openGUICommandName
+        openGuiNameField?.text = GuiConfig.commandNames["goodmod"]
     }
 
     override fun updateScreen() {
@@ -68,19 +68,23 @@ class ConfigGUI : GuiScreen() {
     }
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
+        if (this.getItemsNameField?.textboxKeyTyped(typedChar, keyCode) == true) {
+        }
+        else if (this.openGuiNameField?.textboxKeyTyped(typedChar, keyCode) == true) {
+        }
         if (keyCode == Keyboard.KEY_RETURN) {
             if (getItemsNameField?.isFocused == true) {
-                GoodMod.getItemsCommandName = getItemsNameField!!.text
+                GuiConfig.commandNames["getItems"] = getItemsNameField!!.text
                 GuiConfig.saveConfig()
                 GuiConfig.loadConfig()
                 mc.displayGuiScreen(null)
-                modMessage("Set /owo to " + getItemsNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
+                modMessage("Set /getItems to /" + getItemsNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
             } else if (openGuiNameField?.isFocused == true) {
-                GoodMod.openGUICommandName = openGuiNameField!!.text
+                GuiConfig.commandNames["goodmod"] = openGuiNameField!!.text
                 GuiConfig.saveConfig()
                 GuiConfig.loadConfig()
                 mc.displayGuiScreen(null)
-                modMessage("Set /nicepb to " + openGuiNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
+                modMessage("Set /goodmod to /" + openGuiNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
             }
         } else if (keyCode == Keyboard.KEY_ESCAPE) mc.displayGuiScreen(null)
     }

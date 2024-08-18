@@ -1,13 +1,14 @@
 package com.github.theholychicken.commands
 
 import com.github.theholychicken.GoodMod
+import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.gui.ConfigGUI
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 
 class OpenGuiCommand : CommandBase() {
     override fun getCommandName(): String {
-        return GoodMod.openGUICommandName
+        return GuiConfig.commandNames["goodmod"] ?: "goodmod"
     }
 
     override fun getCommandUsage(sender: ICommandSender): String {

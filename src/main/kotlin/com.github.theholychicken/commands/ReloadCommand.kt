@@ -1,6 +1,7 @@
 package com.github.theholychicken.commands
 
 import com.github.theholychicken.GoodMod
+import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.managers.ItemDropParser
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.command.CommandBase
@@ -9,7 +10,7 @@ import net.minecraft.command.ICommandSender
 class ReloadCommand : CommandBase() {
 
     override fun getCommandName(): String {
-        return GoodMod.reloadCommandName
+        return GuiConfig.commandNames["reloadLoot"] ?: "goodmod:dev_commands:furry"
     }
 
     override fun getCommandUsage(sender: ICommandSender): String {

@@ -5,6 +5,7 @@ import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.managers.DungeonChestScanner
 import com.github.theholychicken.managers.ItemDropParser
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
@@ -58,9 +59,6 @@ class GoodMod {
         val mc: Minecraft = Minecraft.getMinecraft()
         val logger: Logger = LogManager.getLogger("goodmod")
 
-        var showUwU: Boolean = true
-        var getItemsCommandName: String = "getItems"
-        var openGUICommandName: String = "goodmod"
-        var reloadCommandName: String = "goodmod:dev_commands:furry"
+        var showUwU: Boolean = false
     }
 }
