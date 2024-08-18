@@ -29,12 +29,18 @@ class GoodMod {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent?) {
         // Event subscriptions
-        MinecraftForge.EVENT_BUS.register(this)
-        MinecraftForge.EVENT_BUS.register(DungeonChestScanner)
+        listOf(
+            this,
+            DungeonChestScanner
+        ).forEach { MinecraftForge.EVENT_BUS.register(it) }
+
         // Commands
-        ClientCommandHandler.instance.registerCommand(OpenGuiCommand())
-        ClientCommandHandler.instance.registerCommand(GetItemsCommand())
-        ClientCommandHandler.instance.registerCommand(HelpCommand())
+        listOf(
+            OpenGuiCommand(),
+            GetItemsCommand(),
+            HelpCommand()
+        ).forEach { ClientCommandHandler.instance.registerCommand(it) }
+
         // Uncomment to access developer command - reloads AwA config when run
         //ClientCommandHandler.instance.registerCommand(ReloadCommand());
     }

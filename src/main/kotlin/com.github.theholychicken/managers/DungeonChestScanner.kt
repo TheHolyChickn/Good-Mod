@@ -25,22 +25,21 @@ object DungeonChestScanner {
     // Check for instance of DUNGEON_CHEST
     @SubscribeEvent
     fun onGuiOpen(event: GuiOpenEvent) {
-        val gui = event.gui
-        if (isChestGuiOpen && gui !is GuiChest) {
+        val gui = event.gui as? GuiChest ?: return
+
+        if (isChestGuiOpen) {
             isChestGuiOpen = false
             return
         }
-        if (gui !is GuiChest) return
 
-        val container = gui.inventorySlots as ContainerChest
+        val container = gui.inventorySlots as? ContainerChest ?: return
         val chestName = container.lowerChestInventory.name
 
-        if (!CHEST_PATTERN.matcher(chestName).matches()) {
+        if (!CHEST_PATTERN.matches(chestName)) {
             isChestGuiOpen = false
             return
-        } else {
-            isChestGuiOpen = true
-        }
+        } else isChestGuiOpen = true
+
 
         chestContainer = container
         isScanning = true
@@ -60,24 +59,20 @@ object DungeonChestScanner {
             GoodMod.logger.info("[onClientTick] Chest closed, terminating scanning protocol")
             isChestGuiOpen = false
             return
-        } else {
-            chestContainer = currentScreen.inventorySlots as ContainerChest
-        }
+        } else chestContainer = currentScreen.inventorySlots as ContainerChest
+
 
         val inventorySize = chestContainer!!.lowerChestInventory.sizeInventory
         val bottomRightSlotIndex = inventorySize - 1
         val bottomRightStack = chestContainer!!.lowerChestInventory.getStackInSlot(bottomRightSlotIndex)
 
         if (bottomRightStack != null) {
-            // Chest has loaded
             GoodMod.logger.info("[onClientTick] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated")
             isScanning = false
             scanAttempts = 0
 
-            // Store items
             chestLootParser.parseChestLoot(chestContainer!!)
 
-            // End protocol (chest GUI will remain open)
             chestContainer = null
             return
         }
@@ -94,28 +89,16 @@ object DungeonChestScanner {
     // Store loot on chest close
     @SubscribeEvent
     fun onSlotClick(event: GuiScreenEvent.MouseInputEvent) {
-        // Check if items have already been saved
-        if (!isChestGuiOpen) return
-        // Check if instance of DUNGEON_CHEST
-        if (event.gui !is GuiChest) return
-        if (Mouse.getEventButton() == -1) return
+        if (!isChestGuiOpen || event.gui !is GuiChest || Mouse.getEventButton() == -1) return
 
-        val currentScreen = event.gui
-        val containerChest = (currentScreen as GuiChest).inventorySlots as ContainerChest
-        if (!CHEST_PATTERN.matcher(containerChest.lowerChestInventory.name).matches()) return
+        val currentScreen = event.gui as? GuiChest ?: return
+        val containerChest = currentScreen.inventorySlots as? ContainerChest ?: return
+        if (!CHEST_PATTERN.matches(containerChest.lowerChestInventory.name)) return
 
-        // Safeguard against null pointer issues
-        var clickedSlot: Slot? = null
-        try {
-            clickedSlot = currentScreen.slotUnderMouse
-        } catch (e: Exception) {
-            // Handle exception
-        }
-        if (clickedSlot != null && Mouse.getEventButtonState() && clickedSlot.slotNumber == 31) {
-            dumpCollectedItems()
-            isChestGuiOpen = false
-            GoodMod.logger.info("Dungeon loot saved")
-        }
+        if (currentScreen.slotUnderMouse == null || !Mouse.getEventButtonState() || currentScreen.slotUnderMouse?.slotNumber != 31) return
+        dumpCollectedItems()
+        isChestGuiOpen = false
+        GoodMod.logger.info("Dungeon loot saved")
     }
 
     private fun stopScanning() {
@@ -124,5 +107,5 @@ object DungeonChestScanner {
         scanAttempts = 0
     }
 
-    private val CHEST_PATTERN: Pattern = Pattern.compile("(Wood|Gold|Diamond|Emerald|Obsidian|Bedrock) Chest")
+    private val CHEST_PATTERN: Regex = Regex("(Wood|Gold|Diamond|Emerald|Obsidian|Bedrock) Chest")
 }
