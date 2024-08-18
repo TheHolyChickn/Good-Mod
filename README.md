@@ -55,6 +55,10 @@ good mod is a mod for Hypixel SkyBlock, which provides two features that I was t
 <p>
 Every command is configurable. This means if you don't like the command for the config menu being <code>/nicepb</code>, you can change it directly in the config menu. You cannot change the alias <code>/goodmod:{command_name}</code>, you can only change the command name itself. If at any time you forget the command names you've set, run <code>/goodmod:commands</code> to return a list of commands you can call. You can also manually edit the commands in the configuration file.
 </p>
+<p>
+In the config menu, you will see three things: two input bars, and a bar called "stuff display".
+
+</p>
 
 <h2>Compiling from Source</h2>
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
@@ -66,7 +70,9 @@ The first step is to make sure we have the correct dependencies. You will need [
 ```
 winget install --id Git.Git -e --source winget
 ```
-<tt>winget</tt> is (from what I understand) a "package manager" for PowerShell. You can think of it as a sort of "app store"; it downloads "packages", which are like apps, but oftentimes they provide additional functionality to a terminal like PowerShell. Here, we're downloading "Git", which allows us to work with various "git repositories", like github pages. 
+<tt>winget</tt> is (from what I understand) a "package manager" for PowerShell. You can think of it as a sort of "app store"; it downloads "packages", which are like apps, but oftentimes they provide additional functionality to a terminal like PowerShell. Here, we're downloading "Git", which allows us to work with various "git repositories", like github pages.
+
+**THIS SECTION IS NOT FINISHED ILL WRITE IT WHEN I WAKE UP OK**
 
 <h3>Linux:</h3>
 
@@ -100,5 +106,4 @@ mv build/libs/goodmod-*.jar ~/.minecraft/mods
 
 <h2>Licensing</h2>
 
-This template is licensed under the Unlicense (license copy present in this repository), or alternatively under [Creative Commons 1.0 Universal (CC0 1.0)](https://creativecommons.org/publicdomain/zero/1.0/), and all contributions and PR to this template are expected to follow this. This means your mod, based on this template can be licensed whatever way you want, and does not need to reference back to this template in any way.
-[Awoo class](./src/main/java/com/github/theholychickn/theholychicknaddons/owo/Awoo.java)
+This mod is licensed under the Unlicense (license copy present in this repository), or alternatively under [Creative Commons 1.0 Universal (CC0 1.0)](https://creativecommons.org/publicdomain/zero/1.0/), and all contributions and PR to this mod are expected to follow this. I decided on this licensing because this is what the template I copied said I am required to use, but honestly idc what u do with the mod as long as u dont put a rat in it and pass it off as legit
