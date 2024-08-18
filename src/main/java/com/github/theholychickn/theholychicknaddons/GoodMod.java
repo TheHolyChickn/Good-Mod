@@ -35,7 +35,6 @@ public class GoodMod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         // Event subscriptions
-        MinecraftForge.EVENT_BUS.register(new Awoo());
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new Fuwwy());
         // Commands

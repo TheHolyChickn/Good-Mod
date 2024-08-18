@@ -42,7 +42,7 @@ public class Awoo {
         awooo.put("§6Auto Recombobulator", "§r§6Auto Recombs§r: ");
         awooo.put("§5Wither Blood", "§r§5Wither Bloods§r: ");
         awooo.put("§5Precursor Gear", "§r§5Precursor Gears§r: ");
-        awooo.put("§5Fuming Potato Book", "§r§5Fumings§5: ");
+        awooo.put("§5Fuming Potato Book", "§r§5Fumings§r: ");
         awooo.put("Wither Essence", "§dWither Essence§r: §8");
         awooo.put("Undead Essence", "§dUndead Essence§r: §8");
     }
