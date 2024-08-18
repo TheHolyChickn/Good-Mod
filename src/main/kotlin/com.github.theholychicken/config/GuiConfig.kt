@@ -25,12 +25,12 @@ object GuiConfig {
             }
         } else {
             goodModInstance = GoodMod()
-            saveMeow()
+            saveGuiConfig()
         }
-        GoodMod.logger.info("Meower loaded")
+        GoodMod.logger.info("Gui Config loaded")
     }
 
-    fun saveMeow() {
+    fun saveGuiConfig() {
         try {
             FileWriter(CONFIG_FILE).use { writer ->
                 GSON_INSTANCE.toJson(goodModInstance, writer)

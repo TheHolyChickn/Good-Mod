@@ -71,13 +71,13 @@ class ConfigGUI : GuiScreen() {
         if (keyCode == Keyboard.KEY_RETURN) {
             if (getItemsNameField!!.isFocused) {
                 GoodMod.getItemsCommandName = getItemsNameField!!.text
-                GuiConfig.saveMeow()
+                GuiConfig.saveGuiConfig()
                 GuiConfig.loadGuiConfig()
                 mc.displayGuiScreen(null)
                 modMessage("Set /owo to " + getItemsNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
             } else if (openGuiNameField!!.isFocused) {
                 GoodMod.openGUICommandName = openGuiNameField!!.text
-                GuiConfig.saveMeow()
+                GuiConfig.saveGuiConfig()
                 GuiConfig.loadGuiConfig()
                 mc.displayGuiScreen(null)
                 modMessage("Set /nicepb to " + openGuiNameField!!.text + "! §r§2§lRestart game for changes to take effect.")
