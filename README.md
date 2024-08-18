@@ -5,7 +5,7 @@ a good mod
 Contributors:
 - [TheHolyChickn (main developer)](https://github.com/TheHolyChickn/)
 - [bonsai (made the STUPID GUI WORK)](https://github.com/freebonsai)
-- [odtheking (helped with random stuff)](https://github.com/odtheking)
+- [odtheking (redid the thing in kotlin with normal names)](https://github.com/odtheking)
 - [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
 - [this tutorial and template odtheking told me to ~~steal~~ look at (u guys rlly thought i could set this all up on my own with no past experience??? lolllll)](https://moddev.nea.moe/)
 - litdab (gave me advice i didnt listen to then gave me more advice
