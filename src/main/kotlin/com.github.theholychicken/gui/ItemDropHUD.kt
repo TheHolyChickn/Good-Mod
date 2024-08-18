@@ -22,6 +22,7 @@ class ItemDropHUD : GuiScreen() {
                 17 -> {
                     mc.fontRendererObj.drawString("------- FLOOR 6 -------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 29 -> {
                     xPos += columnWidth + 10
@@ -29,18 +30,22 @@ class ItemDropHUD : GuiScreen() {
                     yPos = 5
                     mc.fontRendererObj.drawString("------ FLOOR 5 ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 39 -> {
                     mc.fontRendererObj.drawString("------ FLOOR 4 ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 47 -> {
                     mc.fontRendererObj.drawString("------ FLOOR 3 ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 52 -> {
                     mc.fontRendererObj.drawString("------ FLOOR 2 ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 56 -> {
                     xPos += columnWidth + 10
@@ -48,18 +53,22 @@ class ItemDropHUD : GuiScreen() {
                     yPos = 5
                     mc.fontRendererObj.drawString("----- FLOOR 1 -----", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 60 -> {
                     mc.fontRendererObj.drawString("------ STARS ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 65 -> {
                     mc.fontRendererObj.drawString("------ SKULLS -----", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 70 -> {
                     mc.fontRendererObj.drawString("---- ENCHANTS ----", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 80 -> {
                     xPos += columnWidth + 10
@@ -67,14 +76,17 @@ class ItemDropHUD : GuiScreen() {
                     yPos = 5
                     mc.fontRendererObj.drawString("----- ULTIMATES -----", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 105 -> {
                     mc.fontRendererObj.drawString("-- UNIVERSAL DROPS --", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 109 -> {
                     mc.fontRendererObj.drawString("----- ESSENCE ------", xPos, yPos, 0x00FF99)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 else -> {
                     mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
