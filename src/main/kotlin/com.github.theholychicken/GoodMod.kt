@@ -1,12 +1,9 @@
 package com.github.theholychicken
 
-import com.github.theholychicken.commands.HelpCommand
-import com.github.theholychickn.theholychicknaddons.owo.Awoo
-import com.github.theholychickn.theholychicknaddons.owo.Fuwwy
-import com.github.theholychickn.theholychicknaddons.owo.Meower
-import com.github.theholychickn.theholychicknaddons.owo.bwaa.Cute
-import com.github.theholychickn.theholychicknaddons.owo.bwaa.OwO
-import com.github.theholychickn.theholychicknaddons.owo.bwaa.WoofWoof
+import com.github.theholychicken.commands.*
+import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.managers.ItemDropParser
+import com.github.theholychicken.managers.DungeonChestScanner
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.ClientCommandHandler
@@ -25,21 +22,21 @@ class GoodMod {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent?) {
-        Meower.loadMeow()
-        Awoo.init()
+        GuiConfig.loadGuiConfig()
+        ItemDropParser
     }
 
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent?) {
         // Event subscriptions
         MinecraftForge.EVENT_BUS.register(this)
-        MinecraftForge.EVENT_BUS.register(Fuwwy())
+        MinecraftForge.EVENT_BUS.register(DungeonChestScanner)
         // Commands
-        ClientCommandHandler.instance.registerCommand(OwO())
-        ClientCommandHandler.instance.registerCommand(WoofWoof())
+        ClientCommandHandler.instance.registerCommand(OpenGuiCommand())
+        ClientCommandHandler.instance.registerCommand(GetItemsCommand())
         ClientCommandHandler.instance.registerCommand(HelpCommand())
         // Uncomment to access developer command - reloads AwA config when run
-        //ClientCommandHandler.instance.registerCommand(new Furry());
+        //ClientCommandHandler.instance.registerCommand(ReloadCommand());
     }
 
     // Bonsai witchcraft
@@ -54,5 +51,10 @@ class GoodMod {
         var display: GuiScreen? = null
         val mc: Minecraft = Minecraft.getMinecraft()
         val logger: Logger = LogManager.getLogger("goodmod")
+
+        var showUwU: Boolean = true
+        var getItemsCommandName: String = "getItems"
+        var openGUICommandName: String = "goodmod"
+        var reloadCommandName: String = "goodmod:dev_commands:furry"
     }
 }

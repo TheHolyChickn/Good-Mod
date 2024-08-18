@@ -1,12 +1,10 @@
 package com.github.theholychicken.commands
 
 import com.github.theholychicken.GoodMod
-import com.github.theholychickn.theholychicknaddons.owo.Meower
+import com.github.theholychicken.utils.modMessage
 import net.minecraft.command.CommandBase
 import net.minecraft.command.CommandException
 import net.minecraft.command.ICommandSender
-import net.minecraft.util.ChatComponentText
-import org.apache.logging.log4j.LogManager
 
 class HelpCommand : CommandBase() {
     override fun getCommandName(): String { return "goodmod:commands" }
@@ -15,12 +13,10 @@ class HelpCommand : CommandBase() {
 
     @Throws(CommandException::class)
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
-
-        GoodMod.logger.info("Running cute rn")
-        LogManager.getLogger("Cute").info("Running cute rn")
-        sender.addChatMessage(ChatComponentText("§2Current command aliases:"))
-        sender.addChatMessage(ChatComponentText("§3nicepb: " + Meower.meow.nicepbCommand))
-        sender.addChatMessage(ChatComponentText("§3owo: " + Meower.meow.owoCommand))
+        GoodMod.logger.info("Printing command aliases to chat.")
+        modMessage("Current command aliases:", false)
+        modMessage("nicepb: " + GoodMod.openGUICommandName, false)
+        modMessage("owo: " + GoodMod.getItemsCommandName, false)
     }
 
     override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
