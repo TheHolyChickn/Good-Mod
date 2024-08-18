@@ -12,6 +12,7 @@ Contributors:
 - kikias22 (artist)
 - [Intellij Idea (nvim still better)](https://www.jetbrains.com/idea/)
 - [Linux (it just makes doing things easier)](https://en.wikipedia.org/wiki/Linux)
+- AzureAaron (fixed something in the readme) (ill link his github when i decide to find it tomorrow)
 
 <h2><font color=#00FF99>Features</font></h2>
 good mod offers two features I've wanted for a long time, but are not present in <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a>.
@@ -89,7 +90,6 @@ I plan to do the following:
 - a toggleable gui element which tracks a list of items you can customize
 - tracking kismets per floor
 - Croesus chest highlights/profit calc based on lowest bin. I know this exist but all the mods suck, and mine will also tell you whether to use a dungeon key/reroll or not
-  - this feature will allow you to choose to use the Public API, which after I set it up, will update Bin/Bazaar prices of all dungeon items once per minute, or you can opt to use your own Developer API Key, which will default to updating once per 10 seconds, but you can customize the delay if you choose this option
 
 <h2>Contributing</h2>
 
