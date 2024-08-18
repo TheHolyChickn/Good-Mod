@@ -1,11 +1,9 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
-import com.github.theholychickn.theholychicknaddons.GoodMod;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
-import scala.Int;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,5 @@
 package com.github.theholychickn.theholychicknaddons.owo.bwaa;
 
-import com.github.theholychickn.theholychicknaddons.GoodMod;
 import com.github.theholychickn.theholychicknaddons.owo.Meower;
 import com.github.theholychickn.theholychicknaddons.owo.Woof;
 import net.minecraft.command.CommandBase;

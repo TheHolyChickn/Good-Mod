@@ -1,7 +1,5 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
-import com.github.theholychickn.theholychicknaddons.GoodMod;
-import com.github.theholychickn.theholychicknaddons.owo.Yapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,10 +7,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class AwA {
     private static final File CONFIG_FILE = new File("config/drops.json");

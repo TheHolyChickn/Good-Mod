@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = "goodmod", useMetadata=true, clientSideOnly = true)
 public class GoodMod {
 
+
     // Logger
     public static final Logger Kitten = LogManager.getLogger("good mod");
 

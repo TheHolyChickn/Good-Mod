@@ -1,12 +1,7 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
-import com.github.theholychickn.theholychicknaddons.GoodMod;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 // The Awoo class parses chat messages that fit a key of the hashmap awooo, and save to an AwA
 public class Awoo {

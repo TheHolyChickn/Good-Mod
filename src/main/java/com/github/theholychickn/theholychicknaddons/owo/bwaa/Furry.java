@@ -8,8 +8,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
-import java.util.logging.LogManager;
-
 public class Furry extends CommandBase {
 
     @Override

@@ -1,6 +1,5 @@
 package com.github.theholychickn.theholychicknaddons.owo;
 
-import com.github.theholychickn.theholychicknaddons.GoodMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
