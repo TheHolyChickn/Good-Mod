@@ -61,4 +61,9 @@ public class AwA {
         return owowo.getOrDefault(item, 0);
     }
 
+    public void addMany(String item, Integer count) {
+        owowo.put(item, owowo.getOrDefault(item, 0) + count);
+        saveConfig();
+    }
+
 }
