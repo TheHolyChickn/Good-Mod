@@ -96,9 +96,11 @@ I plan to do the following:
 
 See the section on compiling from source for detailed instructions on how to compile the mod yourself.
 
-If you want to contribute, feel free to make a pull request with your changes. However, I would like to warn you that my file structure and every single class/variable name has been intentionally screwed. So good luck actually contributing, because you might not have the easiest time figuring out what the "stopOWOing" function does, or the "Fuwwy" class, etc.
+If you want to contribute, feel free to make a pull request with your changes. ~~However, I would like to warn you that my file structure and every single class/variable name has been intentionally screwed. So good luck actually contributing, because you might not have the easiest time figuring out what the "stopOWOing" function does, or the "Fuwwy" class, etc.~~
 
-If anyone out there is insane enough to fix all of the variable names and file structure, I will keep the changes and credit you in the top section. Consider this a challenge, I guess.
+~~If anyone out there is insane enough to fix all of the variable names and file structure, I will keep the changes and credit you in the top section. Consider this a challenge, I guess.~~
+
+ODTHEKING HAS SUCCESSFULLY CHANGED MOST OF THE WEIRD NAMES AND HAS REFACTORED THE CODE TO KOTLIN. SEE [(#1)](https://github.com/TheHolyChickn/Good-Mod/pull/1). WILL BE PUSHED TO MAIN LATER
 
 Also even the parts of my code that weren't intentionally screwed up are probably still bad, because I'm not a developer, I'm a random math & physics nerd who plays skyblock and I unironically used ChatGPT a lot to help me get started or for debugging. So improvements to the code would definitely be appreciated because I honestly don't know how.
 
