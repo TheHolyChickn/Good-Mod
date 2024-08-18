@@ -105,6 +105,9 @@ Also even the parts of my code that weren't intentionally screwed up are probabl
 <p>If you want to modify the source code of the mod, or you just want to be edgy and cool, you will need to compile the mod directly from the source code.</p>
 
 <h3>Windows:</h3>
+
+**THIS SECTION IS NOT FINISHED ILL WRITE IT WHEN I WAKE UP OK**
+
 <p>I've included some commentary on what everything is/what it does, since many people (like I used to be) are scared of the terminal and think they're going to break their operating system somehow. And I have no idea how else to build a mod. But I'm sure there's a way to do it inside of Intellij or whatever u use idk</p>
 
 The first step is to make sure we have the correct dependencies. You will need [Git](https://git-scm.com/), Java JDK for versions [8](https://adoptium.net/temurin/releases/?version=8) and [17](https://adoptium.net/temurin/releases/?version=17), and [gradle](https://gradle.org/releases/?_gl=1*5x1gva*_gcl_au*MjEzMjE0Nzg3OC4xNzIzNzMwNzk1*_ga*MjY4NDUyNjEzLjE3MjM3MzA3OTU.*_ga_7W7NC6YNPT*MTcyMzczMDc5NS4xLjEuMTcyMzczMDg2Ny41OC4wLjA.). For Git, you can open Powershell and run
@@ -112,8 +115,6 @@ The first step is to make sure we have the correct dependencies. You will need [
 winget install --id Git.Git -e --source winget
 ```
 <tt>winget</tt> is (from what I understand) a "package manager" for PowerShell. You can think of it as a sort of "app store"; it downloads "packages", which are like apps, but oftentimes they provide additional functionality to a terminal like PowerShell. Here, we're downloading "Git", which allows us to work with various "git repositories", like github pages.
-
-**THIS SECTION IS NOT FINISHED ILL WRITE IT WHEN I WAKE UP OK**
 
 <h3>Linux:</h3>
 
