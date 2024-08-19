@@ -50,7 +50,7 @@ class GoodMod {
         ).forEach { ClientCommandHandler.instance.registerCommand(it) }
 
         // Uncomment to access developer command - reloads AwA config when run
-        ClientCommandHandler.instance.registerCommand(ReloadCommand());
+        //ClientCommandHandler.instance.registerCommand(ReloadCommand());
     }
 
     // Bonsai witchcraft
