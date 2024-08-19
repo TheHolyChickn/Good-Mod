@@ -1,5 +1,6 @@
 package com.github.theholychicken.managers
 
+import com.github.theholychicken.utils.modMessage
 import net.minecraft.init.Blocks
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagCompound
@@ -20,7 +21,7 @@ object ChestLootParser {
 
         for (index in 9..17) {
             val stack = chest.lowerChestInventory.getStackInSlot(index)
-                .takeIf { it.item != Blocks.stained_glass_pane } ?: continue
+                .takeIf { !GLASS_REGEX.matches(it.toString()) } ?: continue
 
             val tagCompound = stack.tagCompound ?: continue
             val displayName = tagCompound.getCompoundTag("display").getString("Name")
@@ -42,7 +43,9 @@ object ChestLootParser {
                         essenceCounts["Undead Essence"] = it
                     }
                 }
-                else -> collectedItems.add(displayName)
+                else -> {
+                    collectedItems.add(displayName)
+                }
             }
         }
     }
