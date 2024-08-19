@@ -4,16 +4,23 @@ a good mod
 
 Contributors:
 - [TheHolyChickn (main developer)](https://github.com/TheHolyChickn/)
+- [odtheking (refactored the entire project in kotlin with normal names/struture)](https://github.com/odtheking)
 - [bonsai (made the STUPID GUI WORK)](https://github.com/freebonsai)
-- [odtheking (redid the thing in kotlin with normal names)](https://github.com/odtheking)
 - [AzuredBlue (told me to google something)](https://github.com/AzuredBlue)
 - [this tutorial and template odtheking told me to ~~steal~~ look at (u guys rlly thought i could set this all up on my own with no past experience??? lolllll)](https://moddev.nea.moe/)
-- litdab (gave me advice i didnt listen to then gave me more advice
+- litdab (gave me advice i didnt listen to then gave me more advice)
 - [ChatGPT (all of the code)](https://chatgpt.com/)
 - kikias22 (artist)
 - [Intellij Idea (nvim still better)](https://www.jetbrains.com/idea/)
 - [Linux (it just makes doing things easier)](https://en.wikipedia.org/wiki/Linux)
-- AzureAaron (fixed something in the readme) (ill link his github when i decide to find it tomorrow)
+- [AzureAaron (fixed something in the readme)](https://github.com/AzureAaron)
+
+**IMPORTANT VERSION 0.0.2-BETA INFORMATION**
+*This version does not use records of drops from Version 0.0.1-Beta.* All future versions will also not support your drops during Version 0.0.1-Beta. This is due to swapping both the location and the formatting of the drops.json file, the file where your drops are stored. The location is moved from your config folder to the goodmod subdirectory, which ensures compatability with other mods, and the reformatting is due to a rewrite of the config file management system, which makes the code understandable instead of whatever ChatGPT-powered mess I had before.
+
+*IF YOU WANT TO RESTORE YOUR DUNGEON DROPS THAT WERE SAVED BY VERSION 0.0.1*, then after installing version 0.0.2-Beta and opening the mod, please navigate to your config folder and open both the drops.json file in your config folder, and the drops.json file in the goodmod subdirectory of your config folder. I recommend opening these with Notepad, as I had various encoding issues that Notepad avoids. Specifically, using VSCode messed up the encoding of the files. If you intend on using VSCode, please [switch the encoding](https://stackoverflow.com/questions/30082741/change-the-encoding-of-a-file-in-visual-studio-code) to ISO 8859-1 BEFORE you save the file. I have absolutely no idea how to do this in Vim or any other text-editor/IDE.
+
+I intend on in the future implementing an (optional) log-scanning function, which will retroactively cache all drops and runs you have saved in your Minecraft logs. Assuming you don't delete logs, this WILL include any drops cached by the 0.0.1-Beta version. So if you do not want to restore the drops manually, feel free to wait for this functionality to be implemented. I intend on working on this after fixing the known bugs and implementing different ways to view your stored dungeon loot.
 
 <h2><font color=#00FF99>Features</font></h2>
 good mod offers two features I've wanted for a long time, but are not present in <a href="https://github.com/Skytils/SkytilsMod/tree/dev">Skytils</a> or <a href="https://skyblockextras.com/">SBE</a>.
@@ -96,11 +103,7 @@ I plan to do the following:
 
 See the section on compiling from source for detailed instructions on how to compile the mod yourself.
 
-If you want to contribute, feel free to make a pull request with your changes. ~~However, I would like to warn you that my file structure and every single class/variable name has been intentionally screwed. So good luck actually contributing, because you might not have the easiest time figuring out what the "stopOWOing" function does, or the "Fuwwy" class, etc.~~
-
-~~If anyone out there is insane enough to fix all of the variable names and file structure, I will keep the changes and credit you in the top section. Consider this a challenge, I guess.~~
-
-ODTHEKING HAS SUCCESSFULLY CHANGED MOST OF THE WEIRD NAMES AND HAS REFACTORED THE CODE TO KOTLIN. SEE [(#1)](https://github.com/TheHolyChickn/Good-Mod/pull/1). WILL BE PUSHED TO MAIN LATER
+If you want to contribute, feel free to make a pull request with your changes.
 
 Also even the parts of my code that weren't intentionally screwed up are probably still bad, because I'm not a developer, I'm a random math & physics nerd who plays skyblock and I unironically used ChatGPT a lot to help me get started or for debugging. So improvements to the code would definitely be appreciated because I honestly don't know how.
 
