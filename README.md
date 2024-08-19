@@ -82,6 +82,7 @@ If you want a chat readout of this, use the <tt>/owo</tt> command.
 
 - The "stuff display" GUI: This display will likely break or have items cropped out if you do not play in fullscreen, or if you play in a resolution below 1080p. Additionally, you might find the display too small on some large monitors. Automatic scaling will be implemented in the future.
 - in the configuration menu, the blinking cursor will never go away on the top bar. While this does not affect functionality, it's very weird to have both cursors blinking. I have no idea how to fix this but I'll probably figure it out
+- Sometimes, loot just does not register. This appears to only occur when claiming loot after a dungeon run, but it does not happen every time. For now, please claim from Croesus, and report any instances of loot not logging.
 
 <h2>Future Plans</h2>
 
