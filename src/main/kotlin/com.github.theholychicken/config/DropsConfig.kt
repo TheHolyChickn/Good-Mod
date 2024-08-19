@@ -1,43 +1,51 @@
 package com.github.theholychicken.config
 
 import com.github.theholychicken.GoodMod
+import com.github.theholychicken.GoodMod.Companion.mc
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.*
 
 class DropsConfig {
     private var itemDrops: MutableMap<String, Int> = LinkedHashMap()
 
+    private val CONFIG_FILE = File(mc.mcDataDir, "config/goodmod/drops.json").apply {
+        try {
+            createNewFile()
+        } catch (e: Exception) {
+            print(e.message)
+        }
+    }
+
+    private val GSON: Gson = GsonBuilder().setPrettyPrinting().create()
+
     fun loadConfig() {
-        GoodMod.logger.info("Beginning AwA loadConfig task")
+        GoodMod.logger.info("Beginning DropsConfig loadConfig task")
 
         try {
-            if (CONFIG_FILE.exists()) {
-                val reader = FileReader(CONFIG_FILE)
-                val config = GSON.fromJson(reader, DropsConfig::class.java)
-                reader.close()
-                if (config != null) {
-                    this.itemDrops = config.itemDrops
-                    GoodMod.logger.info("Config loaded: " + this.itemDrops)
-                } else GoodMod.logger.warn("Loaded config is null.")
+            with(CONFIG_FILE.bufferedReader().use { it.readText() }) {
+                if (this == "") return
 
-            } else {
-                GoodMod.logger.info("Config file does not exist, creating new one.")
-                saveConfig()
+                itemDrops = GSON.fromJson(
+                    this,
+                    object : TypeToken<MutableMap<String, Int>>() {}.type
+                )
+                println("Successfully loaded itemDrops config $itemDrops")
             }
-        } catch (e: IOException) {
-            GoodMod.logger.error("Failed to load config file", e)
-            e.printStackTrace()
+        } catch (e: Exception) {
+            println(e.message)
         }
     }
 
     private fun saveConfig() {
         try {
-            val writer = FileWriter(CONFIG_FILE)
-            GSON.toJson(this, writer)
-            writer.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
+            CONFIG_FILE.bufferedWriter().use {
+                it.write(GSON.toJson(itemDrops))
+                GoodMod.logger.info("Successfully loaded itemDrops config $itemDrops")
+            }
+        } catch (e: Exception) {
+            println(e.message)
         }
     }
 
@@ -55,8 +63,13 @@ class DropsConfig {
         saveConfig()
     }
 
-    companion object {
-        private val CONFIG_FILE = File("com.github.theholychicken/config/drops.json")
-        private val GSON: Gson = GsonBuilder().setPrettyPrinting().create()
+    fun generateItem(item: String) {
+        itemDrops[item] = itemDrops.getOrDefault(item, 0)
+        saveConfig()
     }
+
+    fun getList(): MutableMap<String, Int> {
+        return itemDrops
+    }
+
 }

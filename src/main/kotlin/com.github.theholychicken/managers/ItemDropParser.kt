@@ -112,4 +112,14 @@ object ItemDropParser {
     fun reloadConfig() {
         dropsConfig.loadConfig()
     }
+
+    fun initConfig() {
+        println("Empty config registered, initiating config")
+        itemDropPatterns.values.forEach { item ->
+            dropsConfig.generateItem(item)
+            println("Initiated $item")
+        }
+        println("Config initiated, reloading now")
+        dropsConfig.loadConfig()
+    }
 }

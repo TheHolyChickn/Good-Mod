@@ -7,6 +7,7 @@ import com.github.theholychicken.managers.ItemDropParser
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.item.Item
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -27,7 +28,10 @@ class GoodMod {
         if (GuiConfig.commandNames.isEmpty()) {
             GuiConfig.initConfig()
         }
-        ItemDropParser
+        ItemDropParser.dropsConfig.loadConfig()
+        if (ItemDropParser.dropsConfig.getList().isEmpty()) {
+            ItemDropParser.initConfig()
+        }
     }
 
     @Mod.EventHandler
@@ -46,7 +50,7 @@ class GoodMod {
         ).forEach { ClientCommandHandler.instance.registerCommand(it) }
 
         // Uncomment to access developer command - reloads AwA config when run
-        //ClientCommandHandler.instance.registerCommand(ReloadCommand());
+        ClientCommandHandler.instance.registerCommand(ReloadCommand());
     }
 
     // Bonsai witchcraft
