@@ -155,4 +155,4 @@ mv build/libs/goodmod-*.jar ~/.minecraft/mods
 
 <h2>Licensing</h2>
 
-This mod is licensed under the Unlicense (license copy present in this repository), or alternatively under [Creative Commons 1.0 Universal (CC0 1.0)](https://creativecommons.org/publicdomain/zero/1.0/), and all contributions and PR to this mod are expected to follow this. I decided on this licensing because this is what the template I copied said I am required to use, but honestly idc what u do with the mod as long as u dont put a rat in it and pass it off as legit
+lol idc do whatever u want
