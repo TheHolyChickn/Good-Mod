@@ -97,8 +97,42 @@ object ItemDropParser {
         itemDropPatterns["§9Rejuvenate III"] = "§r§9Rejuvenate III§r: "
         itemDropPatterns["§9Rejuvenate II"] = "§r§9Rejuvenate II§r: "
         itemDropPatterns["§9Rejuvenate I"] = "§r§9Rejuvenate I§r: "
-
-    } // CONTINUE ADDING STUFF I CBA RN
+        itemDropPatterns["§9Feather Falling VII"] = "§r§9Feather Falling VII§r: "
+        itemDropPatterns["§9Feather Falling VI"] = "§r§9Feather Falling VI§r: "
+        itemDropPatterns["§9Infinite Quiver VII"] = "§r§9Infinite Quiver VII§r: "
+        itemDropPatterns["§9Infinite Quiver VI"] = "§r§9Infinite Quiver VI§r: "
+        itemDropPatterns["§9Lethality VI"] = "§r§9Lethality VI§r: "
+        // Ultimate Enchants
+        itemDropPatterns["§9§d§lOne For All I"] = "§r§d§lOne For All I§r: "
+        itemDropPatterns["§9§d§lSoul Eater I"] = "§r§d§lSoul Eater I§r: "
+        itemDropPatterns["§9§d§lSwarm I"] = "§r§d§lSwarm I§r: "
+        itemDropPatterns["§9§d§lRend II"] = "§r§d§lRend II§r: "
+        itemDropPatterns["§9§d§lLegion I"] = "§r§d§lLegion I§r: "
+        itemDropPatterns["§9§d§lLast Stand II"] = "§r§d§lLast Stand II§r: "
+        itemDropPatterns["§9§d§lLast Stand I"] = "§r§d§lLast Stand I§r: "
+        itemDropPatterns["§9§d§lUltimate Wise II"] = "§r§d§lUltimate Wise II§r: "
+        itemDropPatterns["§9§d§lUltimate Wise I"] = "§r§d§lUltimate Wise I§r: "
+        itemDropPatterns["§9§d§lWisdom II"] = "§r§d§lWisdom II§r: "
+        itemDropPatterns["§9§d§lWisdom I"] = "§r§d§lWisdom I§r: "
+        itemDropPatterns["§9§d§lBank III"] = "§r§d§lBank III§r: "
+        itemDropPatterns["§9§d§lBank II"] = "§r§d§lBank II§r: "
+        itemDropPatterns["§9§d§lBank I"] = "§r§d§lBank I§r: "
+        itemDropPatterns["§9§d§lNo Pain No Gain II"] = "§r§d§lNo Pain No Gain II§r: "
+        itemDropPatterns["§9§d§lNo Pain No Gain I"] = "§r§d§lNo Pain No Gain I§r: "
+        itemDropPatterns["§9§d§lCombo II"] = "§r§d§lCombo II§r: "
+        itemDropPatterns["§9§d§lCombo I"] = "§r§d§lCombo I§r: "
+        itemDropPatterns["§9§d§lUltimate Jerry III"] = "§r§d§lUltimate Jerry III§r: "
+        itemDropPatterns["§9§d§lUltimate Jerry II"] = "§r§d§lUltimate Jerry II§r: "
+        itemDropPatterns["§9§d§lUltimate Jerry I"] = "§r§d§lUltimate Jerry I§r: "
+        // Universal Items
+        itemDropPatterns["§6Recombobulator 3000"] = "§r§6Recombs§r: "
+        itemDropPatterns["§5Fuming Potato Book"] = "§r§5Fumings§r: "
+        itemDropPatterns["§5Hot Potato Book"] = "§r§5HPBs§r: "
+        itemDropPatterns["§9Necromancer's Brooch"] = "§r§9Necromancer's Brooches§r: "
+        // Essence
+        itemDropPatterns["Wither Essence"] = "§dWither Essence§r: §8"
+        itemDropPatterns["Undead Essence"] = "§dUndead Essence§r: §8"
+    }
 
     // Method to parse chat messages and update the drops configuration
     fun parseChatMessage(message: String) {
