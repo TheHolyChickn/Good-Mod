@@ -2,8 +2,10 @@ package com.github.theholychicken.managers
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.GoodMod.Companion.mc
+import com.github.theholychicken.events.GuiLoadedEvent
 import com.github.theholychicken.managers.ChestLootParser.dumpCollectedItems
 import com.github.theholychicken.utils.modMessage
+import com.github.theholychicken.utils.name
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraftforge.client.event.GuiOpenEvent
@@ -46,44 +48,8 @@ object DungeonChestScanner {
 
     // Await loaded chest
     @SubscribeEvent
-    fun onClientTick(event: ClientTickEvent) {
-        // Only execute during the END phase to avoid running twice per tick
-        if (event.phase != TickEvent.Phase.END || !isScanning || chestContainer == null) return
-        GoodMod.logger.info("[onClientTick] Scanning protocol active - awaiting fully loaded dungeon chest")
-
-        val currentScreen = mc.currentScreen
-        if (currentScreen !is GuiChest) {
-            stopScanning()
-            GoodMod.logger.info("[onClientTick] Chest closed, terminating scanning protocol")
-            isChestGuiOpen = false
-            return
-        } else chestContainer = currentScreen.inventorySlots as? ContainerChest ?: return
-
-
-        val inventorySize = chestContainer?.lowerChestInventory?.sizeInventory ?: return
-        val bottomRightSlotIndex = inventorySize - 1
-        val bottomRightStack = chestContainer?.lowerChestInventory?.getStackInSlot(bottomRightSlotIndex)
-
-        if (bottomRightStack != null) {
-            GoodMod.logger.info("[onClientTick] Instance of DUNGEON_CHEST has been fully loaded, scanning protocol terminated")
-            isScanning = false
-            scanAttempts = 0
-
-            chestContainer?.let {
-                chestLootParser.parseChestLoot(it)
-            }
-
-            chestContainer = null
-            return
-        }
-
-        // Timeout protocol
-        scanAttempts++
-        if (scanAttempts > 200) {
-            stopScanning()
-            modMessage("§r§4§lDungeon chest not loaded [timed out]. §r§bIs the server lagging?§r")
-            isChestGuiOpen = false
-        }
+    fun onGuiLoaded(event: GuiLoadedEvent) {
+        chestLootParser.parseChestLoot(event.gui)
     }
 
     // Store loot on chest close
@@ -93,7 +59,7 @@ object DungeonChestScanner {
 
         val currentScreen = event.gui as? GuiChest ?: return
         val containerChest = currentScreen.inventorySlots as? ContainerChest ?: return
-        if (!CHEST_PATTERN.matches(containerChest.lowerChestInventory.name)) return
+        if (!CHEST_PATTERN.matches(containerChest.name)) return
 
         if (currentScreen.slotUnderMouse == null || !Mouse.getEventButtonState() || currentScreen.slotUnderMouse?.slotNumber != 31) return
         dumpCollectedItems()
