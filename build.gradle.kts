@@ -27,29 +27,17 @@ loom {
     log4jConfigs.from(file("log4j2.xml"))
     launchConfigs {
         "client" {
-            // If you don't want mixins, remove these lines
-            property("mixin.debug", "true")
-            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
         }
     }
     runConfigs {
         "client" {
-            if (SystemUtils.IS_OS_MAC_OSX) {
-                // This argument causes a crash on macOS
-                vmArgs.remove("-XstartOnFirstThread")
-            }
+            if (SystemUtils.IS_OS_MAC_OSX) vmArgs.remove("-XstartOnFirstThread")
         }
         remove(getByName("server"))
     }
     forge {
         pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
-        // If you don't want mixins, remove this lines
-        mixinConfig("mixins.$modid.json")
-    }
-    // If you don't want mixins, remove these lines
-    @Suppress("UnstableApiUsage")
-    mixin {
-        defaultRefmapName.set("mixins.$modid.refmap.json")
+
     }
 }
 
@@ -80,6 +68,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     shadowImpl(kotlin("stdlib-jdk8"))
+    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
 
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
 }
@@ -109,7 +98,6 @@ tasks.processResources {
     }
 }
 
-
 val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("")
     from(tasks.shadowJar)
@@ -130,9 +118,6 @@ tasks.shadowJar {
             println("Copying dependencies into mod: ${it.files}")
         }
     }
-
-    // If you want to include other dependencies and shadow them, you can relocate them in here
-    fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
