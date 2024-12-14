@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard
 import java.io.IOException
 
 class ItemDropHUD : GuiScreen() {
+
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         drawDefaultBackground()
         val items = ItemDropParser.itemDropPatterns
@@ -14,93 +15,97 @@ class ItemDropHUD : GuiScreen() {
         var yPos = 10
         var columnWidth = 0
 
-        mc.fontRendererObj.drawString("------- FLOOR 7 -------", xPos, yPos, 0x00FF99)
+        drawHeader("------- FLOOR 7 -------", xPos, yPos)
         yPos += mc.fontRendererObj.FONT_HEIGHT + 2
 
         items.values.forEachIndexed { index, item ->
             when (index) {
                 17 -> {
-                    mc.fontRendererObj.drawString("------- FLOOR 6 -------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------- FLOOR 6 -------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 29 -> {
                     xPos += columnWidth + 10
                     columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("------ FLOOR 5 ------", xPos, yPos, 0x00FF99)
+                    yPos = 10 // Reset yPos for the new column
+                    drawFloorHeader("------ FLOOR 5 ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 39 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 4 ------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------ FLOOR 4 ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 47 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 3 ------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------ FLOOR 3 ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 52 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 2 ------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------ FLOOR 2 ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 56 -> {
                     xPos += columnWidth + 10
                     columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("----- FLOOR 1 -----", xPos, yPos, 0x00FF99)
+                    yPos = 10 // Reset yPos for the new column
+                    drawFloorHeader("----- FLOOR 1 -----", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 60 -> {
-                    mc.fontRendererObj.drawString("------ STARS ------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------ STARS ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 65 -> {
-                    mc.fontRendererObj.drawString("------ SKULLS -----", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("------ SKULLS -----", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 70 -> {
-                    mc.fontRendererObj.drawString("---- ENCHANTS ----", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("---- ENCHANTS ----", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 80 -> {
                     xPos += columnWidth + 10
                     columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("----- ULTIMATES -----", xPos, yPos, 0x00FF99)
+                    yPos = 10 // Reset yPos for the new column
+                    drawFloorHeader("----- ULTIMATES -----", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 105 -> {
-                    mc.fontRendererObj.drawString("-- UNIVERSAL DROPS --", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("-- UNIVERSAL DROPS --", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
                 109 -> {
-                    mc.fontRendererObj.drawString("----- ESSENCE ------", xPos, yPos, 0x00FF99)
+                    drawFloorHeader("----- ESSENCE ------", xPos, yPos)
                     yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
                 }
-                else -> {
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig .getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
+                else -> drawItem(item, xPos, yPos)
             }
             yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-            val itemWidth = mc.fontRendererObj.getStringWidth(item + ItemDropParser.dropsConfig.getItemCount(item))
-            if (itemWidth > columnWidth) columnWidth = itemWidth
+            columnWidth = updateColumnWidth(item, columnWidth)
         }
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
+    private fun drawHeader(text: String, x: Int, y: Int) {
+        mc.fontRendererObj.drawString(text, x, y, 0x00FF99)
+    }
+
+    private fun drawFloorHeader(header: String, x: Int, y: Int) {
+        drawHeader(header, x, y)
+    }
+
+    private fun drawItem(item: String, x: Int, y: Int) {
+        mc.fontRendererObj.drawString("$item${ItemDropParser.dropsConfig.getItemCount(item)}", x, y, 0x00FFFF)
+    }
+
+    private fun updateColumnWidth(item: String, currentWidth: Int): Int {
+        val itemWidth = mc.fontRendererObj.getStringWidth("$item${ItemDropParser.dropsConfig.getItemCount(item)}")
+        return maxOf(currentWidth, itemWidth)
+    }
+
     override fun keyTyped(typedChar: Char, keyCode: Int) {
-        if (keyCode == Keyboard.KEY_ESCAPE) mc.displayGuiScreen(ConfigGUI())
+        if (keyCode == Keyboard.KEY_ESCAPE) {
+            mc.displayGuiScreen(ConfigGUI())
+        }
     }
 
     @Throws(IOException::class)
@@ -108,9 +113,7 @@ class ItemDropHUD : GuiScreen() {
         super.mouseClicked(mouseX, mouseY, mouseButton)
     }
 
-    override fun doesGuiPauseGame(): Boolean {
-        return false
-    }
+    override fun doesGuiPauseGame(): Boolean = false
 
     companion object {
         fun open() {

@@ -2,6 +2,7 @@ package com.github.theholychicken
 
 import com.github.theholychicken.commands.*
 import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.events.EventDispatcher
 import com.github.theholychicken.managers.DungeonChestScanner
 import com.github.theholychicken.managers.ItemDropParser
 import net.minecraft.client.Minecraft
@@ -25,13 +26,10 @@ class GoodMod {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent?) {
         GuiConfig.loadConfig()
-        if (GuiConfig.commandNames.isEmpty()) {
-            GuiConfig.initConfig()
-        }
+        if (GuiConfig.commandNames.isEmpty()) GuiConfig.initConfig()
+
         ItemDropParser.dropsConfig.loadConfig()
-        if (ItemDropParser.dropsConfig.getList().isEmpty()) {
-            ItemDropParser.initConfig()
-        }
+        if (ItemDropParser.dropsConfig.getList().isEmpty()) ItemDropParser.initConfig()
     }
 
     @Mod.EventHandler
@@ -39,14 +37,15 @@ class GoodMod {
         // Event subscriptions
         listOf(
             this,
-            DungeonChestScanner
+            DungeonChestScanner,
+            EventDispatcher,
         ).forEach { MinecraftForge.EVENT_BUS.register(it) }
 
         // Commands
         listOf(
             OpenGuiCommand(),
             GetItemsCommand(),
-            HelpCommand()
+            HelpCommand(),
         ).forEach { ClientCommandHandler.instance.registerCommand(it) }
 
         // Uncomment to access developer command - reloads AwA config when run
@@ -65,7 +64,5 @@ class GoodMod {
         var display: GuiScreen? = null
         val mc: Minecraft = Minecraft.getMinecraft()
         val logger: Logger = LogManager.getLogger("goodmod")
-
-        var showUwU: Boolean = false
     }
 }
