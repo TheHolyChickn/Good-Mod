@@ -10,24 +10,24 @@ import net.minecraft.nbt.NBTTagString
 /**
  * Backend for parsing croesus chests.
  * @param parseCroesusLoot saves all croesus chests as CroesusChest objects into the list runLoot
- * @param purchsedChest saves the name of the purchaed chest. If no chest is purchased, returns the empty string
+ * @param purchasedChest saves the name of the purchaed chest. If no chest is purchased, returns the empty string
  * @param I dont know what @param means
+ * lolllll
  */
 object CroesusChestParser {
     private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
     private var purchasedChest = ""
     val runLoot = mutableListOf<CroesusChest>()
-    var dungeonChestKeyPrice = AuctionParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+    var dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
     var keyStatus: Boolean = false // slightly misleading name, true if should use key
     var openStatus: Boolean = false
-
 
     // Process croesus instance
     fun parseCroesusLoot(chest: ContainerChest) {
         runLoot.clear()
         keyStatus = false
         openStatus = false
-        dungeonChestKeyPrice = AuctionParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+        dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
 
         // Chests occur 10-16, and I grab the glass at the edges as well just in case
         for (index in 9..17) {
@@ -80,10 +80,10 @@ object CroesusChestParser {
 
     private fun isEnchantedBook(tag: String): Boolean = tag.contains("(")
 
-  // finds the cost of the chest
+    // finds the cost of the chest
     private fun findCost(tagList: NBTTagList, index: Int): Double {
         if (index == 0) {
-            modMessage("An error has occured.")
+            modMessage("An error has occurred.")
             return 0.00
         }
         val firstLine = tagList[index + 1].toString().substring(1, tagList[index + 1].toString().length - 1)

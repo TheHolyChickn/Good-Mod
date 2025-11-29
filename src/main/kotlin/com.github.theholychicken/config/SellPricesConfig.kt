@@ -1,9 +1,8 @@
 package com.github.theholychicken.config
 
-import com.github.theholychicken.GoodMod
 import java.io.File
 import com.github.theholychicken.GoodMod.Companion.mc
-import com.github.theholychicken.managers.AuctionParser
+import com.github.theholychicken.managers.SellableItemParser
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -30,16 +29,12 @@ object SellPricesConfig {
         try {
             with(CONFIG_FILE.bufferedReader().use { it.readText() }) {
                 if (this == "") return
-
                 sellPrices = GSON.fromJson(
                     this,
                     object : TypeToken<MutableMap<String, Boolean>>() {}.type
                 )
             }
-
-            if (sellPrices.keys.size == 0) {
-                initConfig()
-            }
+            if (sellPrices.keys.isEmpty()) initConfig()
         } catch (e: Exception) {
             println(e.message)
         }
@@ -54,12 +49,10 @@ object SellPricesConfig {
     }
 
     private fun initConfig() {
-        AuctionParser.items.values.forEach { floor ->
-            floor.forEach { (category, map) ->
-                if (category == "bazaar") {
-                    map.keys.forEach { sellPrices[it] = false }
-                }
-            }
+        SellableItemParser.SellableItem.entries.filter {
+            it.sellType == SellableItemParser.SellableItem.SellType.BAZAAR
+        }.forEach {
+            sellPrices[it.name] = false
         }
         saveConfig()
     }

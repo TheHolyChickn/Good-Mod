@@ -1,9 +1,6 @@
 package com.github.theholychicken.utils
 
-import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.managers.AuctionParser
-import com.github.theholychicken.managers.apiclients.CoflApiClient
-import com.github.theholychicken.managers.apiclients.TrickedApiClient
+import com.github.theholychicken.managers.SellableItemParser
 
 /**
  * Represents a Croesus chest with details about its contents, purchase status, cost, and profit.
@@ -34,7 +31,7 @@ class CroesusChest(
         val returnList = mutableListOf<String>()
         items.forEach {
             when {
-                it.substring(2) in AuctionParser.shinyItems -> {
+                it.substring(2) in SellableItemParser.shinyItems -> {
                     returnList.add(it.substring(5))
                 }
                 it.matches(Regex("§dWither Essence §8x\\d+")) -> {
@@ -54,7 +51,7 @@ class CroesusChest(
                 }
 
                 else -> {
-                    AuctionParser.toKey(it)
+                    SellableItemParser.getItemID(it)
                 }
             }
         }
@@ -63,7 +60,7 @@ class CroesusChest(
 
 
     private fun calculateProfit(): Double {
-        val auctionPrices = AuctionParser.auctionPrices.takeIf { it.isNotEmpty() } ?: run {
+        val auctionPrices = SellableItemParser.auctionPrices.takeIf { it.isNotEmpty() } ?: run {
             modMessage("Auction/Bazaar prices are empty or null! Try manually refreshing with /updateauctions. If this does not fix the issue, please open an issue on the github.")
             return -cost
         }

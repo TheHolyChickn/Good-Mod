@@ -1,8 +1,6 @@
 package com.github.theholychicken.managers
 
 import com.github.theholychicken.utils.CroesusChest
-import com.github.theholychicken.utils.modMessage
-import net.minecraft.init.Blocks
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagString
@@ -63,20 +61,25 @@ object ChestLootParser {
     }
 
     // Checks if NBT data defines an enchanted book
-    private fun isEnchantedBook(tagCompound: NBTTagCompound) =
-        tagCompound.getCompoundTag("ExtraAttributes").getString("id") == "ENCHANTED_BOOK"
+    private fun isEnchantedBook(tagCompound: NBTTagCompound): Boolean {
+        return tagCompound
+            .getCompoundTag("ExtraAttributes")
+            .getString("id") == "ENCHANTED_BOOK"
+    }
 
     // returns cost of the chest
     private fun getCost(tagCompound: NBTTagCompound): Double {
-        val tags = tagCompound.getCompoundTag("display").getTagList("Lore", NBTTagString().id.toInt())
+        val tags = tagCompound
+            .getCompoundTag("display")
+            .getTagList("Lore", NBTTagString().id.toInt())
 
         var cost = 0.0
         for (i in 0 until tags.tagCount()) {
             if (tags.get(i).toString().contains(Regex("Cost"))) {
                 if (tags.get(i + 2).toString().contains(Regex("§9Dungeon Chest Key"))) {
-                    cost += AuctionParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+                    cost += SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
                 } else if (tags.get(i + 1).toString().contains(Regex("§9Dungeon Chest Key"))) {
-                    cost += AuctionParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+                    cost += SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
                     return cost
                 }
                 val coins = tags.get(i + 1).toString().drop(3).dropLast(7)

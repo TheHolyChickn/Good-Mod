@@ -2,11 +2,12 @@ package com.github.theholychicken.managers
 
 import com.github.theholychicken.config.DropsConfig
 
-// The ItemDropParser class processes chat messages to detect item drops and store them in a DropsConfig object
+/**
+ * The [ItemDropParser] class processes chat messages to detect item drops and store them in a DropsConfig object
+ */
 object ItemDropParser {
     // Configuration object for storing drops
     var dropsConfig: DropsConfig = DropsConfig()
-
     // Map of chat messages to their corresponding item descriptions
     val itemDropPatterns: MutableMap<String, String> = LinkedHashMap()
 
@@ -161,6 +162,7 @@ object ItemDropParser {
     }
 
     // is thsis useful?
+    // idk it's not used anywhere
     fun getModifiedKeys(): List<String> {
          return itemDropPatterns.keys.map { key -> key.substring(2) }
     }

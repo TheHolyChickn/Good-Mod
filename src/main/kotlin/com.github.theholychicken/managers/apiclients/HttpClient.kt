@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
 import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 /**
@@ -16,8 +17,9 @@ import java.util.concurrent.TimeUnit
  */
 object HttpClient {
     private val httpClient = OkHttpClient()
-    private val gson = Gson()
-    val executor = Executors.newSingleThreadScheduledExecutor {r -> Thread(r, "http-client-executor") }
+    val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor { r ->
+        Thread(r, "http-client-executor")
+    }
 
     fun sendRequest(url: String): String {
         val request = Request.Builder().url(url).build()

@@ -17,6 +17,7 @@ import org.lwjgl.input.Mouse
 /**
  * This object manages scanning for both croesus and dungeon chest instances.
  * I should really write an external utils file to clean this up a lot.
+ * i'm too lazy to fix this too - ilo
  */
 object DungeonChestScanner {
     private var isScanningChest = false
@@ -108,7 +109,7 @@ object DungeonChestScanner {
                     chestLootParser.parseChestLoot(it)
                     chestIsParsed = true
                 } else if (isCroesusGuiOpen) {
-                    AuctionParser.initFromFile()
+                    SellableItemParser.initFromFile()
                     croesusChestParser.parseCroesusLoot(it)
                     croesusIsParsed = true
                 } else if (isMainCroesusGuiOpen) {

@@ -1,6 +1,5 @@
 package com.github.theholychicken.managers
 
-import com.github.theholychicken.utils.modMessage
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagString
 

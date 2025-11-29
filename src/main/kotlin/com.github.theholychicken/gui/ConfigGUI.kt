@@ -32,33 +32,56 @@ class ConfigGUI : GuiScreen() {
         super.initGui()
         buttonList.clear()
 
-        // add buttons
-        // opens the stuff display
+        // Add buttons
+        // Opens the stuff display
         buttonList.add(GuiButton(0, (this.width / 2) - 100, (this.height / 2) + 2, buttonLabel))
-        // toggle for using sell offer/instasell pricing
+        // Toggle for using sell offer/instasell pricing
         buttonList.add(GuiButton(1, (this.width / 2) - 100, (this.height / 2) + 26, sellOffer))
-        // toggle for rendering main croesus menu
+        // Toggle for rendering main croesus menu
         buttonList.add(GuiButton(2, (this.width / 2) - 100, (this.height / 2) - 24, renderMainCroesusMenu))
-        // opens the per-item sell price configs
+        // Opens the per-item sell price configs
         buttonList.add(GuiButton(3, width / 2 - 100, height / 2 + 50, "Sell Price Configs"))
 
         // Initialize text fields
-        // config field for /goodmod:getitems
-        getItemsNameField = GuiTextField(2, fontRendererObj, width / 2 - 100, height / 2 - 50, 200, 20).apply {
+        // Config field for /goodmod:getitems
+        getItemsNameField = GuiTextField(
+            2,
+            fontRendererObj,
+            width / 2 - 100,
+            height / 2 - 50,
+            200,
+            20
+        ).apply {
             maxStringLength = 100
             isFocused = false
             enableBackgroundDrawing = true
-            text = GuiConfig.commandNames["getItems"] ?: "An error occured, report this"
+            text = GuiConfig.commandNames["getItems"] ?: "An error occurred, report this"
         }
-        // config field for /goodmod:goodmod
-        openGuiNameField = GuiTextField(3, fontRendererObj, width / 2 - 100, height / 2 - 76, 200, 20).apply {
+
+        // Config field for /goodmod:goodmod
+        openGuiNameField = GuiTextField(
+            3,
+            fontRendererObj,
+            width / 2 - 100,
+            height / 2 - 76,
+            200,
+            20
+        ).apply {
             maxStringLength = 100
             isFocused = false
             enableBackgroundDrawing = true
-            text = GuiConfig.commandNames["goodmod"] ?: "An error occured, report this"
+            text = GuiConfig.commandNames["goodmod"] ?: "An error occurred, report this"
         }
-        // set min profit
-        setMinChestProfitField = GuiTextField(1, fontRendererObj, width / 2 - 100, height / 2 - 102, 200, 20).apply {
+
+        // Set min profit
+        setMinChestProfitField = GuiTextField(
+            1,
+            fontRendererObj,
+            width / 2 - 100,
+            height / 2 - 102,
+            200,
+            20
+        ).apply {
             maxStringLength = 100
             isFocused = false
             enableBackgroundDrawing = true
@@ -66,8 +89,15 @@ class ConfigGUI : GuiScreen() {
         }
 
         // Dropdown menu for api endpoints
-        dropdownMenu = DropdownMenu((this.width / 2) - 100, (this.height / 2) + 74, 200, apis, selected)
-        dropdownMenu.initButtons(buttonList)
+        dropdownMenu = DropdownMenu(
+            (this.width / 2) - 100,
+            (this.height / 2) + 74,
+            200,
+            apis,
+            selected
+        ).apply {
+            initButtons(buttonList)
+        }
     }
 
     override fun updateScreen() {
@@ -106,19 +136,43 @@ class ConfigGUI : GuiScreen() {
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         drawDefaultBackground()
-        drawCenteredString(fontRendererObj, "good mod config", width / 2, height / 2 - 126, 0x00FFFF)
+        drawCenteredString(
+            fontRendererObj,
+            "good mod config",
+            width / 2,
+            height / 2 - 126,
+            0x00FFFF
+        )
 
         // draw labels and input fields
-        drawCenteredString(fontRendererObj, "set /goodmod alias",width / 2 + 150,height / 2 - 70, 0x00FFFF)
+        drawCenteredString(
+            fontRendererObj,
+            "set /goodmod alias",
+            width / 2 + 150,
+            height / 2 - 70,
+            0x00FFFF
+        )
         getItemsNameField.drawTextBox()
 
-        drawCenteredString(this.fontRendererObj, "set /getItems alias", this.width / 2 + 150, this.height / 2 - 45, 0x00FFFF)
+        drawCenteredString(
+            this.fontRendererObj,
+            "set /getItems alias",
+            this.width / 2 + 150,
+            this.height / 2 - 45,
+            0x00FFFF
+        )
         openGuiNameField.drawTextBox()
 
-        drawCenteredString(this.fontRendererObj, "set minimum chest purchase price", this.width / 2 + 175, this.height / 2 - 96, 0x00FFFF)
+        drawCenteredString(
+            this.fontRendererObj,
+            "set minimum chest purchase price",
+            this.width / 2 + 175,
+            this.height / 2 - 96,
+            0x00FFFF
+        )
         setMinChestProfitField.drawTextBox()
 
-        // Draws buttons
+        // Draw buttons
         for (button in this.buttonList) { button.drawButton(this.mc, mouseX, mouseY) }
     }
 
@@ -136,7 +190,7 @@ class ConfigGUI : GuiScreen() {
         }
     }
 
-    // method for handling enter key presses
+    // Method for handling enter key presses
     private fun handleEnterKey() {
         when {
             getItemsNameField.isFocused -> {
@@ -154,7 +208,7 @@ class ConfigGUI : GuiScreen() {
                 modMessage("Set /goodmod to /${openGuiNameField.text}! §r§2§lRestart game for changes to take effect.")
             }
             setMinChestProfitField.isFocused -> {
-                val input = formatPrice(setMinChestProfitField!!.text)
+                val input = formatPrice(setMinChestProfitField.text)
                 if (input == -1) {
                     mc.displayGuiScreen(null)
                     modMessage("Could not read input. Please try again.")

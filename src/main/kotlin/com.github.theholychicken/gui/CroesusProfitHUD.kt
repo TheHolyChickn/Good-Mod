@@ -41,6 +41,7 @@ object CroesusProfitHUD {
                     modMessage(e)
                 }
             }
+
             val offsetX = 100
             val chestWidth = 176
             val chestHeight = 166
@@ -55,8 +56,6 @@ object CroesusProfitHUD {
 
             val slotX = slot.first + guiLeft
             val slotY = slot.second + guiTop
-
-
 
             GuiScreen.drawRect(rectX1, rectY1, rectX2, rectY2, 0x80000000.toInt())
             mc.fontRendererObj.drawString(

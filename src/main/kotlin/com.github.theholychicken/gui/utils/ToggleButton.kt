@@ -15,6 +15,7 @@ import kotlin.math.sin
  * @param initialState whether the slider should start enabled or disabled
  * @param label an optional label to be dynamically rendered above the toggle
  * @param color the color of the optional label
+ * is this code ai generated...? - ilo
  */
 class ToggleButton(id: Int,
                    private val x: Int,
@@ -52,10 +53,6 @@ class ToggleButton(id: Int,
         drawRect(knobX, y + 1, knobX + knobWidth, y + height - 1, knobColor)
 
         label?.let { drawLabelAboveToggle(mc, it, x, y, width, color ?: 0xFFFFFF) }
-    }
-
-    override fun mousePressed(mc: Minecraft?, mouseX: Int, mouseY: Int): Boolean {
-        return super.mousePressed(mc, mouseX, mouseY)
     }
 
     override fun mouseReleased(mouseX: Int, mouseY: Int) {

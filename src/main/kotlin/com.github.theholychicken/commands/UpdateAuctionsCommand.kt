@@ -8,6 +8,7 @@ import com.github.theholychicken.managers.apiclients.TrickedApiClient
 import com.github.theholychicken.utils.modMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import net.minecraft.command.CommandBase
 import net.minecraft.command.CommandException

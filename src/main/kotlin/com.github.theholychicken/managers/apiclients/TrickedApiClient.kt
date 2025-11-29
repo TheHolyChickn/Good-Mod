@@ -1,16 +1,48 @@
 package com.github.theholychicken.managers.apiclients
 
-import com.github.theholychicken.managers.AuctionParser
+import com.github.theholychicken.managers.SellableItemParser
 import com.github.theholychicken.utils.modMessage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
-object TrickedApiClient {
+object TrickedApiClient : ApiClient {
     private val gson = Gson()
 
-    fun fetchPrice(itemTag: String): Double {
-        val response = HttpClient.sendRequest("https://lb.tricked.pro/lowestbin/$itemTag")
-        return response.toDouble()
+    // to minimize api calls to reduce strain on tricked
+    // we use lowestbins and scan the json instead of queuing
+    // each item individually
+    override suspend fun fetchAllAuctions() = withContext(Dispatchers.IO) {
+        val jsonData = fetchAllPrices()
+
+        SellableItemParser.items.forEach {
+            if (it.sellType == SellableItemParser.SellableItem.SellType.AUCTION) {
+                when (it.name) {
+                    "PET-SPIRIT-EPIC" -> {
+                        SellableItemParser.updateAuction(it.displayName, jsonData.get(it.name).asDouble, "EPIC")
+                    }
+                    "PET-SPIRIT-LEGENDARY" -> {
+                        SellableItemParser.updateAuction(it.displayName, jsonData.get(it.name).asDouble, "LEGENDARY")
+                    }
+                    else -> {
+                        SellableItemParser.updateAuction(it.displayName, jsonData.get(it.name).asDouble)
+                    }
+                }
+            } else if (it.sellType == SellableItemParser.SellableItem.SellType.BAZAAR) {
+                val itemTag = it.name.replace(Regex("^ENCHANTMENT_(.*)_(\\d)$"), "ENCHANTED_BOOK-$1-$2")
+                // this api stores enchanted books with a slitghtly diff id
+                try {
+                    SellableItemParser.updateBazaar(it.name, jsonData.get(itemTag).asDouble)
+                } catch (e: Exception) {
+                    modMessage("Parsing error on $itemTag: ${e.message}")
+                }
+            }
+        }
+
+        SellableItemParser.saveToFile()
+        modMessage("Successfully fetched all auctions.")
     }
 
     private fun fetchAllPrices(): JsonObject {
@@ -18,38 +50,9 @@ object TrickedApiClient {
         return gson.fromJson(response, JsonObject::class.java)
     }
 
-    // to minimize api calls to reduce strain on tricked
-    // we use lowestbins and scan the json instead of queuing
-    // each item individually
-    fun fetchAllAuctions() {
-        val jsonData = fetchAllPrices()
-
-        AuctionParser.items.values.forEach { floor ->
-            floor["auctions"]?.forEach{ (tag, name) ->
-                when (tag) {
-                    "PET-SPIRIT-EPIC" -> {
-                        AuctionParser.updateAuction(name, jsonData.get(tag).asDouble, "EPIC")
-                    }
-                    "PET-SPIRIT-LEGENDARY" -> {
-                        AuctionParser.updateAuction(name, jsonData.get(tag).asDouble, "LEGENDARY")
-                    }
-                    else -> {
-                        AuctionParser.updateAuction(name, jsonData.get(tag).asDouble)
-                    }
-                }
-            }
-            floor["bazaar"]?.forEach { (tag, _) ->
-                val itemTag = tag.replace(Regex("^ENCHANTMENT_(.*)_(\\d)$"), "ENCHANTED_BOOK-$1-$2")
-                // this api stores enchanted books with a slitghtly diff id
-                try {
-                    AuctionParser.updateBazaar(tag, jsonData.get(itemTag).asDouble)
-                } catch (e: Exception) {
-                    modMessage("Parsing error on $itemTag: ${e.message}")
-                }
-            }
-        }
-
-        AuctionParser.saveToFile()
-        modMessage("Successfully fetched all auctions.")
+    // unused??? -- iloyuk
+    fun fetchPrice(itemTag: String): Double {
+        val response = HttpClient.sendRequest("https://lb.tricked.pro/lowestbin/$itemTag")
+        return response.toDouble()
     }
 }
