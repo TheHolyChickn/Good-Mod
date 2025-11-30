@@ -3,13 +3,10 @@ package com.github.theholychicken.config
 import com.github.theholychicken.GoodMod.Companion.mc
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.sun.org.apache.xpath.internal.operations.Bool
 import java.io.File
 
 object GuiConfig {
     private val gson = GsonBuilder().setPrettyPrinting().create()
-    private val defaults = mutableListOf("useSellOffer", "goodmod", "getItems", "reloadLoot", "updateAuctions")
-
     var commandNames = mutableMapOf<String, String>()
     var useSellOffer = false
     var api: String = "HypixelApi"
@@ -21,7 +18,7 @@ object GuiConfig {
         try {
             parentFile.mkdirs()
             createNewFile()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             println("Error initializing config")
         }
     }

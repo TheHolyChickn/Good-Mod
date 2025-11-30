@@ -2,31 +2,10 @@ package com.github.theholychicken.gui.sellprices.catalogs
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.managers.SellableItemParser
-import net.minecraft.client.gui.GuiButton
 
 class Floor5Gui : AbstractCatalogGui() {
-    override val items: List<SellableItemParser.SellableItem> = SellableItemParser
-        .SellableItem.entries.filter {
-            it.catalog == SellableItemParser.SellableItem.Catalog.FLOOR_5
-                    && it.sellType == SellableItemParser.SellableItem.SellType.BAZAAR
-        }
+    override val items: List<SellableItemParser.SellableItem> = SellableItemParser.SellableItem.bzFloor5Items
     override val guiName = "Floor 5"
-
-    override fun initGui() {
-        super.initGui()
-        // init buttons here using util file
-        renderRows(
-            items,
-            width,
-            height,
-            listOf(
-                0x5555FF,
-                0x5555FF,
-                0xAA00AA
-            )
-        ).forEach { buttonList.add(it) }
-        buttonList.add(GuiButton(100, width - 103, 3, 100, 20, "Back"))
-    }
 
     // allows gui to be opened with Floor5Gui.open()
     companion object {

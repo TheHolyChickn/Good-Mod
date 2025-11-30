@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 
 // trying to parse each item individually gives errors, so we parse the entire
 // neu prices endpoint for relevant items where possible
@@ -44,6 +45,7 @@ object CoflApiClient : ApiClient {
                 val price = fetchPrice(item.name).get(getKeyString(item.name)).asDouble
                 SellableItemParser.updateBazaar(item.name, price)
             }
+            sleep(25)
         }
 
         SellableItemParser.saveToFile()

@@ -9,6 +9,9 @@ import org.lwjgl.input.Keyboard
 import java.io.IOException
 import kotlin.collections.set
 
+/**
+ * Assists with the drawing of the GUI that's used for toggling whether to count certain catalog objects.
+ */
 abstract class AbstractCatalogGui : GuiScreen() {
     // should contain itemNames, and the corresponding buttonId should be items.indexOf(itemName)
     // what does this mean???? - ilo
@@ -18,6 +21,13 @@ abstract class AbstractCatalogGui : GuiScreen() {
     override fun initGui() {
         super.initGui()
         buttonList.clear()
+        renderRows(
+            items,
+            width,
+            height,
+            items.map { it.hexColor }
+        ).forEach { buttonList.add(it) }
+        buttonList.add(GuiButton(100, width - 103, 3, 100, 20, "Back"))
     }
 
     @Throws(IOException::class)

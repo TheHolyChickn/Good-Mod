@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 
 object TrickedApiClient : ApiClient {
     private val gson = Gson()
@@ -39,6 +40,7 @@ object TrickedApiClient : ApiClient {
                     modMessage("Parsing error on $itemTag: ${e.message}")
                 }
             }
+            sleep(25)
         }
 
         SellableItemParser.saveToFile()
@@ -50,7 +52,6 @@ object TrickedApiClient : ApiClient {
         return gson.fromJson(response, JsonObject::class.java)
     }
 
-    // unused??? -- iloyuk
     fun fetchPrice(itemTag: String): Double {
         val response = HttpClient.sendRequest("https://lb.tricked.pro/lowestbin/$itemTag")
         return response.toDouble()

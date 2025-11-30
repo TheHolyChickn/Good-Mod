@@ -8,26 +8,23 @@ import com.google.gson.reflect.TypeToken
 import java.io.*
 
 class DropsConfig {
-    private var itemDrops: MutableMap<String, Int> = LinkedHashMap()
-
-    private val CONFIG_FILE = File(mc.mcDataDir, "config/goodmod/drops.json").apply {
+    private val configFile = File(mc.mcDataDir, "config/goodmod/drops.json").apply {
         try {
             createNewFile()
         } catch (e: Exception) {
             print(e.message)
         }
     }
-
-    private val GSON: Gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
+    private var itemDrops: MutableMap<String, Int> = LinkedHashMap()
 
     fun loadConfig() {
         GoodMod.logger.info("Beginning DropsConfig loadConfig task")
 
         try {
-            with(CONFIG_FILE.bufferedReader().use { it.readText() }) {
+            with(configFile.bufferedReader().use { it.readText() }) {
                 if (this == "") return
-
-                itemDrops = GSON.fromJson(
+                itemDrops = gson.fromJson(
                     this,
                     object : TypeToken<MutableMap<String, Int>>() {}.type
                 )
@@ -40,8 +37,8 @@ class DropsConfig {
 
     private fun saveConfig() {
         try {
-            CONFIG_FILE.bufferedWriter().use {
-                it.write(GSON.toJson(itemDrops))
+            configFile.bufferedWriter().use {
+                it.write(gson.toJson(itemDrops))
                 GoodMod.logger.info("Successfully loaded itemDrops config $itemDrops")
             }
         } catch (e: Exception) {
@@ -71,5 +68,4 @@ class DropsConfig {
     fun getList(): MutableMap<String, Int> {
         return itemDrops
     }
-
 }

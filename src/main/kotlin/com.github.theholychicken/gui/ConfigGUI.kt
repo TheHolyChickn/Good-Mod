@@ -190,7 +190,6 @@ class ConfigGUI : GuiScreen() {
         }
     }
 
-    // Method for handling enter key presses
     private fun handleEnterKey() {
         when {
             getItemsNameField.isFocused -> {
