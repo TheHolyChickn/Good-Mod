@@ -19,6 +19,7 @@ import kotlin.math.min
 object HypixelApiClient : ApiClient {
     private val gson = Gson()
     private var key = "owo" //getKey()
+    // wtf does that do ^^^
 
     private fun getKey(item: String): String {
         return if (SellPricesConfig.sellPrices[item] == true) {

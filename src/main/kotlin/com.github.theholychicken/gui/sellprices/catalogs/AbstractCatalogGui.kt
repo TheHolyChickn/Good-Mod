@@ -68,7 +68,7 @@ abstract class AbstractCatalogGui : GuiScreen() {
      * @param height the available height
      * @return A list of GuiButtons (ToggleButtons) with buttonIds from 0 to items.size - 1
      */
-    fun renderRows(itemList: List<SellableItemParser.SellableItem>, width: Int, height: Int, colorList: List<Int>): List<GuiButton> {
+    private fun renderRows(itemList: List<SellableItemParser.SellableItem>, width: Int, height: Int, colorList: List<Int>): List<GuiButton> {
         val buttons = mutableListOf<GuiButton>()
         val items = itemList.map { it.displayName }
 

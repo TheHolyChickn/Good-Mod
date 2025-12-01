@@ -7,6 +7,7 @@ import java.io.File
 
 object GuiConfig {
     private val gson = GsonBuilder().setPrettyPrinting().create()
+    // default vals
     var commandNames = mutableMapOf<String, String>()
     var useSellOffer = false
     var api: String = "HypixelApi"

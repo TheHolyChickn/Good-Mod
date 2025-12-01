@@ -1,5 +1,7 @@
 package com.github.theholychicken.managers
 
+import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.utils.CroesusChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagCompound
@@ -14,6 +16,10 @@ object ChestLootParser {
     private val essenceCounts = mutableMapOf<String, Int>()
     private val chestLoot = mutableListOf<String>()
     lateinit var croesusChest: CroesusChest
+    private val keyPrice = when (GuiConfig.api) {
+        "ManualPricing" -> ManualPricesConfig.manualPrices["Dungeon Chest Key"] ?: 0.0
+        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+    }
 
     // Process instance of DUNGEON_CHEST
     fun parseChestLoot(chest: ContainerChest) {
@@ -77,9 +83,9 @@ object ChestLootParser {
         for (i in 0 until tags.tagCount()) {
             if (tags.get(i).toString().contains(Regex("Cost"))) {
                 if (tags.get(i + 2).toString().contains(Regex("§9Dungeon Chest Key"))) {
-                    cost += SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+                    cost += keyPrice
                 } else if (tags.get(i + 1).toString().contains(Regex("§9Dungeon Chest Key"))) {
-                    cost += SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+                    cost += keyPrice
                     return cost
                 }
                 val coins = tags.get(i + 1).toString().drop(3).dropLast(7)

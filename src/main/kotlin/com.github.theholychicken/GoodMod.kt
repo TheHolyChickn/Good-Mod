@@ -2,13 +2,13 @@ package com.github.theholychicken
 
 import com.github.theholychicken.commands.*
 import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.gui.ChestProfitTooltip
 import com.github.theholychicken.gui.CroesusProfitHUD
 import com.github.theholychicken.gui.MainCroesusHUD
 import com.github.theholychicken.managers.*
 import com.github.theholychicken.managers.apiclients.HttpClient
-import com.github.theholychicken.managers.apiclients.HypixelApiClient
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.ClientCommandHandler
@@ -37,6 +37,7 @@ class GoodMod {
             ItemDropParser.initConfig()
         }
         SellPricesConfig.loadConfig()
+        ManualPricesConfig.loadConfig()
     }
 
     @Mod.EventHandler
@@ -55,7 +56,9 @@ class GoodMod {
             OpenGuiCommand(),
             GetItemsCommand(),
             HelpCommand(),
-            UpdateAuctionsCommand()
+            UpdateAuctionsCommand(),
+            ConfigManualPricesTestCommand(), // test command
+            CommandFor15h() // remove tihs later
         ).forEach { ClientCommandHandler.instance.registerCommand(it) }
 
         HttpClient.scheduleApiPulls()

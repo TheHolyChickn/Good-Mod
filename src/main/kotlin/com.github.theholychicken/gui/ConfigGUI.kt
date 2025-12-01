@@ -19,12 +19,14 @@ class ConfigGUI : GuiScreen() {
     private var apis = listOf(
         "Hypixel API" to { GuiConfig.api = "HypixelApi" },
         "Cofl API" to { GuiConfig.api = "CoflApi" },
-        "Skytils API" to { GuiConfig.api = "TrickedApi" }
+        "Skytils API" to { GuiConfig.api = "TrickedApi" },
+        "Manual Pricing" to {GuiConfig.api = "ManualPricing" }
     )
     private val selected = when (GuiConfig.api) {
         "HypixelApi" -> 0
         "CoflApi" -> 1
         "TrickedApi" -> 2
+        "ManualPricing" -> 3
         else -> 0
     }
 
@@ -181,7 +183,8 @@ class ConfigGUI : GuiScreen() {
         if (getItemsNameField.textboxKeyTyped(typedChar, keyCode) ||
             openGuiNameField.textboxKeyTyped(typedChar, keyCode) ||
             setMinChestProfitField.textboxKeyTyped(typedChar, keyCode)) {
-            // handled by text input fields
+            // for some reason this empty if statement is needed to make the code work
+            // idk either but dont remove it
         }
 
         when (keyCode) {

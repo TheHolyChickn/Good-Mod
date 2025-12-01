@@ -43,6 +43,7 @@ object HttpClient {
                         "HypixelApi" -> HypixelApiClient.fetchAllAuctions()
                         "CoflApi" -> CoflApiClient.fetchAllAuctions()
                         "TrickedApi" -> TrickedApiClient.fetchAllAuctions()
+                        "ManualPricing" -> HypixelApiClient.fetchAllAuctions()
                     }
                 } catch (e: Exception) {
                     GoodMod.logger.error("Error in API Fetch", e)

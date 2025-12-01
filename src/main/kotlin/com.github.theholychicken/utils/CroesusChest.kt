@@ -1,5 +1,7 @@
 package com.github.theholychicken.utils
 
+import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.managers.SellableItemParser
 
 /**
@@ -24,7 +26,7 @@ class CroesusChest(
     private val cost: Double,
     val location: Pair<Int, Int>
 ) {
-    private val itemTags = thing()
+    // private val itemTags = thing()
     val profit: Double = calculateProfit()
 
     private fun thing(): MutableList<String> { // what does this do
@@ -60,9 +62,16 @@ class CroesusChest(
 
 
     private fun calculateProfit(): Double {
-        val auctionPrices = SellableItemParser.auctionPrices.takeIf { it.isNotEmpty() } ?: run {
-            modMessage("Auction/Bazaar prices are empty or null! Try manually refreshing with /updateauctions. If this does not fix the issue, please open an issue on the github.")
-            return -cost
+        val auctionPrices = if (GuiConfig.api == "ManualPricing") {
+            manualPricingTemporaryMethodFor15hBecauseHeSucks().takeIf { it.isNotEmpty() } ?: run {
+                modMessage("Auction/Bazaar prices are empty or null! Please try editing your prices configuration. If this does not fix the issue, please open an issue on the github.")
+                return -cost
+            }
+        } else {
+            SellableItemParser.auctionPrices.takeIf { it.isNotEmpty() } ?: run {
+                modMessage("Auction/Bazaar prices are empty or null! Try manually refreshing with /updateauctions. If this does not fix the issue, please open an issue on the github.")
+                return -cost
+            }
         }
 
         if (purchased) return 0.00
@@ -111,5 +120,24 @@ class CroesusChest(
                 }
             }
         } - cost
+    }
+
+    private fun manualPricingTemporaryMethodFor15hBecauseHeSucks() : MutableMap<String, Double> {
+        val returnPrices : MutableMap<String, Double> = mutableMapOf()
+        ManualPricesConfig.manualPrices.forEach { (displayName, price) ->
+            if (price == -1.0) {
+                returnPrices[displayName] = SellableItemParser.auctionPrices[displayName] ?: run {
+                    modMessage("Item $displayName not found in auctionPrices, defaulting to 0")
+                    0.0
+                }
+            } else {
+                returnPrices[displayName] = ManualPricesConfig.manualPrices[displayName] ?: run {
+                    modMessage("Item $displayName not found in manualPrices, defaulting to 0")
+                    0.0
+                }
+            }
+        }
+
+        return returnPrices
     }
 }

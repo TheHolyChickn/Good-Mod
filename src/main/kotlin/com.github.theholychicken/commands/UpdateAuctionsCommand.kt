@@ -2,6 +2,7 @@ package com.github.theholychicken.commands
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.managers.apiclients.CoflApiClient
 import com.github.theholychicken.managers.apiclients.HypixelApiClient
 import com.github.theholychicken.managers.apiclients.TrickedApiClient
@@ -32,6 +33,10 @@ class UpdateAuctionsCommand : CommandBase() {
                     "HypixelApi" -> HypixelApiClient.fetchAllAuctions()
                     "CoflApi" -> CoflApiClient.fetchAllAuctions()
                     "TrickedApi" -> TrickedApiClient.fetchAllAuctions()
+                    "ManualPricing" -> {
+                        ManualPricesConfig.loadConfig()
+                        HypixelApiClient.fetchAllAuctions()
+                    }
                     else -> modMessage("Could not figure out what API client you are using")
                 }
             } catch (e: Exception) {

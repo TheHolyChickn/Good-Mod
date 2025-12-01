@@ -1,6 +1,7 @@
 package com.github.theholychicken.managers
 
 import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.utils.CroesusChest
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.inventory.ContainerChest
@@ -18,7 +19,10 @@ object CroesusChestParser {
     private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
     private var purchasedChest = ""
     val runLoot = mutableListOf<CroesusChest>()
-    var dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.00
+    private var dungeonChestKeyPrice = when (GuiConfig.api) {
+        "ManualPricing" -> ManualPricesConfig.manualPrices["Dungeon Chest Key"] ?: 0.0
+        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+    }
     var keyStatus: Boolean = false // slightly misleading name, true if should use key
     var openStatus: Boolean = false
 
@@ -27,7 +31,7 @@ object CroesusChestParser {
         runLoot.clear()
         keyStatus = false
         openStatus = false
-        dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+        //dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
 
         // Chests occur 10-16, and I grab the glass at the edges as well just in case
         for (index in 9..17) {
