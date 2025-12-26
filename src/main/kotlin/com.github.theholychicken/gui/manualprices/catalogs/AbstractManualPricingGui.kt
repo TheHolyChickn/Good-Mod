@@ -75,15 +75,15 @@ abstract class AbstractManualPricingGui : GuiScreen() {
     override fun doesGuiPauseGame(): Boolean = false
 
     private fun defineEntries() {
-        TODO(
-            "This logic only works when considering only bazaarable items." +
-                "I want to make it so each item is a line formatted as ITEM [whitespace] TextInputField" +
-                "Then I want to implement scrolling. to do this i need to make a new type of gui that" +
-                "handles scrolling by adding or substracting y vals to EVERYTHING until it hits a" +
-                "specified max/min (except a title header which should be overlayed and have" +
-                "transparent background)" +
-                "Additionally i had to change from the key being the id to the displayName, gotta see if that breaks stuff too idk"
-        )
+        //TODO(
+        //    "This logic only works when considering only bazaarable items." +
+        //        "I want to make it so each item is a line formatted as ITEM [whitespace] TextInputField" +
+        //        "Then I want to implement scrolling. to do this i need to make a new type of gui that" +
+        //        "handles scrolling by adding or substracting y vals to EVERYTHING until it hits a" +
+        //        "specified max/min (except a title header which should be overlayed and have" +
+        //        "transparent background)" +
+        //        "Additionally i had to change from the key being the id to the displayName, gotta see if that breaks stuff too idk"
+        //)
         val maxPerRow = 5
         val fieldWidth = 40
         val fieldHeight = 20
