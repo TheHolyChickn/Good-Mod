@@ -41,7 +41,6 @@ object SellableItemParser {
     }
 
     // updates an entry as an auction thingy
-    // TODO: make it account for listing fees and taxes
     fun updateAuction(item: String, price: Double, rarity: String = "") {
         if (!(isAuctionable(item) || item in shinyItems)) return
 

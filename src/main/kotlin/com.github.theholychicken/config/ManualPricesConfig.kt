@@ -55,6 +55,9 @@ object ManualPricesConfig {
         SellableItemParser.items.forEach {
             manualPrices[it.displayName] = 0.0
         }
+        SellableItemParser.shinyItems.forEach {
+            manualPrices[it] = 0.0
+        }
         saveConfig()
     }
 }
