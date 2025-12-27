@@ -1,7 +1,6 @@
 package com.github.theholychicken.managers
 
-import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.config.ManualPricesConfig
+import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.utils.CroesusChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagCompound
@@ -16,9 +15,10 @@ object ChestLootParser {
     private val essenceCounts = mutableMapOf<String, Int>()
     private val chestLoot = mutableListOf<String>()
     lateinit var croesusChest: CroesusChest
-    private val keyPrice = when (GuiConfig.api) {
-        "ManualPricing" -> ManualPricesConfig.manualPrices["Dungeon Chest Key"] ?: 0.0
-        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+    private val keyPrice = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
+        SellPricesConfig.PriceSource.API -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+        SellPricesConfig.PriceSource.MANUAL -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+        else -> 0.0
     }
 
     // Process instance of DUNGEON_CHEST

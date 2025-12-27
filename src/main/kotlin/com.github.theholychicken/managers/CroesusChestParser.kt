@@ -1,7 +1,7 @@
 package com.github.theholychicken.managers
 
 import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.config.ManualPricesConfig
+import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.utils.CroesusChest
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.inventory.ContainerChest
@@ -19,9 +19,10 @@ object CroesusChestParser {
     private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
     private var purchasedChest = ""
     val runLoot = mutableListOf<CroesusChest>()
-    private var dungeonChestKeyPrice = when (GuiConfig.api) {
-        "ManualPricing" -> ManualPricesConfig.manualPrices["Dungeon Chest Key"] ?: 0.0
-        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+    private var dungeonChestKeyPrice = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
+        SellPricesConfig.PriceSource.MANUAL -> SellPricesConfig.prices["Dungeon Chest Key"]?.manualValue ?: 0.0
+        SellPricesConfig.PriceSource.API -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
+        else -> 0.0
     }
     var keyStatus: Boolean = false // slightly misleading name, true if should use key
     var openStatus: Boolean = false

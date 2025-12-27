@@ -36,7 +36,6 @@ class GoodMod {
             ItemDropParser.initConfig()
         }
         SellPricesConfig.loadConfig()
-        SellPricesConfig.absorbManualPrices() // for migration from legacy vers
     }
 
     @Mod.EventHandler
@@ -56,7 +55,6 @@ class GoodMod {
             GetItemsCommand(),
             HelpCommand(),
             UpdateAuctionsCommand(),
-            ConfigManualPricesTestCommand(), // test command
             KismetBoundsCommand()
         ).forEach { ClientCommandHandler.instance.registerCommand(it) }
 

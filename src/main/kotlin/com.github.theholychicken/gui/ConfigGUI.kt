@@ -1,6 +1,7 @@
 package com.github.theholychicken.gui
 
 import com.github.theholychicken.config.GuiConfig
+import com.github.theholychicken.gui.prices.ConfigPricingGui
 import com.github.theholychicken.gui.sellprices.ConfigSellPrices
 import com.github.theholychicken.gui.utils.DropdownMenu
 import com.github.theholychicken.utils.modMessage
@@ -20,13 +21,11 @@ class ConfigGUI : GuiScreen() {
         "Hypixel API" to { GuiConfig.api = "HypixelApi" },
         "Cofl API" to { GuiConfig.api = "CoflApi" },
         "Skytils API" to { GuiConfig.api = "TrickedApi" },
-        "Manual Pricing" to {GuiConfig.api = "ManualPricing" }
     )
     private val selected = when (GuiConfig.api) {
         "HypixelApi" -> 0
         "CoflApi" -> 1
         "TrickedApi" -> 2
-        "ManualPricing" -> 3
         else -> 0
     }
 
@@ -37,12 +36,12 @@ class ConfigGUI : GuiScreen() {
         // Add buttons
         // Opens the stuff display
         buttonList.add(GuiButton(0, (this.width / 2) - 100, (this.height / 2) + 2, buttonLabel))
-        // Toggle for using sell offer/instasell pricing
-        buttonList.add(GuiButton(1, (this.width / 2) - 100, (this.height / 2) + 26, sellOffer))
-        // Toggle for rendering main croesus menu
-        buttonList.add(GuiButton(2, (this.width / 2) - 100, (this.height / 2) - 24, renderMainCroesusMenu))
+
+        // toggle for rendering the overlay in the main croesus menu
+        buttonList.add(GuiButton(1, (this.width / 2) - 100, (this.height / 2) + 26, renderMainCroesusMenu))
+
         // Opens the per-item sell price configs
-        buttonList.add(GuiButton(3, width / 2 - 100, height / 2 + 50, "Sell Price Configs"))
+        buttonList.add(GuiButton(2, (this.width / 2) - 100, (this.height / 2) - 24, "item pricing configs"))
 
         // Initialize text fields
         // Config field for /goodmod:getitems
@@ -91,6 +90,7 @@ class ConfigGUI : GuiScreen() {
         }
 
         // Dropdown menu for api endpoints
+        // we dont rlly need this given how fast hypixel is ngl imma remove tricked
         dropdownMenu = DropdownMenu(
             (this.width / 2) - 100,
             (this.height / 2) + 74,
@@ -114,18 +114,12 @@ class ConfigGUI : GuiScreen() {
         when (button.id) {
             0 -> ItemDropHUD.open()
             1 -> {
-                GuiConfig.useSellOffer = !GuiConfig.useSellOffer
-                GuiConfig.saveConfig()
-                GuiConfig.loadConfig()
-                button.displayString = sellOffer
-            }
-            2 -> {
                 GuiConfig.renderMainCroesusGui = !GuiConfig.renderMainCroesusGui
                 GuiConfig.saveConfig()
                 GuiConfig.loadConfig()
                 button.displayString = renderMainCroesusMenu
             }
-            3 -> ConfigSellPrices.open()
+            2 -> ConfigPricingGui.open()
             in 100..(100 + apis.size) -> {
                 dropdownMenu.handleButtonClick(button)
                 dropdownMenu.updateDropdownLabel(buttonList)

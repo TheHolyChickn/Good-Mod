@@ -1,7 +1,5 @@
 package com.github.theholychicken.utils
 
-import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.config.ManualPricesConfig
 import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.managers.SellableItemParser
 

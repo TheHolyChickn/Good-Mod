@@ -75,7 +75,7 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
             val rowBottom = rowTop + rowHeight
 
             // just dont render it if it doesnt exist
-            val pref = SellPricesConfig.prices[widget.item.displayName]!!
+            val pref = SellPricesConfig.prices[widget.item.displayName] ?: SellPricesConfig.PricePreference()
 
             // background highlight
             if (mouseY in rowTop..rowBottom && mouseX >= leftMargin && mouseX <= width - rightMargin) {
@@ -114,7 +114,7 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
         val relMouseY = getRelativeMouseY(mouseY)
 
         rowWidgets.forEach { widget ->
-            val pref = SellPricesConfig.prices[widget.item.displayName]!!
+            val pref = SellPricesConfig.prices.getOrPut(widget.item.displayName) { SellPricesConfig.PricePreference() }
 
             if (widget.modeButton.mousePressed(mc, mouseX, relMouseY)) {
                 pref.source = if (pref.source == SellPricesConfig.PriceSource.API) {

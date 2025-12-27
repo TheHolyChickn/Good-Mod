@@ -11,6 +11,7 @@ import java.lang.reflect.Type
  * Config backend for pricing preferences of all items
  *
  * @property prices Maps itemIds to a PricePreference object containing their pricing logic
+ * @property PricePreference useful object for saving price preference data in a very persistent and compact way
  */
 object SellPricesConfig {
     private val configFile = File(mc.mcDataDir, "config/goodmod/sellprices.json").apply {
@@ -22,7 +23,7 @@ object SellPricesConfig {
     }
     private val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
-        .registerTypeAdapter(Double::class.java, PricePreferenceAdapter())
+        .registerTypeAdapter(PricePreference::class.java, PricePreferenceAdapter())
         .create()
     var sellPrices: MutableMap<String, Boolean> = mutableMapOf()
     var prices: MutableMap<String, PricePreference> = mutableMapOf()
@@ -38,6 +39,7 @@ object SellPricesConfig {
                 prices = gson.fromJson(this, type) ?: mutableMapOf()
 
                 ensureAllItemsExist()
+                absorbManualPrices()
                 saveConfig()
             }
         } catch (e: Exception) {
@@ -108,8 +110,8 @@ object SellPricesConfig {
                 val obj = json.asJsonObject
                 return PricePreference(
                     source = PriceSource.valueOf(obj["source"]?.asString ?: "API"),
-                    apiPricing = ApiPricing.valueOf(obj["api"]?.asString ?: "SELL_OFFER"),
-                    manualValue = obj["manual"]?.asDouble ?: 0.0
+                    apiPricing = ApiPricing.valueOf(obj["apiPricing"]?.asString ?: "SELL_OFFER"),
+                    manualValue = obj["manualValue"]?.asDouble ?: 0.0
                 )
             }
             return PricePreference()
@@ -117,7 +119,7 @@ object SellPricesConfig {
     }
 
     // migration logic
-    fun absorbManualPrices() {
+    private fun absorbManualPrices() {
         val manualPricesConfigFile = File(mc.mcDataDir, "config/goodmod/manualprices.json")
         if (!manualPricesConfigFile.exists()) return
 
@@ -125,18 +127,15 @@ object SellPricesConfig {
             val type = object : TypeToken<MutableMap<String, Double>>() {}.type
             val manualMap: MutableMap<String, Double> = gson.fromJson(manualPricesConfigFile.readText(), type) ?: return
 
-            var changes = false
             manualMap.forEach { (name, value) ->
-                // migrate old file; -1 meant api pricing
+                // -1 meant api pricing
                 if (value != -1.0) {
                     val pref = prices.getOrPut(name) { PricePreference() }
                     pref.source = PriceSource.MANUAL
                     pref.manualValue = value
-                    changes = true
                 }
             }
 
-            if (changes) saveConfig()
             manualPricesConfigFile.renameTo(File(mc.mcDataDir, "config/goodmod/MANUAL-PRICES-DEPRECATED.json"))
         } catch (e: Exception) {
             println(e.message)
