@@ -59,7 +59,8 @@ object SellableItemParser {
      */
     fun updateBazaar(item: String, price: Double) {
         val itemName = getBazaarName(item) ?: return
-        val multi = if (SellPricesConfig.sellPrices[item] == true) 0.9875F else 1F // tax
+        val pricingLogic = SellPricesConfig.prices[item]?.apiPricing == SellPricesConfig.ApiPricing.SELL_OFFER
+        val multi = if (pricingLogic) 0.9875F else 1F // tax
         auctionPrices[itemName] = (price * multi)
     }
 
@@ -143,18 +144,18 @@ object SellableItemParser {
         val hexColor: Int
     ) {
         // Floor 7 - Auctions
-        NECRON_HANDLE("Necron's Handle", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        DARK_CLAYMORE("Dark Claymore", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        DYE_NECRON("Necron Dye", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        WITHER_HELMET("Wither Helmet", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        WITHER_CHESTPLATE("Wither Chestplate", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        WITHER_LEGGINGS("Wither Leggings", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        WITHER_BOOTS("Wither Boots", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        AUTO_RECOMBOBULATOR("Auto Recombobulator", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        WITHER_CLOAK("Wither Cloak Sword", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        STORM_THE_FISH("Storm the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        GOLDOR_THE_FISH("Goldor the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
-        MAXOR_THE_FISH("Maxor the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFFFFFF),
+        NECRON_HANDLE("Necron's Handle", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        DARK_CLAYMORE("Dark Claymore", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        DYE_NECRON("Necron Dye", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        WITHER_HELMET("Wither Helmet", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        WITHER_CHESTPLATE("Wither Chestplate", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        WITHER_LEGGINGS("Wither Leggings", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        WITHER_BOOTS("Wither Boots", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        AUTO_RECOMBOBULATOR("Auto Recombobulator", Catalog.FLOOR_7, SellType.AUCTION, 0xFFAA00),
+        WITHER_CLOAK("Wither Cloak Sword", Catalog.FLOOR_7, SellType.AUCTION, 0xAA00AA),
+        STORM_THE_FISH("Storm the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFF5555),
+        GOLDOR_THE_FISH("Goldor the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFF5555),
+        MAXOR_THE_FISH("Maxor the Fish", Catalog.FLOOR_7, SellType.AUCTION, 0xFF5555),
 
         // Floor 7 - Bazaar
         IMPLOSION_SCROLL("Implosion", Catalog.FLOOR_7, SellType.BAZAAR, 0xAA00AA),
@@ -169,16 +170,16 @@ object SellableItemParser {
         SHARD_WITHER("Wither Shard", Catalog.FLOOR_7, SellType.BAZAAR, 0x5555FF),
 
         // Floor 6 - Auctions
-        GIANTS_SWORD("Giant's Sword", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        PRECURSOR_EYE("Precursor Eye", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        FEL_SKULL("Fel Skull", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        SOULWEAVER_GLOVES("Soulweaver Gloves", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        SUMMONING_RING("Summoning Ring", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        NECROMANCER_LORD_HELMET("Necromancer Lord Helmet", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        NECROMANCER_LORD_CHESTPLATE("Necromancer Lord Chestplate", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        NECROMANCER_LORD_LEGGINGS("Necromancer Lord Leggings", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        NECROMANCER_LORD_BOOTS("Necromancer Lord Boots", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
-        NECROMANCER_SWORD("Necromancer Sword", Catalog.FLOOR_6, SellType.AUCTION, 0xFFFFFF),
+        GIANTS_SWORD("Giant's Sword", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        PRECURSOR_EYE("Precursor Eye", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        FEL_SKULL("Fel Skull", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        SOULWEAVER_GLOVES("Soulweaver Gloves", Catalog.FLOOR_6, SellType.AUCTION, 0xAA00AA),
+        SUMMONING_RING("Summoning Ring", Catalog.FLOOR_6, SellType.AUCTION, 0x5555FF),
+        NECROMANCER_LORD_HELMET("Necromancer Lord Helmet", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        NECROMANCER_LORD_CHESTPLATE("Necromancer Lord Chestplate", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        NECROMANCER_LORD_LEGGINGS("Necromancer Lord Leggings", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        NECROMANCER_LORD_BOOTS("Necromancer Lord Boots", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
+        NECROMANCER_SWORD("Necromancer Sword", Catalog.FLOOR_6, SellType.AUCTION, 0xFFAA00),
 
         // Floor 6 - Bazaar
         GIANT_TOOTH("Giant Tooth", Catalog.FLOOR_6, SellType.BAZAAR, 0xAA00AA),
@@ -186,14 +187,15 @@ object SellableItemParser {
         FOURTH_MASTER_STAR("Fourth Master Star", Catalog.FLOOR_6, SellType.BAZAAR, 0xAA00AA),
 
         // Floor 5 - Auctions
-        SHADOW_FURY("Shadow Fury", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        LAST_BREATH("Last Breath", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        LIVID_DAGGER("Livid Dagger", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        SHADOW_ASSASSIN_HELMET("Shadow Assassin Helmet", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        SHADOW_ASSASSIN_CHESTPLATE("Shadow Assassin Chestplate", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        SHADOW_ASSASSIN_LEGGINGS("Shadow Assassin Leggings", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        SHADOW_ASSASSIN_BOOTS("Shadow Assassin Boots", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
-        SHADOW_ASSASSIN_CLOAK("Shadow Assassin Cloak", Catalog.FLOOR_5, SellType.AUCTION, 0xFFFFFF),
+        DYE_LIVID("Livid Dye", Catalog.FLOOR_5, SellType.AUCTION, 0xAAAAAA),
+        SHADOW_FURY("Shadow Fury", Catalog.FLOOR_5, SellType.AUCTION, 0xFFAA00),
+        LAST_BREATH("Last Breath", Catalog.FLOOR_5, SellType.AUCTION, 0xFFAA00),
+        LIVID_DAGGER("Livid Dagger", Catalog.FLOOR_5, SellType.AUCTION, 0xFFAA00),
+        SHADOW_ASSASSIN_HELMET("Shadow Assassin Helmet", Catalog.FLOOR_5, SellType.AUCTION, 0xAA00AA),
+        SHADOW_ASSASSIN_CHESTPLATE("Shadow Assassin Chestplate", Catalog.FLOOR_5, SellType.AUCTION, 0xAA00AA),
+        SHADOW_ASSASSIN_LEGGINGS("Shadow Assassin Leggings", Catalog.FLOOR_5, SellType.AUCTION, 0xAA00AA),
+        SHADOW_ASSASSIN_BOOTS("Shadow Assassin Boots", Catalog.FLOOR_5, SellType.AUCTION, 0xAA00AA),
+        SHADOW_ASSASSIN_CLOAK("Shadow Assassin Cloak", Catalog.FLOOR_5, SellType.AUCTION, 0xAA00AA),
 
         // Floor 5 - Bazaar
         AOTE_STONE("Warped Stone", Catalog.FLOOR_5, SellType.BAZAAR, 0x5555FF),
@@ -201,11 +203,11 @@ object SellableItemParser {
         THIRD_MASTER_STAR("Third Master Star", Catalog.FLOOR_5, SellType.BAZAAR, 0xAA00AA),
 
         // Floor 4 - Auctions
-        PET_SPIRIT_LEGENDARY("[Lvl 1] §6Spirit", Catalog.FLOOR_4, SellType.AUCTION, 0xFFFFFF),
-        PET_SPIRIT_EPIC("[Lvl 1] §5Spirit", Catalog.FLOOR_4, SellType.AUCTION, 0xFFFFFF),
-        THORNS_BOOTS("Spirit Boots", Catalog.FLOOR_4, SellType.AUCTION, 0xFFFFFF),
-        ITEM_SPIRIT_BOW("Spirit Shortbow", Catalog.FLOOR_4, SellType.AUCTION, 0xFFFFFF),
-        SPIRIT_SWORD("Spirit Sword", Catalog.FLOOR_4, SellType.AUCTION, 0xFFFFFF),
+        PET_SPIRIT_LEGENDARY("[Lvl 1] §6Spirit", Catalog.FLOOR_4, SellType.AUCTION, 0xFFAA00),
+        PET_SPIRIT_EPIC("[Lvl 1] §5Spirit", Catalog.FLOOR_4, SellType.AUCTION, 0xAA00AA),
+        THORNS_BOOTS("Spirit Boots", Catalog.FLOOR_4, SellType.AUCTION, 0xAA00AA),
+        ITEM_SPIRIT_BOW("Spirit Shortbow", Catalog.FLOOR_4, SellType.AUCTION, 0xFFAA00),
+        SPIRIT_SWORD("Spirit Sword", Catalog.FLOOR_4, SellType.AUCTION, 0xAA00AA),
 
         // Floor 4 - Bazaar
         SPIRIT_WING("Spirit Wing", Catalog.FLOOR_4, SellType.BAZAAR, 0xAA00AA),
@@ -215,45 +217,45 @@ object SellableItemParser {
         SHARD_THORN("Thorn Shard", Catalog.FLOOR_4, SellType.BAZAAR, 0xFFAA00),
 
         // Floor 3 - Auctions
-        ADAPTIVE_HELMET("Adaptive Helmet", Catalog.FLOOR_3, SellType.AUCTION, 0xFFFFFF),
-        ADAPTIVE_CHESTPLATE("Adaptive Chestplate", Catalog.FLOOR_3, SellType.AUCTION, 0xFFFFFF),
-        ADAPTIVE_LEGGINGS("Adaptive Leggings", Catalog.FLOOR_3, SellType.AUCTION, 0xFFFFFF),
-        ADAPTIVE_BOOTS("Adaptive Boots", Catalog.FLOOR_3, SellType.AUCTION, 0xFFFFFF),
+        ADAPTIVE_HELMET("Adaptive Helmet", Catalog.FLOOR_3, SellType.AUCTION, 0xAA00AA),
+        ADAPTIVE_CHESTPLATE("Adaptive Chestplate", Catalog.FLOOR_3, SellType.AUCTION, 0xAA00AA),
+        ADAPTIVE_LEGGINGS("Adaptive Leggings", Catalog.FLOOR_3, SellType.AUCTION, 0xAA00AA),
+        ADAPTIVE_BOOTS("Adaptive Boots", Catalog.FLOOR_3, SellType.AUCTION, 0xAA00AA),
 
         // Floor 3 - Bazaar
         SUSPICIOUS_VIAL("Suspicious Vial", Catalog.FLOOR_3, SellType.BAZAAR, 0x5555FF),
         FIRST_MASTER_STAR("First Master Star", Catalog.FLOOR_3, SellType.BAZAAR, 0xAA00AA),
 
         // Floor 2 - Auctions
-        STONE_BLADE("Adaptive Blade", Catalog.FLOOR_2, SellType.AUCTION, 0xFFFFFF),
-        ADAPTIVE_BELT("Adaptive Belt", Catalog.FLOOR_2, SellType.AUCTION, 0xFFFFFF),
-        SCARF_STUDIES("Scarf's Studies", Catalog.FLOOR_2, SellType.AUCTION, 0xFFFFFF),
+        STONE_BLADE("Adaptive Blade", Catalog.FLOOR_2, SellType.AUCTION, 0xAA00AA),
+        ADAPTIVE_BELT("Adaptive Belt", Catalog.FLOOR_2, SellType.AUCTION, 0xAA00AA),
+        SCARF_STUDIES("Scarf's Studies", Catalog.FLOOR_2, SellType.AUCTION, 0x5555FF),
 
         // Floor 2 - Bazaar
         RED_SCARF("Red Scarf", Catalog.FLOOR_2, SellType.BAZAAR, 0x5555FF),
         SHARD_SCARF("Scarf Shard", Catalog.FLOOR_2, SellType.BAZAAR, 0xFFAA00),
 
         // Floor 1 - Auctions
-        BONZO_MASK("Bonzo's Mask", Catalog.FLOOR_1, SellType.AUCTION, 0xFFFFFF),
-        BONZO_STAFF("Bonzo's Staff", Catalog.FLOOR_1, SellType.AUCTION, 0xFFFFFF),
-        BALLOON_SNAKE("Balloon Snake", Catalog.FLOOR_1, SellType.AUCTION, 0xFFFFFF),
+        BONZO_MASK("Bonzo's Mask", Catalog.FLOOR_1, SellType.AUCTION, 0x5555FF),
+        BONZO_STAFF("Bonzo's Staff", Catalog.FLOOR_1, SellType.AUCTION, 0x5555FF),
+        BALLOON_SNAKE("Balloon Snake", Catalog.FLOOR_1, SellType.AUCTION, 0x5555FF),
 
         // Floor 1 - Bazaar
         RED_NOSE("Red Nose", Catalog.FLOOR_1, SellType.BAZAAR, 0x5555FF),
 
         // Miscellaneous - Auctions
-        MASTER_SKULL_TIER_5("Master Skull - Tier 5", Catalog.MISC, SellType.AUCTION, 0xFFFFFF),
-        MASTER_SKULL_TIER_4("Master Skull - Tier 4", Catalog.MISC, SellType.AUCTION, 0xFFFFFF),
-        MASTER_SKULL_TIER_3("Master Skull - Tier 3", Catalog.MISC, SellType.AUCTION, 0xFFFFFF),
+        MASTER_SKULL_TIER_5("Master Skull - Tier 5", Catalog.MISC, SellType.AUCTION, 0x5555FF),
+        MASTER_SKULL_TIER_4("Master Skull - Tier 4", Catalog.MISC, SellType.AUCTION, 0x55FF55),
+        MASTER_SKULL_TIER_3("Master Skull - Tier 3", Catalog.MISC, SellType.AUCTION, 0x55FF55),
         MASTER_SKULL_TIER_2("Master Skull - Tier 2", Catalog.MISC, SellType.AUCTION, 0xFFFFFF),
         MASTER_SKULL_TIER_1("Master Skull - Tier 1", Catalog.MISC, SellType.AUCTION, 0xFFFFFF),
 
         // Enchantments - Bazaar
         ENCHANTMENT_THUNDERLORD_7("Thunderlord VII", Catalog.ENCHANTS, SellType.BAZAAR, 0xAA00AA),
-        ENCHANTMENT_OVERLOAD_1("Overload I", Catalog.ENCHANTS, SellType.BAZAAR, 0xAAAAAA),
-        ENCHANTMENT_REJUVENATE_3("Rejuvenate III", Catalog.ENCHANTS, SellType.BAZAAR, 0xAAAAAA),
-        ENCHANTMENT_REJUVENATE_2("Rejuvenate II", Catalog.ENCHANTS, SellType.BAZAAR, 0xAAAAAA),
-        ENCHANTMENT_REJUVENATE_1("Rejuvenate I", Catalog.ENCHANTS, SellType.BAZAAR, 0xAAAAAA),
+        ENCHANTMENT_OVERLOAD_1("Overload I", Catalog.ENCHANTS, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_REJUVENATE_3("Rejuvenate III", Catalog.ENCHANTS, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_REJUVENATE_2("Rejuvenate II", Catalog.ENCHANTS, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_REJUVENATE_1("Rejuvenate I", Catalog.ENCHANTS, SellType.BAZAAR, 0xFFFFFF),
         ENCHANTMENT_FEATHER_FALLING_7("Feather Falling VII", Catalog.ENCHANTS, SellType.BAZAAR, 0xAA00AA),
         ENCHANTMENT_FEATHER_FALLING_6("Feather Falling VI", Catalog.ENCHANTS, SellType.BAZAAR, 0x5555FF),
         ENCHANTMENT_INFINITE_QUIVER_7("Infinite Quiver VII", Catalog.ENCHANTS, SellType.BAZAAR, 0xAA00AA),

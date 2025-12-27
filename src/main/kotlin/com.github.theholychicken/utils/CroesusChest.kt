@@ -2,6 +2,7 @@ package com.github.theholychicken.utils
 
 import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.config.ManualPricesConfig
+import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.managers.SellableItemParser
 
 /**
@@ -62,41 +63,28 @@ class CroesusChest(
 
 
     private fun calculateProfit(): Double {
-        val auctionPrices = if (GuiConfig.api == "ManualPricing") {
-            manualPricingTemporaryMethodFor15hBecauseHeSucks().takeIf { it.isNotEmpty() } ?: run {
-                modMessage("Auction/Bazaar prices are empty or null! Please try editing your prices configuration. If this does not fix the issue, please open an issue on the github.")
-                return -cost
-            }
-        } else {
-            SellableItemParser.auctionPrices.takeIf { it.isNotEmpty() } ?: run {
-                modMessage("Auction/Bazaar prices are empty or null! Try manually refreshing with /updateauctions. If this does not fix the issue, please open an issue on the github.")
-                return -cost
-            }
-        }
-
         if (purchased) return 0.00
 
         return items.sumOf {
+            var key: String? = null
+            var quantity = 1
+
             when {
                 it.matches(Regex("§dWither Essence §8x\\d+")) -> {
-                    val price = auctionPrices["Wither Essence"] ?: 0.0
-                    val quantity = Regex("(\\d+)$").find(it)?.groupValues?.get(1)?.toIntOrNull() ?: 0
-                    quantity * price
+                    key = "Wither Essence"
+                    quantity = Regex("(\\d+)$").find(it)?.groupValues?.get(1)?.toIntOrNull() ?: 0
                 }
 
                 it.matches(Regex("§dUndead Essence §8x\\d+")) -> {
-                    val price = auctionPrices["Undead Essence"] ?: 0.0
-                    val quantity = Regex("(\\d+)$").find(it)?.groupValues?.get(1)?.toIntOrNull() ?: 0
-                    quantity * price
+                    key = "Undead Essence"
+                    quantity = Regex("(\\d+)$").find(it)?.groupValues?.get(1)?.toIntOrNull() ?: 0
                 }
 
                 it.matches(Regex("§[0-9a-fk-or].+ Shard §8x\\d+")) -> {
                     val match = Regex("§[0-9a-fk-or](.+) §8x(\\d+)").find(it)
                     if (match != null) {
-                        val (name, quantityStr) = match.destructured
-                        val price = auctionPrices[name] ?: 0.0
-                        val quantity = quantityStr.toIntOrNull() ?: 0
-                        quantity * price
+                        key = match.groupValues[1]
+                        quantity = match.groupValues[2].toIntOrNull() ?: 0
                     } else {
                         modMessage("Failed to parse shard instance $it")
                         0.0
@@ -104,40 +92,26 @@ class CroesusChest(
                 }
 
                 it.matches(Regex("§7[Lvl 1] §\\dSpirit")) -> {
-                    val key = it.substring(2)
-                    auctionPrices[key] ?: run {
-                        modMessage("Spirit pet failed")
-                        0.00
-                    }
+                    key = it.substring(2)
                 }
 
                 else -> {
-                    val key = it.substring(it.lastIndexOf("§") + 2)
-                    auctionPrices[key] ?: run {
-                        modMessage("Item not found in auction/bazaar prices: §6$key §4§l(Please report this)")
-                        0.00
-                    }
+                    key = it.substring(it.lastIndexOf("§") + 2)
                 }
             }
-        } - cost
-    }
 
-    private fun manualPricingTemporaryMethodFor15hBecauseHeSucks() : MutableMap<String, Double> {
-        val returnPrices : MutableMap<String, Double> = mutableMapOf()
-        ManualPricesConfig.manualPrices.forEach { (displayName, price) ->
-            if (price == -1.0) {
-                returnPrices[displayName] = SellableItemParser.auctionPrices[displayName] ?: run {
-                    modMessage("Item $displayName not found in auctionPrices, defaulting to 0")
-                    0.0
+            val unitPrice: Double = if (key != null) {
+                val pref = SellPricesConfig.prices[key]
+                if (pref?.source == SellPricesConfig.PriceSource.MANUAL) {
+                    pref.manualValue
+                } else {
+                    SellableItemParser.auctionPrices[key] ?: 0.0
                 }
             } else {
-                returnPrices[displayName] = ManualPricesConfig.manualPrices[displayName] ?: run {
-                    modMessage("Item $displayName not found in manualPrices, defaulting to 0")
-                    0.0
-                }
+                0.0
             }
-        }
 
-        return returnPrices
+            unitPrice * quantity
+        } - cost
     }
 }

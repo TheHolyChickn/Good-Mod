@@ -22,10 +22,12 @@ object HypixelApiClient : ApiClient {
     // wtf does that do ^^^
 
     private fun getKey(item: String): String {
-        return if (SellPricesConfig.sellPrices[item] == true) {
-            "buy_summary" // using sell offers
-        } else {
-            "sell_summary" // using instasell
+        return when (SellPricesConfig.prices[item]?.apiPricing) {
+            // in the api, buy summary is prices for ppl instabuying which are set by
+            // sell offers. similarly sell summary is price for instasell
+            SellPricesConfig.ApiPricing.SELL_OFFER -> "buy_summary"
+            SellPricesConfig.ApiPricing.INSTASELL -> "sell_summary"
+            else -> "sell_summary"
         }
     }
 

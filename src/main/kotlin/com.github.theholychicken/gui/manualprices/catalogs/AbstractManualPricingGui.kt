@@ -1,139 +1,140 @@
 package com.github.theholychicken.gui.manualprices.catalogs
 
 import com.github.theholychicken.config.ManualPricesConfig
+import com.github.theholychicken.gui.AbstractScrollableGui
 import com.github.theholychicken.gui.manualprices.ConfigManualPrices
 import com.github.theholychicken.managers.SellableItemParser
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.client.gui.GuiButton
-import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.GuiTextField
-import okio.IOException
 import org.lwjgl.input.Keyboard
-import kotlin.jvm.Throws
+import org.lwjgl.opengl.GL11
 
 /**
- * Assists with the drawing of GUIs that are used for manually setting sell prices
+ * A scrollable GUI for manually setting sell prices.
  */
-abstract class AbstractManualPricingGui : GuiScreen() {
+abstract class AbstractManualPricingGui : AbstractScrollableGui() {
+
     abstract val items: List<SellableItemParser.SellableItem>
-    abstract val guiName : String
-    private val entryFields : MutableList<Pair<GuiTextField, SellableItemParser.SellableItem>> = mutableListOf()
+    abstract val guiName: String
+
+    override val guiTitle: String
+        get() = "manual pricing - $guiName"
+
+    private val rowHeight = 40
+    private val fieldWidth = 120
+    private val fieldHeight = 22
+    private val textScale = 1.2f
+
+    private val entryFields = mutableListOf<Pair<GuiTextField, SellableItemParser.SellableItem>>()
 
     override fun initGui() {
         super.initGui()
-        defineEntries()
+
+        entryFields.clear()
+
+        // back button
         buttonList.add(GuiButton(100, width - 103, 3, 100, 20, "Back"))
+
+        // text fields
+        items.forEachIndexed { index, item ->
+            val yPos = index * rowHeight + (rowHeight - fieldHeight) / 2
+            val xPos = width - rightMargin - fieldWidth
+
+            val field = GuiTextField(index, fontRendererObj, xPos, yPos, fieldWidth, fieldHeight)
+            val savedPrice = ManualPricesConfig.manualPrices[item.displayName] ?: 0.0
+            field.text = if (savedPrice == -1.0) "-1" else savedPrice.toInt().toString()
+
+            entryFields.add(field to item)
+        }
     }
 
-    @Throws(IOException::class)
+    override fun getContentHeight(): Int {
+        return items.size * rowHeight
+    }
+
+    override fun drawContent(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        entryFields.forEachIndexed { index, (field, item) ->
+            val rowTop = index * rowHeight
+            val rowBottom = rowTop + rowHeight
+
+            // highlight effect
+            if (mouseY in rowTop..rowBottom && mouseX >= leftMargin && mouseX <= width - rightMargin) {
+                drawRect(leftMargin, rowTop, width - rightMargin, rowBottom, 0x25FFFFFF)
+            }
+
+            // spacer
+            drawRect(leftMargin, rowBottom - 1, width - rightMargin, rowBottom, 0xFF555555.toInt())
+
+            GL11.glPushMatrix()
+            GL11.glScalef(textScale, textScale, 1f)
+
+            // why tf does drawStringWithShadow require a float input?
+            val textX = ((leftMargin + 5) / textScale)
+            val centeredY = rowTop + (rowHeight - (fontRendererObj.FONT_HEIGHT * textScale)) / 2
+            val textY = (centeredY / textScale)
+
+            fontRendererObj.drawStringWithShadow(item.displayName, textX, textY, item.hexColor)
+
+            GL11.glPopMatrix()
+
+            // Draw the text box
+            field.drawTextBox()
+        }
+    }
+
+    override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
+        super.mouseClicked(mouseX, mouseY, mouseButton)
+
+        entryFields.forEach { (field, _) ->
+            field.mouseClicked(mouseX, getRelativeMouseY(mouseY), mouseButton)
+        }
+    }
+
+    override fun keyTyped(typedChar: Char, keyCode: Int) {
+        // Pass key inputs to text fields (they handle focus internally)
+        if (entryFields.any { it.first.textboxKeyTyped(typedChar, keyCode) }) {
+            return
+        }
+
+        when (keyCode) {
+            Keyboard.KEY_ESCAPE -> {
+                saveAllPrices()
+                mc.displayGuiScreen(ConfigManualPrices())
+            }
+            Keyboard.KEY_RETURN -> {
+                saveAllPrices()
+                // Optional: Provide feedback or move focus
+                modMessage("Prices saved!")
+            }
+        }
+    }
+
     override fun actionPerformed(button: GuiButton) {
         if (button.id == 100) {
+            saveAllPrices()
             mc.displayGuiScreen(ConfigManualPrices())
         }
     }
 
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        drawDefaultBackground()
-        drawCenteredString(fontRendererObj, guiName, width / 2, 20, 0x00FFFF)
-        drawCenteredString(fontRendererObj, "Enter the price you wish to sell each item at.", width / 2, 40, 0xFFFFFF)
-        drawCenteredString(fontRendererObj, "Press enter to save, or press the save button to save all.", width / 2, 55, 0xFFFFFF)
-        entryFields.forEach { drawBoxAndTitleString(it) }
-    }
-
-    override fun keyTyped(typedChar: Char, keyCode: Int) {
-        // Allows input fields to process inputs
-        if (entryFields.any { it.first.textboxKeyTyped(typedChar, keyCode) }) {
-            // for some reason this empty if statement is needed to make the code work
-            // idk either but dont remove it
-        }
-
-        when (keyCode) {
-            Keyboard.KEY_ESCAPE -> mc.displayGuiScreen(ConfigManualPrices())
-            Keyboard.KEY_RETURN -> handleEnterKey()
-        }
-    }
-
-    @Throws(IOException::class)
-    override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
-        super.mouseClicked(mouseX, mouseY, mouseButton)
-        entryFields.forEach { it.first.mouseClicked(mouseX, mouseY, mouseButton) }
-    }
-
-    private fun handleEnterKey() {
-        entryFields.forEach {
-            if (it.first.isFocused) {
-                ManualPricesConfig.manualPrices[it.second.name] = it.first.text.toDoubleOrNull() ?: run {
-                    modMessage("Please input a valid price.")
-                    it.first.text = ManualPricesConfig.manualPrices[it.second.name].toString()
-                    0.0
+    /**
+     * Helper to save all current values to the config
+     */
+    private fun saveAllPrices() {
+        var changed = false
+        entryFields.forEach { (field, item) ->
+            val input = field.text.toDoubleOrNull()
+            if (input != null) {
+                if (ManualPricesConfig.manualPrices[item.displayName] != input) {
+                    ManualPricesConfig.manualPrices[item.displayName] = input
+                    changed = true
                 }
-                ManualPricesConfig.saveConfig()
-            }
-        }
-    }
-
-    override fun doesGuiPauseGame(): Boolean = false
-
-    private fun defineEntries() {
-        //TODO(
-        //    "This logic only works when considering only bazaarable items." +
-        //        "I want to make it so each item is a line formatted as ITEM [whitespace] TextInputField" +
-        //        "Then I want to implement scrolling. to do this i need to make a new type of gui that" +
-        //        "handles scrolling by adding or substracting y vals to EVERYTHING until it hits a" +
-        //        "specified max/min (except a title header which should be overlayed and have" +
-        //        "transparent background)" +
-        //        "Additionally i had to change from the key being the id to the displayName, gotta see if that breaks stuff too idk"
-        //)
-        val maxPerRow = 5
-        val fieldWidth = 40
-        val fieldHeight = 20
-        val spacingX = 50
-        val spacingY = 80
-
-        val rows = (items.size + maxPerRow - 1) / maxPerRow
-
-        val startY = (height - (rows * spacingY)) / 2
-
-        var index = 0
-        for (row in 0 until rows) {
-            val itemsInRow = if (row == rows - 1 && items.size % maxPerRow != 0) {
-                items.size % maxPerRow
             } else {
-                maxPerRow
-            }
-
-            val startX = (width - (itemsInRow * fieldWidth + (itemsInRow - 1) * spacingX)) / 2
-
-            for (col in 0 until itemsInRow) {
-                val x = startX + col * (fieldWidth + spacingX)
-                val y = startY + row * spacingY
-                entryFields.add(
-                    Pair(
-                        GuiTextField(
-                            index,
-                            fontRendererObj,
-                            x,
-                            y,
-                            fieldWidth,
-                            fieldHeight
-                        ),
-                        items[index]
-                    )
-                )
-                index++
+                modMessage("Invalid input for $item: ${field.text}")
             }
         }
-    }
-
-    private fun drawBoxAndTitleString(textField: Pair<GuiTextField, SellableItemParser.SellableItem>) {
-        textField.first.drawTextBox()
-        val textX = textField.first.xPosition + (mc.fontRendererObj.getStringWidth(textField.second.displayName)) / 2
-        drawString(
-            fontRendererObj,
-            textField.second.displayName,
-            textX,
-            textField.first.yPosition - 3 - mc.fontRendererObj.FONT_HEIGHT,
-            textField.second.hexColor
-        )
+        if (changed) {
+            ManualPricesConfig.saveConfig()
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.theholychicken.commands
 
-import com.github.theholychicken.gui.manualprices.ConfigManualPrices
+import com.github.theholychicken.gui.prices.ConfigPricingGui
 import net.minecraft.command.CommandBase
 import net.minecraft.command.CommandException
 import net.minecraft.command.ICommandSender
@@ -17,7 +17,7 @@ class ConfigManualPricesTestCommand : CommandBase() {
 
     @Throws(CommandException::class)
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
-        ConfigManualPrices.open()
+        ConfigPricingGui.open()
     }
 
     override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {

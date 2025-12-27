@@ -59,12 +59,15 @@ object CoflApiClient : ApiClient {
     }
 
     // Using neu endpoint where possible to prevent too many request errors
-    // Unfortunately this endpoint is trash its much less accurate afaik
     private fun fetchAllPrices(): JsonObject {
         val response = HttpClient.sendRequest("https://sky.coflnet.com/api/prices/neu")
         return gson.fromJson(response, JsonObject::class.java)
     }
 
     private fun getKeyString(tag: String): String =
-        if (SellPricesConfig.sellPrices[tag] == true) "buy" else "sell"
+        when (SellPricesConfig.prices[tag]?.apiPricing) {
+            SellPricesConfig.ApiPricing.SELL_OFFER -> "buy"
+            SellPricesConfig.ApiPricing.INSTASELL -> "sell"
+            else -> "sell"
+        }
 }

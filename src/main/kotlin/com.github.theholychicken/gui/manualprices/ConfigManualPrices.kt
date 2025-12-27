@@ -1,7 +1,7 @@
 package com.github.theholychicken.gui.manualprices
 
 import com.github.theholychicken.GoodMod
-import com.github.theholychicken.gui.manualprices.catalogs.Floor7ManualPricingGui
+import com.github.theholychicken.gui.manualprices.catalogs.*
 import com.github.theholychicken.gui.sellprices.ConfigSellPrices
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.gui.GuiScreen
@@ -33,6 +33,15 @@ class ConfigManualPrices : GuiScreen() {
     override fun actionPerformed(button: GuiButton) {
         when (button.id) {
             0 -> Floor7ManualPricingGui.open()
+            1 -> Floor6ManualPricingGui.open()
+            2 -> Floor5ManualPricingGui.open()
+            3 -> Floor4ManualPricingGui.open()
+            4 -> Floor3ManualPricingGui.open()
+            5 -> Floor2ManualPricingGui.open()
+            6 -> Floor1ManualPricingGui.open()
+            7 -> EnchantsManualPricingGui.open()
+            8 -> UltEnchantsManualPricingGui.open()
+            9 -> MiscManualPricingGui.open()
             100 -> mc.displayGuiScreen(null)
         }
     }

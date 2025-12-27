@@ -5,10 +5,9 @@ import com.github.theholychicken.GoodMod.Companion.logger
 import java.io.File
 import com.github.theholychicken.GoodMod.Companion.mc
 import com.github.theholychicken.managers.SellableItemParser
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import kotlin.math.log
+import java.lang.reflect.Type
 
 /**
  * Config backend for manually setting sell prices for all items
@@ -22,7 +21,9 @@ object ManualPricesConfig {
             println(e.message)
         }
     }
-    private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson: Gson = GsonBuilder()
+        .setPrettyPrinting()
+        .create()
     var manualPrices: MutableMap<String, Double> = mutableMapOf()
 
     fun loadConfig() {
