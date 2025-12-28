@@ -22,12 +22,6 @@ class ConfigGUI : AbstractScrollableGui() {
         "cofl api" to { GuiConfig.api = "CoflApi" },
         "skytils api" to { GuiConfig.api = "TrickedApi" },
     )
-    private val selected = when (GuiConfig.api) {
-        "HypixelApi" -> 0
-        "CoflApi" -> 1
-        "TrickedApi" -> 2
-        else -> 0
-    }
 
     private val configRows = mutableListOf<ConfigRow>()
     data class ConfigRow(
@@ -45,8 +39,13 @@ class ConfigGUI : AbstractScrollableGui() {
     private lateinit var apiDropdown: DropdownMenu
 
     override fun initGui() {
+        // check to see if initGui fired by a window resize; save the state if so
+        if (configRows.isNotEmpty()) saveTextFields()
+
+
         super.initGui()
         configRows.clear()
+        dropdownButtons.clear()
 
         // stuff display
         configRows.add(
@@ -106,7 +105,14 @@ class ConfigGUI : AbstractScrollableGui() {
             )
         )
 
-        apiDropdown = DropdownMenu(0, 0, componentWidth, apis, selected).apply { initButtons(dropdownButtons) }
+        val selectedIndex = when (GuiConfig.api) {
+            "HypixelApi" -> 0
+            "CoflApi" -> 1
+            "TrickedApi" -> 2
+            else -> 0
+        }
+
+        apiDropdown = DropdownMenu(0, 0, componentWidth, apis, selectedIndex).apply { initButtons(dropdownButtons) }
         configRows.add(
             ConfigRow(
                 label = "set api provider",
@@ -162,20 +168,12 @@ class ConfigGUI : AbstractScrollableGui() {
 
             // content
             val centeredY = rowTop + (rowHeight - fontRendererObj.FONT_HEIGHT) / 2
-            fontRendererObj.drawStringWithShadow(row.label, labelX.toFloat(), centeredY.toFloat(), 0xFFFFFF)
+            fontRendererObj.drawStringWithShadow(row.label, labelX.toFloat(), centeredY.toFloat(), 0x00FFFF)
 
             when (row.type) {
                 RowType.BUTTON -> row.button?.drawButton(mc, mouseX, mouseY)
                 RowType.TEXT_FIELD -> row.textField?.drawTextBox()
-                RowType.DROPDOWN -> {
-                    // scrollable gui doesnt account for dropdows so we do the coordinate transformation manually
-                    dropdownButtons.forEach { button ->
-                        val yPos = button.yPosition
-                        button.yPosition = (yPos - scrollY).toInt()
-                        button.drawButton(mc, mouseX, mouseY)
-                        button.yPosition = yPos
-                    }
-                }
+                RowType.DROPDOWN -> dropdownButtons.forEach { it.drawButton(mc, mouseX, mouseY) }
             }
         }
     }

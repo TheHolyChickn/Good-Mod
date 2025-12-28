@@ -2,114 +2,124 @@ package com.github.theholychicken.gui
 
 import com.github.theholychicken.GoodMod
 import com.github.theholychicken.managers.ItemDropParser
-import net.minecraft.client.gui.GuiScreen
-import org.lwjgl.input.Keyboard
-import java.io.IOException
+import com.github.theholychicken.managers.SellableItemParser
+import com.github.theholychicken.managers.SellableItemParser.SellableItem
 
-class ItemDropHUD : GuiScreen() {
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        drawDefaultBackground()
-        val items = ItemDropParser.itemDropPatterns
-        var xPos = 10
-        var yPos = 10
-        var columnWidth = 0
+class ItemDropHUD : AbstractScrollableGui() {
 
-        mc.fontRendererObj.drawString("------- FLOOR 7 -------", xPos, yPos, 0x00FF99)
-        yPos += mc.fontRendererObj.FONT_HEIGHT + 2
+    override val guiTitle = "dungeon drops"
+    private val rowHeight = 15
 
-        items.values.forEachIndexed { index, item ->
-            when (index) {
-                23 -> {
-                    mc.fontRendererObj.drawString("------- FLOOR 6 -------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                35 -> {
-                    xPos += columnWidth + 10
-                    columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("------ FLOOR 5 ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                45 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 4 ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                53 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 3 ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                58 -> {
-                    mc.fontRendererObj.drawString("------ FLOOR 2 ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                62 -> {
-                    xPos += columnWidth + 10
-                    columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("----- FLOOR 1 -----", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                68 -> {
-                    mc.fontRendererObj.drawString("------ STARS ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                71 -> {
-                    mc.fontRendererObj.drawString("------ SKULLS -----", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                76 -> {
-                    mc.fontRendererObj.drawString("---- ENCHANTS ----", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                86 -> {
-                    xPos += columnWidth + 10
-                    columnWidth = 0
-                    yPos = 5
-                    mc.fontRendererObj.drawString("----- ULTIMATES -----", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                111 -> {
-                    mc.fontRendererObj.drawString("-- UNIVERSAL DROPS --", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                115 -> {
-                    mc.fontRendererObj.drawString("----- ESSENCE ------", xPos, yPos, 0x00FF99)
-                    yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig.getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-                else -> {
-                    mc.fontRendererObj.drawString(item + ItemDropParser.dropsConfig .getItemCount(item).toString(), xPos, yPos, 0x00FFFF)
-                }
-            }
-            yPos += mc.fontRendererObj.FONT_HEIGHT + 2
-            val itemWidth = mc.fontRendererObj.getStringWidth(item + ItemDropParser.dropsConfig.getItemCount(item))
-            if (itemWidth > columnWidth) columnWidth = itemWidth
+    // Wrapper to treat Enum items and Shiny strings uniformly for display
+    data class DisplayItem(
+        val name: String,
+        val displayName: String,
+        val catalog: SellableItem.Catalog,
+        val color: Int
+    )
+
+    private val displayedItems: List<DisplayItem> = run {
+        val list = mutableListOf<DisplayItem>()
+
+        // 1. Add Shiny Items (Force to Floor 7)
+        SellableItemParser.shinyItems.forEach { shinyName ->
+            list.add(DisplayItem(
+                name = shinyName, // Key for config lookup
+                displayName = shinyName,
+                catalog = SellableItem.Catalog.FLOOR_7,
+                color = 0xFFAA00
+            ))
         }
-        super.drawScreen(mouseX, mouseY, partialTicks)
+
+        // 2. Add Enum Items
+        SellableItem.entries.forEach { item ->
+            list.add(DisplayItem(
+                name = item.name, // Key for config lookup
+                displayName = item.displayName,
+                catalog = item.catalog,
+                color = item.hexColor
+            ))
+        }
+
+        // 3. Sort by Catalog order, then by name
+        list.sortedWith(compareBy<DisplayItem> { it.catalog }.thenBy { it.displayName })
     }
 
-    override fun keyTyped(typedChar: Char, keyCode: Int) {
-        if (keyCode == Keyboard.KEY_ESCAPE) mc.displayGuiScreen(ConfigGUI())
+    override fun getContentHeight(): Int {
+        var h = 0
+        var currentCatalog: SellableItem.Catalog? = null
+        displayedItems.forEach { item ->
+            if (item.catalog != currentCatalog) {
+                currentCatalog = item.catalog
+                h += rowHeight
+            }
+            h += rowHeight
+        }
+        return h
     }
 
-    @Throws(IOException::class)
-    override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
-        super.mouseClicked(mouseX, mouseY, mouseButton)
+    override fun drawContent(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        var currentCatalog: SellableItem.Catalog? = null
+        var yOffset = 0
+
+        displayedItems.forEach { item ->
+            // Draw Header if Catalog changes
+            if (item.catalog != currentCatalog) {
+                currentCatalog = item.catalog
+
+                // Draw Header Background
+                drawRect(leftMargin, yOffset, width - rightMargin, yOffset + rowHeight, 0xFF333333.toInt())
+                drawCenteredString(
+                    fontRendererObj,
+                    "--- ${getCatalogName(item.catalog)} ---",
+                    width / 2,
+                    yOffset + (rowHeight - fontRendererObj.FONT_HEIGHT) / 2,
+                    0x00FF99
+                )
+                yOffset += rowHeight
+            }
+
+            // Draw Item Row
+            val count = ItemDropParser.dropsConfig.getItemCount(item.name)
+
+            // Divider
+            drawRect(leftMargin, yOffset + rowHeight - 1, width - rightMargin, yOffset + rowHeight, 0xFF555555.toInt())
+            val textY = yOffset + (rowHeight - fontRendererObj.FONT_HEIGHT) / 2
+
+            fontRendererObj.drawStringWithShadow(
+                item.displayName,
+                (leftMargin + 5).toFloat(),
+                textY.toFloat(),
+                item.color
+            )
+
+            val countString = count.toString()
+            fontRendererObj.drawStringWithShadow(
+                countString,
+                (width - rightMargin - 5 - fontRendererObj.getStringWidth(countString)).toFloat(),
+                textY.toFloat(),
+                0x00FFFF
+            )
+
+            yOffset += rowHeight
+        }
     }
 
-    override fun doesGuiPauseGame(): Boolean {
-        return false
+    override fun doesGuiPauseGame() = false
+
+    private fun getCatalogName(catalog: SellableItem.Catalog): String? {
+        return when (catalog) {
+            SellableItem.Catalog.FLOOR_7 -> "floor 7"
+            SellableItem.Catalog.FLOOR_6 -> "floor 6"
+            SellableItem.Catalog.FLOOR_5 -> "floor 5"
+            SellableItem.Catalog.FLOOR_4 -> "floor 4"
+            SellableItem.Catalog.FLOOR_3 -> "floor 3"
+            SellableItem.Catalog.FLOOR_2 -> "floor 2"
+            SellableItem.Catalog.FLOOR_1 -> "floor 1"
+            SellableItem.Catalog.ULTS -> "ults"
+            SellableItem.Catalog.ENCHANTS -> "enchants"
+            SellableItem.Catalog.MISC -> "miscellaneous"
+        }
     }
 
     companion object {

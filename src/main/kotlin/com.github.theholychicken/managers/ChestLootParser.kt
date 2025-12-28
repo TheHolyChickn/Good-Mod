@@ -15,10 +15,11 @@ object ChestLootParser {
     private val essenceCounts = mutableMapOf<String, Int>()
     private val chestLoot = mutableListOf<String>()
     lateinit var croesusChest: CroesusChest
-    private val keyPrice = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
+    private val keyPrice: Double
+        get() = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
         SellPricesConfig.PriceSource.API -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
-        SellPricesConfig.PriceSource.MANUAL -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
-        else -> 0.0
+        SellPricesConfig.PriceSource.MANUAL -> SellPricesConfig.prices["Dungeon Chest Key"]?.manualValue ?: 0.0
+        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
     }
 
     // Process instance of DUNGEON_CHEST
@@ -98,7 +99,15 @@ object ChestLootParser {
 
     fun dumpCollectedItems() {
         collectedItems.forEach { itemName ->
-            ItemDropParser.itemDropPatterns[itemName]?.let { ItemDropParser.dropsConfig.addItem(it) }
+            val cleanName = itemName.replace(Regex("§."), "")
+            if (cleanName in SellableItemParser.shinyItems) {
+                ItemDropParser.dropsConfig.addItem(cleanName)
+            } else {
+                val item = SellableItemParser.SellableItem.toItem(itemName)
+                if (item != null) {
+                    ItemDropParser.dropsConfig.addItem(item.name)
+                }
+            }
         }
 
         essenceCounts.forEach { (essenceType, count) ->

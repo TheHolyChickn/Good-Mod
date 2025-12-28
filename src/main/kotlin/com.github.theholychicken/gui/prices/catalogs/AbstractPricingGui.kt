@@ -176,7 +176,7 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
         rowWidgets.forEach { widget ->
             val pref = SellPricesConfig.prices[widget.item.displayName] ?: return@forEach
 
-            val input = widget.manualField.text.toDoubleOrNull()
+            val input = parseFormattedPrice(widget.manualField.text)
             if (input != null) {
                 if (pref.manualValue != input) {
                     pref.manualValue = input
@@ -198,6 +198,27 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
             apiButton.displayString = "§asell offer"
         } else {
             apiButton.displayString = "§cinstasell"
+        }
+    }
+
+    private fun parseFormattedPrice(input: String): Double? {
+        val trimmed = input.trim()
+        if (trimmed.isEmpty()) return null
+
+        val lastChar = trimmed.last().lowercaseChar()
+        val multiplier = when (lastChar) {
+            'k' -> 1_000.0
+            'm' -> 1_000_000.0
+            'b' -> 1_000_000_000.0
+            't' -> 1_000_000_000_000.0
+            else -> 1.0
+        }
+
+        return try {
+            val numberStr = if (multiplier != 1.0) trimmed.dropLast(1) else trimmed
+            numberStr.toDouble() * multiplier
+        } catch (_: Exception) {
+            null
         }
     }
 }

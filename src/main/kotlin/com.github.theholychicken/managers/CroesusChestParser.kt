@@ -19,10 +19,11 @@ object CroesusChestParser {
     private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
     private var purchasedChest = ""
     val runLoot = mutableListOf<CroesusChest>()
-    private var dungeonChestKeyPrice = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
+    private val dungeonChestKeyPrice: Double
+        get() = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
         SellPricesConfig.PriceSource.MANUAL -> SellPricesConfig.prices["Dungeon Chest Key"]?.manualValue ?: 0.0
         SellPricesConfig.PriceSource.API -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
-        else -> 0.0
+        else -> SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
     }
     var keyStatus: Boolean = false // slightly misleading name, true if should use key
     var openStatus: Boolean = false
