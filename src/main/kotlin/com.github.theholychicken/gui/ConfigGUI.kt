@@ -2,25 +2,25 @@ package com.github.theholychicken.gui
 
 import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.gui.prices.ConfigPricingGui
-import com.github.theholychicken.gui.sellprices.ConfigSellPrices
 import com.github.theholychicken.gui.utils.DropdownMenu
-import com.github.theholychicken.utils.modMessage
 import net.minecraft.client.gui.*
 import org.lwjgl.input.Keyboard
 import java.io.IOException
 
-class ConfigGUI : GuiScreen() {
+class ConfigGUI : AbstractScrollableGui() {
 
-    private lateinit var getItemsNameField: GuiTextField
-    private lateinit var openGuiNameField: GuiTextField
-    private lateinit var setMinChestProfitField: GuiTextField
-    private lateinit var dropdownMenu: DropdownMenu
+    override val guiTitle: String = "good mod config"
+
+    private val rowHeight = 40
+    private val labelX = leftMargin + 5
+    private val componentWidth = 150
+    private val rightPadding = 20
 
     // List of api endpoints paired with actions to GuiConfig.api
     private var apis = listOf(
-        "Hypixel API" to { GuiConfig.api = "HypixelApi" },
-        "Cofl API" to { GuiConfig.api = "CoflApi" },
-        "Skytils API" to { GuiConfig.api = "TrickedApi" },
+        "hypixel api" to { GuiConfig.api = "HypixelApi" },
+        "cofl api" to { GuiConfig.api = "CoflApi" },
+        "skytils api" to { GuiConfig.api = "TrickedApi" },
     )
     private val selected = when (GuiConfig.api) {
         "HypixelApi" -> 0
@@ -29,239 +29,284 @@ class ConfigGUI : GuiScreen() {
         else -> 0
     }
 
+    private val configRows = mutableListOf<ConfigRow>()
+    data class ConfigRow(
+        val label: String,
+        val button: GuiButton? = null,
+        val textField: GuiTextField? = null,
+        val dropdown: DropdownMenu? = null,
+        val type: RowType
+    )
+    enum class RowType {
+        BUTTON, TEXT_FIELD, DROPDOWN
+    }
+
+    private val dropdownButtons = mutableListOf<GuiButton>()
+    private lateinit var apiDropdown: DropdownMenu
+
     override fun initGui() {
         super.initGui()
-        buttonList.clear()
+        configRows.clear()
 
-        // Add buttons
-        // Opens the stuff display
-        buttonList.add(GuiButton(0, (this.width / 2) - 100, (this.height / 2) + 2, buttonLabel))
+        // stuff display
+        configRows.add(
+            ConfigRow(
+                label = "stuff display",
+                button = GuiButton(0, 0, 0, componentWidth, 20, "open"),
+                type = RowType.BUTTON
+            )
+        )
 
-        // toggle for rendering the overlay in the main croesus menu
-        buttonList.add(GuiButton(1, (this.width / 2) - 100, (this.height / 2) + 26, renderMainCroesusMenu))
+        // toggle master croesus overlay
+        configRows.add(
+            ConfigRow(
+                label = "toggle main croesus overlay",
+                button = GuiButton(1, 0, 0, componentWidth, 20, renderMainCroesusMenu),
+                type = RowType.BUTTON
+            )
+        )
 
-        // Opens the per-item sell price configs
-        buttonList.add(GuiButton(2, (this.width / 2) - 100, (this.height / 2) - 24, "item pricing configs"))
+        // sell prince configs
+        configRows.add(
+            ConfigRow(
+                label = "prices config",
+                button = GuiButton(2, 0, 0, componentWidth, 20, "open"),
+                type = RowType.BUTTON
+            )
+        )
 
-        // Initialize text fields
-        // Config field for /goodmod:getitems
-        getItemsNameField = GuiTextField(
-            2,
-            fontRendererObj,
-            width / 2 - 100,
-            height / 2 - 50,
-            200,
-            20
-        ).apply {
-            maxStringLength = 100
-            isFocused = false
-            enableBackgroundDrawing = true
-            text = GuiConfig.commandNames["getItems"] ?: "An error occurred, report this"
-        }
+        // aliases
+        configRows.add(
+            ConfigRow(
+                label = "/goodmod alias",
+                textField = GuiTextField(3, fontRendererObj, 0, 0, componentWidth, 20).apply {
+                    text = GuiConfig.commandNames["goodmod"] ?: "goodmod"
+                },
+                type = RowType.TEXT_FIELD
+            )
+        )
 
-        // Config field for /goodmod:goodmod
-        openGuiNameField = GuiTextField(
-            3,
-            fontRendererObj,
-            width / 2 - 100,
-            height / 2 - 76,
-            200,
-            20
-        ).apply {
-            maxStringLength = 100
-            isFocused = false
-            enableBackgroundDrawing = true
-            text = GuiConfig.commandNames["goodmod"] ?: "An error occurred, report this"
-        }
+        configRows.add(
+            ConfigRow(
+                label = "getItems alias",
+                textField = GuiTextField(4, fontRendererObj, 0, 0, componentWidth, 20).apply {
+                    text = GuiConfig.commandNames["getItems"] ?: "getItems"
+                },
+                type = RowType.TEXT_FIELD
+            )
+        )
 
-        // Set min profit
-        setMinChestProfitField = GuiTextField(
-            1,
-            fontRendererObj,
-            width / 2 - 100,
-            height / 2 - 102,
-            200,
-            20
-        ).apply {
-            maxStringLength = 100
-            isFocused = false
-            enableBackgroundDrawing = true
-            text = GuiConfig.minChestPurchase.toString()
-        }
+        configRows.add(
+            ConfigRow(
+                label = "set min chest profit",
+                textField = GuiTextField(5, fontRendererObj, 0, 0, componentWidth, 20).apply {
+                    text = GuiConfig.minChestPurchase.toString()
+                },
+                type = RowType.TEXT_FIELD
+            )
+        )
 
-        // Dropdown menu for api endpoints
-        // we dont rlly need this given how fast hypixel is ngl imma remove tricked
-        dropdownMenu = DropdownMenu(
-            (this.width / 2) - 100,
-            (this.height / 2) + 74,
-            200,
-            apis,
-            selected
-        ).apply {
-            initButtons(buttonList)
-        }
-    }
+        apiDropdown = DropdownMenu(0, 0, componentWidth, apis, selected).apply { initButtons(dropdownButtons) }
+        configRows.add(
+            ConfigRow(
+                label = "set api provider",
+                dropdown = apiDropdown,
+                type = RowType.DROPDOWN
+            )
+        )
 
-    override fun updateScreen() {
-        super.updateScreen()
-        getItemsNameField.updateCursorCounter()
-        openGuiNameField.updateCursorCounter()
-        setMinChestProfitField.updateCursorCounter()
-    }
+        configRows.forEachIndexed { index, row ->
+            val yPos = index * rowHeight + 10
+            val xPos = width - rightMargin - componentWidth - rightPadding
 
-    @Throws(IOException::class)
-    override fun actionPerformed(button: GuiButton) {
-        when (button.id) {
-            0 -> ItemDropHUD.open()
-            1 -> {
-                GuiConfig.renderMainCroesusGui = !GuiConfig.renderMainCroesusGui
-                GuiConfig.saveConfig()
-                GuiConfig.loadConfig()
-                button.displayString = renderMainCroesusMenu
+            row.button?.apply {
+                xPosition = xPos
+                yPosition = yPos
             }
-            2 -> ConfigPricingGui.open()
-            in 100..(100 + apis.size) -> {
-                dropdownMenu.handleButtonClick(button)
-                dropdownMenu.updateDropdownLabel(buttonList)
-                GuiConfig.saveConfig()
-                GuiConfig.loadConfig()
-                if (button.id > 100)  modMessage("You have activated the ${apis[button.id - 101].first}!")
+
+            row.textField?.apply {
+                xPosition = xPos
+                yPosition = yPos
+            }
+
+            row.dropdown?.apply {
+                dropdownButtons.forEachIndexed { _, button ->
+                    button.xPosition = xPos
+                    if (button.id == 100) {
+                        button.yPosition = yPos
+                    } else {
+                        button.yPosition = yPos + (button.id - 100) * 20
+                    }
+                }
             }
         }
+
     }
 
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        drawDefaultBackground()
-        drawCenteredString(
-            fontRendererObj,
-            "good mod config",
-            width / 2,
-            height / 2 - 126,
-            0x00FFFF
-        )
+    override fun getContentHeight(): Int {
+        val baseHeight = configRows.size * rowHeight
+        return if (apiDropdown.expanded) baseHeight + (apiDropdown.options.size * 20) else baseHeight
+    }
 
-        // draw labels and input fields
-        drawCenteredString(
-            fontRendererObj,
-            "set /goodmod alias",
-            width / 2 + 150,
-            height / 2 - 70,
-            0x00FFFF
-        )
-        getItemsNameField.drawTextBox()
+    override fun drawContent(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        configRows.forEachIndexed { index, row ->
+            val rowTop = index * rowHeight
+            val rowBottom = rowTop + rowHeight
 
-        drawCenteredString(
-            this.fontRendererObj,
-            "set /getItems alias",
-            this.width / 2 + 150,
-            this.height / 2 - 45,
-            0x00FFFF
-        )
-        openGuiNameField.drawTextBox()
+            // highlight a row when hovered
+            if (mouseY in rowTop..rowBottom && mouseX in leftMargin..width - rightMargin) {
+                drawRect(leftMargin, rowTop, width - rightMargin, rowBottom, 0x25FFFFFF)
+            }
+            // spacers for each row
+            drawRect(leftMargin, rowBottom - 1, width - rightMargin, rowBottom, 0xFF555555.toInt())
 
-        drawCenteredString(
-            this.fontRendererObj,
-            "set minimum chest purchase price",
-            this.width / 2 + 175,
-            this.height / 2 - 96,
-            0x00FFFF
-        )
-        setMinChestProfitField.drawTextBox()
+            // content
+            val centeredY = rowTop + (rowHeight - fontRendererObj.FONT_HEIGHT) / 2
+            fontRendererObj.drawStringWithShadow(row.label, labelX.toFloat(), centeredY.toFloat(), 0xFFFFFF)
 
-        // Draw buttons
-        for (button in this.buttonList) { button.drawButton(this.mc, mouseX, mouseY) }
+            when (row.type) {
+                RowType.BUTTON -> row.button?.drawButton(mc, mouseX, mouseY)
+                RowType.TEXT_FIELD -> row.textField?.drawTextBox()
+                RowType.DROPDOWN -> {
+                    // scrollable gui doesnt account for dropdows so we do the coordinate transformation manually
+                    dropdownButtons.forEach { button ->
+                        val yPos = button.yPosition
+                        button.yPosition = (yPos - scrollY).toInt()
+                        button.drawButton(mc, mouseX, mouseY)
+                        button.yPosition = yPos
+                    }
+                }
+            }
+        }
     }
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
-        // Allows input fields to process inputs
-        if (getItemsNameField.textboxKeyTyped(typedChar, keyCode) ||
-            openGuiNameField.textboxKeyTyped(typedChar, keyCode) ||
-            setMinChestProfitField.textboxKeyTyped(typedChar, keyCode)) {
-            // for some reason this empty if statement is needed to make the code work
-            // idk either but dont remove it
+        var fieldTyped = false
+
+        configRows.forEach { row ->
+            if (row.type == RowType.TEXT_FIELD && row.textField != null) {
+                if (row.textField.textboxKeyTyped(typedChar, keyCode)) {
+                    fieldTyped = true
+                }
+            }
         }
 
-        when (keyCode) {
-            Keyboard.KEY_RETURN -> handleEnterKey()
-            Keyboard.KEY_ESCAPE -> mc.displayGuiScreen(null)
+        if (!fieldTyped) {
+            if (keyCode == Keyboard.KEY_ESCAPE) {
+                saveTextFields()
+                mc.displayGuiScreen(null)
+            }
+            if (keyCode == Keyboard.KEY_RETURN) {
+                saveTextFields()
+            }
         }
     }
 
-    private fun handleEnterKey() {
-        when {
-            getItemsNameField.isFocused -> {
-                GuiConfig.commandNames["getItems"] = getItemsNameField.text
-                GuiConfig.saveConfig()
-                GuiConfig.loadConfig()
-                mc.displayGuiScreen(null)
-                modMessage("Set /getItems to /${getItemsNameField.text}! §r§2§lRestart game for changes to take effect.")
-            }
-            openGuiNameField.isFocused -> {
-                GuiConfig.commandNames["goodmod"] = openGuiNameField.text
-                GuiConfig.saveConfig()
-                GuiConfig.loadConfig()
-                mc.displayGuiScreen(null)
-                modMessage("Set /goodmod to /${openGuiNameField.text}! §r§2§lRestart game for changes to take effect.")
-            }
-            setMinChestProfitField.isFocused -> {
-                val input = formatPrice(setMinChestProfitField.text)
-                if (input == -1) {
-                    mc.displayGuiScreen(null)
-                    modMessage("Could not read input. Please try again.")
-                } else {
-                    GuiConfig.minChestPurchase = input
-                    GuiConfig.saveConfig()
-                    GuiConfig.loadConfig()
-                    mc.displayGuiScreen(null)
-                    modMessage("Set minimum chest purchase price to $input!")
+    override fun onGuiClosed() {
+        saveTextFields()
+        super.onGuiClosed()
+    }
+
+    private fun saveTextFields() {
+        var changed = false
+
+        configRows.forEach { row ->
+            if (row.textField != null) {
+                val text = row.textField.text
+                when (row.textField.id) {
+                    3 -> if (GuiConfig.commandNames["goodmod"] != text) {
+                        GuiConfig.commandNames["goodmod"] = text
+                        changed = true
+                    }
+                    4 -> if (GuiConfig.commandNames["getItems"] != text) {
+                        GuiConfig.commandNames["getItems"] = text
+                        changed = true
+                    }
+                    5 -> {
+                        val chestPurchaseMin = formatPrice(text)
+                        if (chestPurchaseMin != -1 && chestPurchaseMin != GuiConfig.minChestPurchase) {
+                            GuiConfig.minChestPurchase = chestPurchaseMin
+                            changed = true
+                        }
+                    }
                 }
             }
+        }
+
+        if (changed) {
+            saveAndReload()
         }
     }
 
     @Throws(IOException::class)
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         super.mouseClicked(mouseX, mouseY, mouseButton)
-        getItemsNameField.mouseClicked(mouseX, mouseY, mouseButton)
-        openGuiNameField.mouseClicked(mouseX, mouseY, mouseButton)
-        setMinChestProfitField.mouseClicked(mouseX, mouseY, mouseButton)
-        if (dropdownMenu.expanded && !isMouseOverDropdown(mouseX, mouseY)) {
-            dropdownMenu.closeDropdown()
-        }
-    }
 
-    private fun isMouseOverDropdown(mouseX: Int, mouseY: Int): Boolean {
-        val dropdownHeight = if (dropdownMenu.expanded) {
-            (dropdownMenu.options.size + 1) * 20
-        } else {
-            20
+        val relMouseY = getRelativeMouseY(mouseY) // i love manifolds
+        configRows.forEach { row ->
+            if (row.type == RowType.BUTTON && row.button != null) {
+                if (row.button.mousePressed(mc, mouseX, relMouseY)) {
+                    row.button.playPressSound(mc.soundHandler)
+                    when (row.button.id) {
+                        0 -> ItemDropHUD.open()
+                        1 -> {
+                            GuiConfig.renderMainCroesusGui = !GuiConfig.renderMainCroesusGui
+                            saveAndReload()
+                            row.button.displayString = GuiConfig.renderMainCroesusGui.toString()
+                        }
+                        2 -> ConfigPricingGui.open()
+                    }
+                }
+            }
+
+            if (row.type == RowType.TEXT_FIELD && row.textField != null) {
+                row.textField.mouseClicked(mouseX, relMouseY, mouseButton)
+            }
+
+            if (row.type == RowType.DROPDOWN && row.dropdown != null) {
+                dropdownButtons.forEach { button ->
+                    if (button.visible && button.mousePressed(mc, mouseX, relMouseY)) {
+                        button.playPressSound(mc.soundHandler)
+                        row.dropdown.handleButtonClick(button)
+                        row.dropdown.updateDropdownLabel(dropdownButtons)
+                        if (button.id > 100) {
+                            saveAndReload()
+                        }
+                    }
+                }
+            }
         }
-        return mouseX in dropdownMenu.x..(dropdownMenu.x + dropdownMenu.width) &&
-                mouseY in dropdownMenu.y..(dropdownMenu.y + dropdownHeight)
     }
 
     override fun doesGuiPauseGame(): Boolean = false
 
-    private val buttonLabel: String
-        get() = "stuff display"
-
-    private val sellOffer: String
-        get() = if (GuiConfig.useSellOffer) "Using sell offers" else "Using instasell"
+    private fun saveAndReload() {
+        GuiConfig.saveConfig()
+        GuiConfig.loadConfig()
+    }
 
     private val renderMainCroesusMenu: String
-        get() = "Render Croesus Chest Overlay: ${GuiConfig.renderMainCroesusGui}"
+        get() = GuiConfig.renderMainCroesusGui.toString()
 
     private fun formatPrice(price: String): Int {
-        if (price.contains('.') || price.contains(',') || price.contains(' ')) {
-            return -1
-        }
-        val lastChar = price.last().lowercaseChar()
-        return when {
-            lastChar == 'k' -> price.dropLast(1).toInt() * 1000
-            lastChar == 'm' -> price.dropLast(1).toInt() * 1000000
-            lastChar == 'b' -> price.dropLast(1).toInt() * 1000000000
-            lastChar.isDigit() -> price.toIntOrNull() ?: -1
-            else -> -1
+        val trimmed = price.trim()
+        if (trimmed.isEmpty()) return -1
+
+        val lastChar = trimmed.last().lowercaseChar()
+
+        return try {
+            val multiplier = when (lastChar) {
+                'k' -> 1_000.0
+                'm' -> 1_000_000.0
+                'b' -> 1_000_000_000.0
+                't' -> 1_000_000_000_000.0
+                else -> 1.0
+            }
+
+            val number = if (multiplier != 1.0) trimmed.dropLast(1) else trimmed
+            (number.toDouble() * multiplier).toInt()
+        } catch (_: Exception) {
+            -1
         }
     }
 }

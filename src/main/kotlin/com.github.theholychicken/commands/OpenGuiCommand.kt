@@ -16,7 +16,6 @@ class OpenGuiCommand : CommandBase() {
     }
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
-        GoodMod.logger.info("Opening GUI.")
         GoodMod.display = ConfigGUI()
     }
 

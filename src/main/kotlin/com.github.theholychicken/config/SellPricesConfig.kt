@@ -25,7 +25,6 @@ object SellPricesConfig {
         .setPrettyPrinting()
         .registerTypeAdapter(PricePreference::class.java, PricePreferenceAdapter())
         .create()
-    var sellPrices: MutableMap<String, Boolean> = mutableMapOf()
     var prices: MutableMap<String, PricePreference> = mutableMapOf()
 
     fun loadConfig() {
