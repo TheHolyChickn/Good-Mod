@@ -7,7 +7,6 @@ import com.github.theholychicken.utils.modMessage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import kotlin.math.min
@@ -64,6 +63,15 @@ object HypixelApiClient : ApiClient {
             }
             currentPage++
         } while (currentPage < totalPages)
+        // handle kuudra items
+        itemPrices.filter { it.key.contains(STARRABLE_ITEM_REGEX) }.forEach { (itemName, price) ->
+            val match = STARRABLE_ITEM_REGEX.find(itemName)
+            val identifiedItem = match?.groupValues?.get(1) + " " + match?.groupValues?.get(2)
+            itemPrices[identifiedItem] = minOf(price, itemPrices.getOrDefault(identifiedItem, Double.MAX_VALUE))
+            if (itemName != identifiedItem) {
+                itemPrices.remove(itemName)
+            }
+        }
         itemPrices.forEach { (itemName, price) ->
 //            if (itemName == "[Lvl 1] Spirit") {
 //                SellableItemParser.updateAuction(itemName, price,
@@ -113,4 +121,6 @@ object HypixelApiClient : ApiClient {
     private fun fetchBazaar(): String {
         return HttpClient.sendRequest("https://api.hypixel.net/v2/skyblock/bazaar")
     }
+
+    private val STARRABLE_ITEM_REGEX = Regex("^(Fervor|Crimson|Aurora|Hollow|Terror) (Helmet|Chestplate|Leggings|Boots)")
 }

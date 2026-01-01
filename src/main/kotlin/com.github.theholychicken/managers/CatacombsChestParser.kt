@@ -2,23 +2,24 @@ package com.github.theholychicken.managers
 
 import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.config.SellPricesConfig
-import com.github.theholychicken.utils.CroesusChest
+import com.github.theholychicken.utils.AbstractCroesusChest
+import com.github.theholychicken.utils.CatacombsChest
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
 
 /**
- * Backend for parsing croesus chests.
+ * Backend for parsing catacombs chests.
  * @param parseCroesusLoot saves all croesus chests as CroesusChest objects into the list runLoot
  * @param purchasedChest saves the name of the purchaed chest. If no chest is purchased, returns the empty string
  * @param I dont know what @param means
  * lolllll
  */
-object CroesusChestParser {
+object CatacombsChestParser {
     private val GLASS_REGEX = Regex("1xtile.thinStainedGlass@\\d+$")
     private var purchasedChest = ""
-    val runLoot = mutableListOf<CroesusChest>()
+    val runLoot = mutableListOf<CatacombsChest>()
     private val dungeonChestKeyPrice: Double
         get() = when (SellPricesConfig.prices["Dungeon Chest Key"]?.source) {
         SellPricesConfig.PriceSource.MANUAL -> SellPricesConfig.prices["Dungeon Chest Key"]?.manualValue ?: 0.0
@@ -33,7 +34,6 @@ object CroesusChestParser {
         runLoot.clear()
         keyStatus = false
         openStatus = false
-        //dungeonChestKeyPrice = SellableItemParser.auctionPrices["Dungeon Chest Key"] ?: 0.0
 
         // Chests occur 10-16, and I grab the glass at the edges as well just in case
         for (index in 9..17) {
@@ -50,14 +50,18 @@ object CroesusChestParser {
             val endLootIndex = (1 until chestLoot.tagCount())
                 .first { chestLoot.getStringTagAt(it) == "" }
 
-            val lootSubList = subList(chestLoot, 1, endLootIndex)
+            val lootSubList = mutableListOf<AbstractCroesusChest.LootItem>().apply {
+                subList(chestLoot, 1, endLootIndex).forEach {
+                    add(AbstractCroesusChest.LootItem(displayName = it, modifiers = setOf<String>()))
+                }
+            }
             val location = Pair(chest.inventorySlots[index].xDisplayPosition, chest.inventorySlots[index].yDisplayPosition)
 
             if (costIndex != null) {
                 val chestCost = findCost(chestLoot, costIndex)
-                runLoot.add(CroesusChest(displayName, lootSubList, false, chestCost, location))
+                runLoot.add(CatacombsChest(displayName, lootSubList, false, chestCost, location))
             } else {
-                runLoot.add(CroesusChest(displayName, lootSubList, true, 0.00, location))
+                runLoot.add(CatacombsChest(displayName, lootSubList, true, 0.00, location))
                 purchasedChest = displayName
             }
         }

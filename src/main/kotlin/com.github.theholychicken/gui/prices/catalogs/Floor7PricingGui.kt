@@ -5,8 +5,12 @@ import com.github.theholychicken.gui.prices.ConfigPricingGui
 import com.github.theholychicken.managers.SellableItemParser
 
 class Floor7PricingGui : AbstractPricingGui() {
-    override val items: List<SellableItemParser.SellableItem> = SellableItemParser.items.filter {
+    override val items: List<PricingElement> = SellableItemParser.items.filter {
         it.catalog == SellableItemParser.SellableItem.Catalog.FLOOR_7
+    }.map {
+        PricingElement(it.displayName, it.sellType, it.hexColor)
+    } + SellableItemParser.shinyItems.map { name ->
+        PricingElement(name, SellableItemParser.SellableItem.SellType.AUCTION, 0xFFAA00)
     }
     override val guiName = "floor 7"
 

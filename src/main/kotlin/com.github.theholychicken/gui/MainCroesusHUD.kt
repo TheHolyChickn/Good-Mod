@@ -40,9 +40,9 @@ object MainCroesusHUD {
                 val x = pair.first + guiLeft
                 val y = pair.second + guiTop
                 when (s) {
-                    0 -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x80000000.toInt()) // 0 chests left to open
-                    1 -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x80E4D0AA.toInt()) // 1 chest left to open
-                    2 -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x8000FF00.toInt()) // 2 chests left to open
+                    MainCroesusGuiParser.RunStatus.FULLY_OPENED -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x80000000.toInt())
+                    MainCroesusGuiParser.RunStatus.ONE_REMAINING -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x80E4D0AA.toInt())
+                    MainCroesusGuiParser.RunStatus.UNOPENED -> GuiScreen.drawRect(x, y, x + 16, y + 16, 0x8000FF00.toInt())
                 }
             }
             GL11.glPopMatrix()

@@ -4,7 +4,7 @@ import net.minecraft.inventory.ContainerChest
 import net.minecraft.nbt.NBTTagString
 
 object MainCroesusGuiParser {
-    val openedChests: MutableMap<Pair<Int, Int>, Int> = mutableMapOf()
+    val openedChests: MutableMap<Pair<Int, Int>, RunStatus> = mutableMapOf()
 
     fun parseCroesusMenu(chest: ContainerChest) {
         openedChests.clear()
@@ -21,16 +21,26 @@ object MainCroesusGuiParser {
 
             val display = Pair(chest.inventorySlots[index].xDisplayPosition, chest.inventorySlots[index].yDisplayPosition)
 
-            /*
-            Completely opened chests are marked with a 0
-            Opened but keyable chests are marked with a 1
-            Unopened chests are marked with a 2
-             */
             when {
-                chestInfo.getStringTagAt(completedIndex + 1) == "§aNo more chests to open!" -> openedChests[display] = 0
-                chestInfo.getStringTagAt(completedIndex + 2) == "§cNo chests opened yet!" -> openedChests[display] = 2
-                chestInfo.getStringTagAt(completedIndex + 2).matches(Regex("^§7Opened Chest: §[0-9a-fk-or].+")) -> openedChests[display] = 1
+                chestInfo.getStringTagAt(completedIndex + 1) == "§aNo more chests to open!" -> {
+                    openedChests[display] = RunStatus.FULLY_OPENED
+                }
+                chestInfo.getStringTagAt(completedIndex + 2) == "§cNo chests opened yet!" -> {
+                    openedChests[display] = RunStatus.UNOPENED
+                }
+                chestInfo.getStringTagAt(completedIndex + 2)
+                    .matches(Regex("^§7Opened Chest: §[0-9a-fk-or].+")) -> {
+                        openedChests[display] = RunStatus.ONE_REMAINING
+                }
+                chestInfo.getStringTagAt(completedIndex + 1) != "§aNo more chests to open!" &&
+                        tagCompound.getCompoundTag("display").getString("Name") == "§cKuudra's Hollow" -> {
+                            openedChests[display] = RunStatus.UNOPENED
+                }
             }
         }
+    }
+
+    enum class RunStatus {
+        UNOPENED, ONE_REMAINING, FULLY_OPENED
     }
 }

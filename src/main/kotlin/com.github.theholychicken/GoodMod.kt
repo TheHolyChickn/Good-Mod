@@ -5,6 +5,7 @@ import com.github.theholychicken.config.GuiConfig
 import com.github.theholychicken.config.SellPricesConfig
 import com.github.theholychicken.gui.ChestProfitTooltip
 import com.github.theholychicken.gui.CroesusProfitHUD
+import com.github.theholychicken.gui.KuudraCroesusRunProfitHUD
 import com.github.theholychicken.gui.MainCroesusHUD
 import com.github.theholychicken.managers.*
 import com.github.theholychicken.managers.apiclients.HttpClient
@@ -45,6 +46,7 @@ class GoodMod {
             this,
             DungeonChestScanner,
             CroesusProfitHUD,
+            KuudraCroesusRunProfitHUD,
             MainCroesusHUD,
             ChestProfitTooltip
         ).forEach { MinecraftForge.EVENT_BUS.register(it) }

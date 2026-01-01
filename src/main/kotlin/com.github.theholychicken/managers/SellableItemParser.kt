@@ -4,9 +4,11 @@ import com.github.theholychicken.GoodMod
 import java.io.File
 import com.github.theholychicken.GoodMod.Companion.mc
 import com.github.theholychicken.config.SellPricesConfig
+import com.github.theholychicken.gui.prices.catalogs.Floor3PricingGui
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlin.math.min
 
 /**
  * Object which contains parsed information about api pulls from sellable items.
@@ -124,6 +126,7 @@ object SellableItemParser {
         // Claim tax
         var modifiedPrice: Double = price - (price * 0.01)
 
+
         // Listing tax
         when {
             price <= 9_999_999.0 -> modifiedPrice -= (price * 0.01)
@@ -133,6 +136,21 @@ object SellableItemParser {
 
         return modifiedPrice
     }
+
+    private fun cleanStars(item: String): String {
+        return when {
+            item.contains(STARRABLE_ITEM_REGEX) -> {
+                val firstStarIndex = item.indexOfFirst { it == '✪' }
+                if (firstStarIndex == -1) {
+                    item.substring(0, item.length - 1)
+                } else {
+                    item.substring(0, firstStarIndex - 1)
+                }
+            }
+            else -> item
+        }
+    }
+    private val STARRABLE_ITEM_REGEX = Regex("(Fervor|Crimson|Aurora|Hollow|Terror) (Helmet|Chestplate|Leggings|Boots)")
 
     /**
      * Inner enum class to hold all possible sellable items.
@@ -293,10 +311,91 @@ object SellableItemParser {
         NECROMANCER_BROOCH("Necromancer's Brooch", Catalog.MISC, SellType.BAZAAR, 0x5555FF),
         ESSENCE_WITHER("Wither Essence", Catalog.MISC, SellType.BAZAAR, 0xFF55FF),
         ESSENCE_UNDEAD("Undead Essence", Catalog.MISC, SellType.BAZAAR, 0xFF55FF),
-        DUNGEON_CHEST_KEY("Dungeon Chest Key", Catalog.MISC, SellType.BAZAAR, 0x5555FF);
+        DUNGEON_CHEST_KEY("Dungeon Chest Key", Catalog.MISC, SellType.BAZAAR, 0x5555FF),
+
+        // kuudra - ah
+        MOLTEN_NECKLACE("Molten Necklace", Catalog.KUUDRA, SellType.AUCTION, 0xAA00AA),
+        MOLTEN_CLOAK("Molten Cloak", Catalog.KUUDRA, SellType.AUCTION, 0xAA00AA),
+        MOLTEN_BELT("Molten Belt", Catalog.KUUDRA, SellType.AUCTION, 0xAA00AA),
+        MOLTEN_BRACELET("Molten Bracelet", Catalog.KUUDRA, SellType.AUCTION, 0xAA00AA),
+        FERVOR_HELMET("Fervor Helmet", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        FERVOR_CHESTPLATE("Fervor Chestplate", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        FERVOR_LEGGINGS("Fervor Leggings", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        FERVOR_BOOTS("Fervor Boots", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        CRIMSON_HELMET("Crimson Helmet", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        CRIMSON_CHESTPLATE("Crimson Chestplate", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        CRIMSON_LEGGINGS("Crimson Leggings", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        CRIMSON_BOOTS("Crimson Boots", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        AURORA_HELMET("Aurora Helmet", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        AURORA_CHESTPLATE("Aurora Chestplate", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        AURORA_LEGGINGS("Aurora Leggings", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        AURORA_BOOTS("Aurora Boots", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        HOLLOW_HELMET("Hollow Helmet", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        HOLLOW_CHESTPLATE("Hollow Chestplate", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        HOLLOW_LEGGINGS("Hollow Leggings", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        HOLLOW_BOOTS("Hollow Boots", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        TERROR_HELMET   ("Terror Helmet", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        TERROR_CHESTPLATE("Terror Chestplate", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        TERROR_LEGGINGS("Terror Leggings", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        TERROR_BOOTS("Terror Boots", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        ENRAGER("Enrager", Catalog.KUUDRA, SellType.AUCTION, 0xAA00AA),
+        BURNING_KUUDRA_CORE("Burning Kuudra Core", Catalog.KUUDRA, SellType.AUCTION, 0xFF5555),
+        RUNIC_STAFF("Aurora Staff", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        HOLLOW_WAND("Hollow Wand", Catalog.KUUDRA, SellType.AUCTION, 0xFFAA00),
+        WHEEL_OF_FATE("Wheel of Fate", Catalog.KUUDRA, SellType.AUCTION, 0xFF5555),
+
+        // kuudra - bz
+        ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1("Fatal Tempo I", Catalog.KUUDRA, SellType.BAZAAR, 0xFF55FF),
+        ENCHANTMENT_ULTIMATE_INFERNO_1("Inferno I", Catalog.KUUDRA, SellType.BAZAAR, 0xFF55FF),
+        ENCHANTMENT_FEROCIOUS_MANA_5("Ferocious Mana V", Catalog.KUUDRA, SellType.BAZAAR, 0x55FF55),
+        ENCHANTMENT_FEROCIOUS_MANA_4("Ferocious Mana IV", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_FEROCIOUS_MANA_3("Ferocious Mana III", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_FEROCIOUS_MANA_2("Ferocious Mana II", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_FEROCIOUS_MANA_1("Ferocious Mana I", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_STRONG_MANA_5("Strong Mana V", Catalog.KUUDRA, SellType.BAZAAR, 0x55FF55),
+        ENCHANTMENT_STRONG_MANA_4("Strong Mana IV", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_STRONG_MANA_3("Strong Mana III", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_STRONG_MANA_2("Strong Mana II", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_STRONG_MANA_1("Strong Mana I", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_HARDENED_MANA_5("Hardened Mana V", Catalog.KUUDRA, SellType.BAZAAR, 0x55FF55),
+        ENCHANTMENT_HARDENED_MANA_4("Hardened Mana IV", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_HARDENED_MANA_3("Hardened Mana III", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_HARDENED_MANA_2("Hardened Mana II", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_HARDENED_MANA_1("Hardened Mana I", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_MANA_VAMPIRE_5("Mana Vampire V", Catalog.KUUDRA, SellType.BAZAAR, 0x55FF55),
+        ENCHANTMENT_MANA_VAMPIRE_4("Mana Vampire IV", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_MANA_VAMPIRE_3("Mana Vampire III", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_MANA_VAMPIRE_2("Mana Vampire II", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        ENCHANTMENT_MANA_VAMPIRE_1("Mana Vampire I", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        SHARD_BEZAL("Bezal Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFFFFF),
+        SHARD_MAGMA_SLUG("Magma Slug Shard", Catalog.KUUDRA, SellType.BAZAAR, 0x55FF55),
+        SHARD_KADA_KNIGHT("Kada Knight Shard", Catalog.KUUDRA, SellType.BAZAAR, 0x5555FF),
+        SHARD_WITHER_SPECTER("Wither Specter Shard", Catalog.KUUDRA, SellType.BAZAAR, 0x5555FF),
+        SHARD_MATCHO("Matcho Shard", Catalog.KUUDRA, SellType.BAZAAR, 0x5555FF),
+        SHARD_LAVA_FLAME("Lava Flame Shard", Catalog.KUUDRA, SellType.BAZAAR, 0x5555FF),
+        SHARD_FIRE_EEL("Fire Eel Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        SHARD_FLARE("Flare Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        SHARD_BARBARIAN_DUKE_X("Barbarian Duke X Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        SHARD_HELLWISP("Hellwisp Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        SHARD_XYZ("XYZ Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        SHARD_KRAKEN("Kraken Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_TAURUS("Taurus Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_DAEMON("Daemon Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_MOLTENFISH("Moltenfish Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_ANANKE("Ananke Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_LORD_JAWBUS("Lord Jawbus Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        SHARD_CINDER_BAT("Cinderbat Shard", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00),
+        MANDRAA("Mandraa", Catalog.KUUDRA, SellType.BAZAAR, 0xFF5555),
+        KUUDRA_MANDIBLE("Kuudra Mandible", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        KUUDRA_TEETH("Kuudra Teeth", Catalog.KUUDRA, SellType.BAZAAR, 0xAA00AA),
+        ESSENCE_CRIMSON("Crimson Essence", Catalog.KUUDRA, SellType.BAZAAR, 0xFF55FF),
+        // kuudra - key pricing
+        ENCHANTED_MYCELIUM("Enchanted Mycelium", Catalog.KUUDRA, SellType.BAZAAR, 0xAAAAAA),
+        CORRUPTED_NETHER_STAR("Nether Star", Catalog.KUUDRA, SellType.BAZAAR, 0xFFAA00);
 
         companion object {
             private val reverseMap: Map<String, SellableItem> = entries.associateBy { it.displayName }
+            // these may be useless now that we have refactored the price config logic
             val bzFloor1Items: List<SellableItem> = entries.filter { it.catalog == Catalog.FLOOR_1 && it.sellType == SellType.BAZAAR }
             val bzFloor2Items: List<SellableItem> = entries.filter { it.catalog == Catalog.FLOOR_2 && it.sellType == SellType.BAZAAR }
             val bzFloor3Items: List<SellableItem> = entries.filter { it.catalog == Catalog.FLOOR_3 && it.sellType == SellType.BAZAAR }
@@ -321,6 +420,7 @@ object SellableItemParser {
             }
         }
 
+
         enum class Catalog {
             FLOOR_1,
             FLOOR_2,
@@ -331,7 +431,12 @@ object SellableItemParser {
             FLOOR_7,
             MISC,
             ENCHANTS,
-            ULTS
+            ULTS,
+            KUUDRA;
+
+            fun isDungeonFloor(): Boolean {
+                return this in listOf(FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4, FLOOR_5, FLOOR_6, FLOOR_7)
+            }
         }
 
         enum class SellType {

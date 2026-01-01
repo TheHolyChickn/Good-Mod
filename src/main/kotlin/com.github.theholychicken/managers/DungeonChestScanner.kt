@@ -23,14 +23,16 @@ object DungeonChestScanner {
     private var isScanningChest = false
     private var chestContainer: ContainerChest? = null
     private var scanAttempts = 0
-    private var isChestGuiOpen = false
-    private val chestLootParser: ChestLootParser = ChestLootParser
-    private val croesusChestParser: CroesusChestParser = CroesusChestParser
-    private var isCroesusGuiOpen = false
-    var croesusIsParsed = false
-    private var isMainCroesusGuiOpen = false
-    var mainCroesusIsParsed = false
-    var chestIsParsed = false
+    private var isChestGuiOpen = false // CatacombsChest
+    private var isCroesusGuiOpen = false // CatacombsChestCroesusRun
+    var croesusIsParsed = false // CatacombsChestCroesusRun
+    private var isMainCroesusGuiOpen = false // Croesus
+    var mainCroesusIsParsed = false // Croesus
+    var chestIsParsed = false // CatacombsChest
+    var kuudraRunChestIsParsed = false // KuudraChest
+    var isKuudraChestOpen = false // KuudraChest
+    var isKuudraCroesusChestGuiOpen = false // KuudraChestCroesusRun
+    var kuudraChestIsParsed = false // KuudraChestCroesusRun
 
     // Check for instance of DUNGEON_CHEST
     @SubscribeEvent
@@ -39,6 +41,8 @@ object DungeonChestScanner {
             croesusIsParsed = false
             mainCroesusIsParsed = false
             chestIsParsed = false
+            kuudraRunChestIsParsed = false
+            kuudraChestIsParsed = false
             return
         }
         val gui = event.gui as? GuiChest ?: return
@@ -56,16 +60,22 @@ object DungeonChestScanner {
         // reset variables on each gui switch just to make sure we dont
         // get any rendering errors
         isCroesusGuiOpen = false
+        isKuudraCroesusChestGuiOpen = false
         isChestGuiOpen = false
         croesusIsParsed = false
         isMainCroesusGuiOpen = false
         mainCroesusIsParsed = false
         chestIsParsed = false
+        kuudraChestIsParsed = false
+        kuudraRunChestIsParsed = false
+        isKuudraChestOpen = false
         MainCroesusGuiParser.openedChests.clear()
 
         when {
             CHEST_PATTERN.matches(chestName) -> isChestGuiOpen = true
-            CROESUS_PATTERN.matches(chestName) -> isCroesusGuiOpen = true
+            KUUDRA_CHEST_PATTERN.matches(chestName) -> isKuudraChestOpen = true
+            CATACOMBS_CROESUS_PATTERN.matches(chestName) -> isCroesusGuiOpen = true
+            KUUDRA_CROESUS_PATTERN.matches(chestName) -> isKuudraCroesusChestGuiOpen = true
             chestName == "Croesus" && GuiConfig.renderMainCroesusGui -> isMainCroesusGuiOpen = true
             else -> return
         }
@@ -87,11 +97,15 @@ object DungeonChestScanner {
             stopScanning()
             GoodMod.logger.info("[onClientTick] Gui closed, terminating scanning protocol")
             isChestGuiOpen = false
+            isKuudraCroesusChestGuiOpen = false
             isCroesusGuiOpen = false
             isMainCroesusGuiOpen = false
             croesusIsParsed = false
             mainCroesusIsParsed = false
             chestIsParsed = false
+            kuudraChestIsParsed = false
+            isKuudraChestOpen = false
+            kuudraRunChestIsParsed = false
             return
         } else chestContainer = currentScreen.inventorySlots as? ContainerChest ?: return
 
@@ -106,15 +120,20 @@ object DungeonChestScanner {
 
             chestContainer?.let {
                 if (isChestGuiOpen) {
-                    chestLootParser.parseChestLoot(it)
+                    ChestLootParser.parseCatacombsChestLoot(it)
                     chestIsParsed = true
                 } else if (isCroesusGuiOpen) {
-                    SellableItemParser.initFromFile()
-                    croesusChestParser.parseCroesusLoot(it)
+                    CatacombsChestParser.parseCroesusLoot(it)
                     croesusIsParsed = true
                 } else if (isMainCroesusGuiOpen) {
                     MainCroesusGuiParser.parseCroesusMenu(it)
                     mainCroesusIsParsed = true
+                } else if (isKuudraCroesusChestGuiOpen) {
+                    KuudraChestParser.parseKuudraLoot(it)
+                    kuudraChestIsParsed = true
+                } else if (isKuudraChestOpen) {
+                    ChestLootParser.parseKuudraChestLoot(it)
+                    kuudraRunChestIsParsed = true
                 }
             }
 
@@ -130,6 +149,8 @@ object DungeonChestScanner {
             isChestGuiOpen = false
             isCroesusGuiOpen = false
             isMainCroesusGuiOpen = false
+            isKuudraCroesusChestGuiOpen = false
+            isKuudraChestOpen = false
         }
     }
 
@@ -140,12 +161,14 @@ object DungeonChestScanner {
 
         val currentScreen = event.gui as? GuiChest ?: return
         val containerChest = currentScreen.inventorySlots as? ContainerChest ?: return
-        if (!CHEST_PATTERN.matches(containerChest.lowerChestInventory.name)) return
+        if (!CHEST_PATTERN.matches(containerChest.lowerChestInventory.name) && !KUUDRA_CHEST_PATTERN.matches(containerChest.lowerChestInventory.name)) return
 
         if (currentScreen.slotUnderMouse == null || !Mouse.getEventButtonState() || currentScreen.slotUnderMouse?.slotNumber != 31) return
         dumpCollectedItems()
         isChestGuiOpen = false
         chestIsParsed = false
+        isKuudraChestOpen = false
+        kuudraRunChestIsParsed = false
         GoodMod.logger.info("Dungeon loot saved")
     }
 
@@ -156,5 +179,7 @@ object DungeonChestScanner {
     }
 
     private val CHEST_PATTERN = Regex("(Wood|Gold|Diamond|Emerald|Obsidian|Bedrock) Chest")
-    private val CROESUS_PATTERN = Regex("^(Master )?Catacombs - Flo(or (IV|V?I{0,3}))?$")
+    private val KUUDRA_CHEST_PATTERN = Regex("(Free|Paid) Chest Chest") // this will be fixed eventually
+    private val KUUDRA_CROESUS_PATTERN = Regex("^Kuudra - (Basic|Hot|Burning|Fiery|Infernal)$")
+    private val CATACOMBS_CROESUS_PATTERN = Regex("^(Master )?Catacombs - Flo(or (IV|V?I{0,3}))?$")
 }

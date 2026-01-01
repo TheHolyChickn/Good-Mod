@@ -1,8 +1,8 @@
 package com.github.theholychicken.gui
 
 import com.github.theholychicken.config.GuiConfig
-import com.github.theholychicken.managers.CatacombsChestParser
 import com.github.theholychicken.managers.DungeonChestScanner
+import com.github.theholychicken.managers.KuudraChestParser
 import com.github.theholychicken.utils.modMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -13,13 +13,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import org.lwjgl.opengl.GL11
 import java.lang.reflect.Field
 
-object CroesusProfitHUD {
+object KuudraCroesusRunProfitHUD {
     private val mc = Minecraft.getMinecraft()
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: GuiScreenEvent.DrawScreenEvent.Post) {
-        if (DungeonChestScanner.croesusIsParsed) {
-            if (CatacombsChestParser.runLoot.isEmpty()) return
+        if (DungeonChestScanner.kuudraChestIsParsed) {
+            if (KuudraChestParser.runLoot.isEmpty()) return
             val scale = mc.gameSettings.guiScale
             val width = mc.displayWidth / scale
             val height = mc.displayHeight / scale
@@ -50,7 +50,7 @@ object CroesusProfitHUD {
             val rectY1 = height / 2 - chestHeight / 2
             val rectY2 = rectY1 + chestHeight
 
-            val slot = CatacombsChestParser.runLoot.maxByOrNull {
+            val slot = KuudraChestParser.runLoot.maxByOrNull {
                 it.profit
             }?.location ?: Pair(0, 0)
 
@@ -64,7 +64,7 @@ object CroesusProfitHUD {
                 rectY1 + 10,
                 0x00FFFF
             )
-            CatacombsChestParser.runLoot
+            KuudraChestParser.runLoot
                 .filter { !it.purchased }
                 .sortedByDescending { it.profit }
                 .forEachIndexed { index, chest ->
@@ -81,19 +81,7 @@ object CroesusProfitHUD {
 
             GL11.glPushMatrix()
             GL11.glTranslated(0.0, 0.0, 10.0)
-            if (CatacombsChestParser.keyStatus) {
-                val slot2 = CatacombsChestParser
-                    .runLoot
-                    .sortedByDescending { it.profit }
-                    .getOrNull(1)
-                    ?.location
-                if (slot2 != null) {
-                    val slotX2 = slot2.first + guiLeft
-                    val slotY2 = slot2.second + guiTop
-                    GuiScreen.drawRect(slotX2, slotY2, slotX2 + 16, slotY2 + 16, 0x80E4D0AA.toInt())
-                }
-                GuiScreen.drawRect(slotX, slotY, slotX + 16, slotY + 16, 0x8000FF00.toInt())
-            } else if (CatacombsChestParser.runLoot.maxOf { it.profit } > GuiConfig.minChestPurchase) {
+            if (KuudraChestParser.runLoot.maxOf { it.profit } > GuiConfig.minChestPurchase) {
                 GuiScreen.drawRect(slotX, slotY, slotX + 16, slotY + 16, 0x8000FF00.toInt())
             }
             GL11.glPopMatrix()

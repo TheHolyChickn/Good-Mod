@@ -5,8 +5,10 @@ import com.github.theholychicken.gui.prices.ConfigPricingGui
 import com.github.theholychicken.managers.SellableItemParser
 
 class UltEnchantsPricingGui : AbstractPricingGui() {
-    override val items: List<SellableItemParser.SellableItem> = SellableItemParser.items.filter {
+    override val items: List<PricingElement> = SellableItemParser.items.filter {
         it.catalog == SellableItemParser.SellableItem.Catalog.ULTS
+    }.map {
+        PricingElement(it.displayName, it.sellType, it.hexColor)
     }
     override val guiName = "ult enchs"
 

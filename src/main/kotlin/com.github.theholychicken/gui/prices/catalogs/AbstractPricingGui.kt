@@ -9,8 +9,14 @@ import org.lwjgl.input.Keyboard
 
 abstract class AbstractPricingGui : AbstractScrollableGui() {
 
-    abstract val items: List<SellableItemParser.SellableItem>
     abstract val guiName: String
+
+    abstract val items: List<PricingElement>
+    data class PricingElement(
+        val displayName: String,
+        val sellType: SellableItemParser.SellableItem.SellType,
+        val hexColor: Int
+    )
 
     abstract fun openMainMenu()
 
@@ -27,7 +33,7 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
 
     // widgets for a single item
     data class RowWidget(
-        val item: SellableItemParser.SellableItem,
+        val item: PricingElement,
         val modeButton: GuiButton,
         val apiVariantButton: GuiButton,
         val manualField: GuiTextField
@@ -56,9 +62,9 @@ abstract class AbstractPricingGui : AbstractScrollableGui() {
 
             // format it nicely for ints
             field.text = if (pref.manualValue % 1.0 == 0.0) {
-                pref.manualValue.toInt().toString()
+                pref.manualValue.toLong().toString()
             } else {
-                pref.manualValue.toInt().toString()
+                pref.manualValue.toString()
             }
 
             rowWidgets.add(RowWidget(item, modeButton, apiButton, field))

@@ -119,6 +119,7 @@ class ItemDropHUD : AbstractScrollableGui() {
             SellableItem.Catalog.ULTS -> "ults"
             SellableItem.Catalog.ENCHANTS -> "enchants"
             SellableItem.Catalog.MISC -> "miscellaneous"
+            SellableItem.Catalog.KUUDRA -> "kuudra"
         }
     }
 
